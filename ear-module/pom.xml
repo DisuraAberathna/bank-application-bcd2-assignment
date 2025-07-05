@@ -22,13 +22,15 @@
     <dependencies>
         <dependency>
             <groupId>com.disuraaberathna</groupId>
-            <artifactId>ejb-module</artifactId>
-            <type>ejb</type>
+            <artifactId>frontend</artifactId>
+            <version>1.0</version>
+            <type>war</type>
         </dependency>
         <dependency>
             <groupId>com.disuraaberathna</groupId>
-            <artifactId>frontend</artifactId>
-            <type>war</type>
+            <artifactId>ejb-module</artifactId>
+            <version>1.0</version>
+            <type>ejb</type>
         </dependency>
         <dependency>
             <groupId>com.disuraaberathna</groupId>
