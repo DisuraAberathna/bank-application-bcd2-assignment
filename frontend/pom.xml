@@ -11,6 +11,7 @@
 
     <artifactId>frontend</artifactId>
     <packaging>war</packaging>
+    <name>bank-app-frontend</name>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -24,6 +25,13 @@
             <artifactId>jakarta.jakartaee-web-api</artifactId>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>com.disuraaberathna</groupId>
+            <artifactId>core-module</artifactId>
+        </dependency>
     </dependencies>
 
+    <build>
+        <finalName>${project.name}</finalName>
+    </build>
 </project>
