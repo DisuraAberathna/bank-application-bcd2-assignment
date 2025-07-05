@@ -1,5 +1,5 @@
 package com.disuraaberathna.core.enums;
 
 public enum UserRoles {
-    CUSTOMER, ADMIN, SUPER_ADMIN
+    CUSTOMER, USER, ADMIN, SUPER_ADMIN
 }
