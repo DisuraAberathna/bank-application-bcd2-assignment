@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.disuraaberathna</groupId>
+        <artifactId>bank-application-bcd2</artifactId>
+        <version>1.0</version>
+    </parent>
+
+    <artifactId>ear-module</artifactId>
+    <packaging>ear</packaging>
+    <name>bank-app-ear</name>
+
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.disuraaberathna</groupId>
+            <artifactId>ejb-module</artifactId>
+            <type>ejb</type>
+        </dependency>
+        <dependency>
+            <groupId>com.disuraaberathna</groupId>
+            <artifactId>frontend</artifactId>
+            <type>war</type>
+        </dependency>
+        <dependency>
+            <groupId>com.disuraaberathna</groupId>
+            <artifactId>core-module</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>${project.name}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-ear-plugin</artifactId>
+                <version>3.3.0</version>
+                <configuration>
+                    <defaultLibBundleDir>lib</defaultLibBundleDir>
+                    <modules>
+                        <ejbModule>
+                            <groupId>com.disuraaberathna</groupId>
+                            <artifactId>ejb-module</artifactId>
+                            <bundleFileName>ejb-module.jar</bundleFileName>
+                        </ejbModule>
+                        <webModule>
+                            <groupId>com.disuraaberathna</groupId>
+                            <artifactId>frontend</artifactId>
+                            <contextRoot>/bank-app</contextRoot>
+                            <bundleFileName>frontend.war</bundleFileName>
+                        </webModule>
+                    </modules>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
