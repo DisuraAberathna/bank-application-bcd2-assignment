@@ -20,7 +20,9 @@ public class Customer implements Serializable {
     @Column(updatable = false, nullable = false)
     private Long id;
     @Column(nullable = false)
-    private String name;
+    private String firstName;
+    @Column(nullable = false)
+    private String lastName;
     @Column(unique = true, nullable = false)
     private String email;
     @Column(unique = true, nullable = false)
@@ -41,12 +43,15 @@ public class Customer implements Serializable {
     public Customer() {
     }
 
-    public Customer(String name, String email, String contact, String username, String password) {
-        this.name = name;
+    public Customer(String firstName, String lastName, String email, String contact, String username, String password, String verificationCode, LocalDateTime verificationExpireAt) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
         this.contact = contact;
         this.username = username;
         this.password = password;
+        this.verificationCode = verificationCode;
+        this.verificationExpireAt = verificationExpireAt;
     }
 
     public Long getId() {
@@ -57,12 +62,20 @@ public class Customer implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getEmail() {
