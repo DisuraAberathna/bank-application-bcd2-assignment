@@ -5,6 +5,7 @@ import com.disuraaberathna.core.enums.UserRoles;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +26,8 @@ public class Customer implements Serializable {
     private String username;
     @Column(nullable = false)
     private String password;
+    private String verificationCode;
+    private LocalDateTime verificationExpireAt;
     @Enumerated(EnumType.STRING)
     private UserRoles role = UserRoles.CUSTOMER;
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
@@ -97,6 +100,22 @@ public class Customer implements Serializable {
 
     public void setRole(UserRoles role) {
         this.role = role;
+    }
+
+    public String getVerificationCode() {
+        return verificationCode;
+    }
+
+    public void setVerificationCode(String verificationCode) {
+        this.verificationCode = verificationCode;
+    }
+
+    public LocalDateTime getVerificationExpireAt() {
+        return verificationExpireAt;
+    }
+
+    public void setVerificationExpireAt(LocalDateTime verificationExpireAt) {
+        this.verificationExpireAt = verificationExpireAt;
     }
 
     public List<Account> getAccounts() {
