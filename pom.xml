@@ -40,7 +40,12 @@
             </dependency>
             <dependency>
                 <groupId>com.disuraaberathna</groupId>
-                <artifactId>entity-module</artifactId>
+                <artifactId>ejb-module</artifactId>
+                <version>1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.disuraaberathna</groupId>
+                <artifactId>frontend</artifactId>
                 <version>1.0</version>
             </dependency>
         </dependencies>
