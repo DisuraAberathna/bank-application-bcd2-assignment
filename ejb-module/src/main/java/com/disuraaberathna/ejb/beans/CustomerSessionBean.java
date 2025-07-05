@@ -3,6 +3,7 @@ package com.disuraaberathna.ejb.beans;
 import com.disuraaberathna.core.model.Customer;
 import com.disuraaberathna.core.service.CustomerService;
 import com.disuraaberathna.core.util.Encryptor;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
@@ -48,6 +49,7 @@ public class CustomerSessionBean implements CustomerService {
     }
 
     @Override
+    @RolesAllowed({"CUSTOMER", "USER", "ADMIN", "SUPER_ADMIN"})
     public void updateCustomer(Customer customer) {
         em.merge(customer);
     }
