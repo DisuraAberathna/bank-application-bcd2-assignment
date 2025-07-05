@@ -8,6 +8,7 @@ import jakarta.security.enterprise.credential.UsernamePasswordCredential;
 import jakarta.security.enterprise.identitystore.CredentialValidationResult;
 import jakarta.security.enterprise.identitystore.IdentityStore;
 
+import java.util.Optional;
 import java.util.Set;
 
 public class AppIdentityStore implements IdentityStore {
@@ -18,9 +19,12 @@ public class AppIdentityStore implements IdentityStore {
     public CredentialValidationResult validate(Credential credential) {
         if (credential instanceof UsernamePasswordCredential upc) {
             if (customerService.validate(upc.getCaller(), upc.getPasswordAsString())) {
-                Customer customer = customerService.getCustomerByUsername(upc.getCaller());
+                Optional<Customer> optionalCustomer = customerService.getCustomerByUsername(upc.getCaller());
 
-                return new CredentialValidationResult(customer.getUsername(), Set.of(customer.getRole().name()));
+                if (optionalCustomer.isPresent()) {
+                    Customer customer = optionalCustomer.get();
+                    return new CredentialValidationResult(customer.getUsername(), Set.of(customer.getRole().name()));
+                }
             }
         }
 
