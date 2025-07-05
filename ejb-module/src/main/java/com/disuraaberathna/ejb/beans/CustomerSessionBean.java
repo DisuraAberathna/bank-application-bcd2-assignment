@@ -2,9 +2,14 @@ package com.disuraaberathna.ejb.beans;
 
 import com.disuraaberathna.core.model.Customer;
 import com.disuraaberathna.core.service.CustomerService;
+import com.disuraaberathna.core.util.Encryptor;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
+
+import java.util.Optional;
 
 @Stateless
 public class CustomerSessionBean implements CustomerService {
@@ -13,16 +18,37 @@ public class CustomerSessionBean implements CustomerService {
 
     @Override
     public boolean validate(String username, String password) {
-        return false;
+        try {
+            Customer customer = em.createNamedQuery("Customer.findByUsername", Customer.class).setParameter("username", username).getSingleResult();
+
+            return customer != null && Encryptor.checkPassword(password, customer.getPassword());
+        } catch (NoResultException e) {
+            return false;
+        }
     }
 
     @Override
-    public Customer getCustomerByUsername(String username) {
-        return null;
+    public Optional<Customer> getCustomerByUsername(String username) {
+        try {
+            TypedQuery<Customer> query = em.createNamedQuery("Customer.findByUsername", Customer.class).setParameter("username", username);
+            return Optional.ofNullable(query.getSingleResult());
+        } catch (NoResultException e) {
+            return Optional.empty();
+        }
     }
 
     @Override
-    public Customer getCustomerById(String id) {
-        return null;
+    public Optional<Customer> getCustomerById(String id) {
+        return Optional.ofNullable(em.find(Customer.class, id));
+    }
+
+    @Override
+    public void addCustomer(Customer customer) {
+        em.persist(customer);
+    }
+
+    @Override
+    public void updateCustomer(Customer customer) {
+        em.merge(customer);
     }
 }
