@@ -18,7 +18,9 @@ public class User implements Serializable {
     @Column(updatable = false, nullable = false)
     private Long id;
     @Column(nullable = false)
-    private String name;
+    private String firstName;
+    @Column(nullable = false)
+    private String lastName;
     @Column(unique = true, nullable = false)
     private String email;
     @Column(unique = true, nullable = false)
@@ -28,15 +30,16 @@ public class User implements Serializable {
     @Column(nullable = false)
     private String password;
     @Enumerated(EnumType.STRING)
-    private UserRoles role = UserRoles.USER;
+    private UserRoles role;
     @Enumerated(EnumType.STRING)
     private Status status = Status.ACTIVE;
 
     public User() {
     }
 
-    public User(String name, String email, String contact, String username, String password, UserRoles role) {
-        this.name = name;
+    public User(String firstName, String lastName, String email, String contact, String username, String password, UserRoles role) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
         this.contact = contact;
         this.username = username;
@@ -52,12 +55,20 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getEmail() {
