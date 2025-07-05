@@ -10,9 +10,9 @@
     <packaging>pom</packaging>
     <modules>
         <module>frontend</module>
-        <module>entity-module</module>
         <module>core-module</module>
         <module>ejb-module</module>
+        <module>ear-module</module>
     </modules>
 
     <properties>
