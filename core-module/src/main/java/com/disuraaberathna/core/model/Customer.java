@@ -11,6 +11,9 @@ import java.util.List;
 
 @Entity
 @Table(name = "customers")
+@NamedQueries({
+        @NamedQuery(name = "Customer.findByUsername", query = "select c from Customer c where c.username = :username"),
+})
 public class Customer implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
