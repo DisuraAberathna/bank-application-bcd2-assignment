@@ -8,4 +8,6 @@ public interface CustomerService {
     boolean validate(String username, String password);
     Customer getCustomerByUsername(String username);
     Customer getCustomerById(String id);
+    void addCustomer(Customer customer);
+    void updateCustomer(Customer customer);
 }
