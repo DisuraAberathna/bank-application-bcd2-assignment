@@ -12,5 +12,7 @@
 </head>
 <body>
 <h1>Hello World!</h1>
+<a href="${pageContext.request.contextPath}/auth/login.jsp">Login</a>
+<a href="${pageContext.request.contextPath}/auth/register.jsp">Register</a>
 </body>
 </html>
