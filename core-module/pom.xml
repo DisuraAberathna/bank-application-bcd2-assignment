@@ -11,6 +11,7 @@
 
     <artifactId>core-module</artifactId>
     <packaging>jar</packaging>
+    <name>bank-app-core</name>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -25,4 +26,8 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <finalName>${project.name}</finalName>
+    </build>
 </project>
