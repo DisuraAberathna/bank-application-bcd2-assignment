@@ -39,6 +39,26 @@ public class CustomerSessionBean implements CustomerService {
     }
 
     @Override
+    public Optional<Customer> getCustomerByEmail(String email) {
+        try {
+            TypedQuery<Customer> query = em.createNamedQuery("Customer.findByEmail", Customer.class).setParameter("email", email);
+            return Optional.ofNullable(query.getSingleResult());
+        } catch (NoResultException e) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public Optional<Customer> getCustomerByMobile(String mobile) {
+        try {
+            TypedQuery<Customer> query = em.createNamedQuery("Customer.findByMobile", Customer.class).setParameter("contact", mobile);
+            return Optional.ofNullable(query.getSingleResult());
+        } catch (NoResultException e) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
     public Optional<Customer> getCustomerById(String id) {
         return Optional.ofNullable(em.find(Customer.class, id));
     }
