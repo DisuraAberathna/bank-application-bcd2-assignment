@@ -23,8 +23,6 @@ public class Register extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/html;charset=UTF-8");
-
         String firstName = req.getParameter("firstName");
         String lastName = req.getParameter("lastName");
         String email = req.getParameter("email");
@@ -69,7 +67,7 @@ public class Register extends HttpServlet {
         if (!errors.isEmpty()) {
             req.setAttribute("errors", errors);
             req.setAttribute("inputData", req.getParameterMap());
-            req.getRequestDispatcher(req.getContextPath() + "/auth/register.jsp").forward(req, resp);
+            req.getRequestDispatcher("/auth/register.jsp").forward(req, resp);
             return;
         }
 
