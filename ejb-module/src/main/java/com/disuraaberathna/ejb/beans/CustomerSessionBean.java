@@ -29,38 +29,42 @@ public class CustomerSessionBean implements CustomerService {
     }
 
     @Override
-    public Optional<Customer> getCustomerByUsername(String username) {
+    public Customer getCustomerByUsername(String username) {
         try {
             TypedQuery<Customer> query = em.createNamedQuery("Customer.findByUsername", Customer.class).setParameter("username", username);
-            return Optional.ofNullable(query.getSingleResult());
+            return query.getSingleResult();
         } catch (NoResultException e) {
-            return Optional.empty();
+            return null;
         }
     }
 
     @Override
-    public Optional<Customer> getCustomerByEmail(String email) {
+    public Customer getCustomerByEmail(String email) {
         try {
             TypedQuery<Customer> query = em.createNamedQuery("Customer.findByEmail", Customer.class).setParameter("email", email);
-            return Optional.ofNullable(query.getSingleResult());
+            return query.getSingleResult();
         } catch (NoResultException e) {
-            return Optional.empty();
+            return null;
         }
     }
 
     @Override
-    public Optional<Customer> getCustomerByMobile(String mobile) {
+    public Customer getCustomerByMobile(String mobile) {
         try {
             TypedQuery<Customer> query = em.createNamedQuery("Customer.findByMobile", Customer.class).setParameter("contact", mobile);
-            return Optional.ofNullable(query.getSingleResult());
+            return query.getSingleResult();
         } catch (NoResultException e) {
-            return Optional.empty();
+            return null;
         }
     }
 
     @Override
-    public Optional<Customer> getCustomerById(String id) {
-        return Optional.ofNullable(em.find(Customer.class, id));
+    public Customer getCustomerById(String id) {
+        try {
+            return em.find(Customer.class, id);
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 
     @Override
