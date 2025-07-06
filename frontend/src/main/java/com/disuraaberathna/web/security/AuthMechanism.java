@@ -20,7 +20,7 @@ import java.io.IOException;
 @ApplicationScoped
 public class AuthMechanism implements HttpAuthenticationMechanism {
     @Inject
-    private IdentityStore identityStore;
+    private AppIdentityStore identityStore;
 
     @Override
     public AuthenticationStatus validateRequest(HttpServletRequest request, HttpServletResponse response, HttpMessageContext context) throws AuthenticationException {
