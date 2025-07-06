@@ -2,7 +2,11 @@
 <persistence xmlns="https://jakarta.ee/xml/ns/persistence" version="3.0">
     <persistence-unit name="BankAppPU" transaction-type="JTA">
         <jta-data-source>jdbc/bank_app_connection</jta-data-source>
-        
+
+        <class>com.disuraaberathna.core.model.User</class>
+        <class>com.disuraaberathna.core.model.Customer</class>
+        <class>com.disuraaberathna.core.model.Account</class>
+
         <properties>
             <property name="jakarta.persistence.schema-generation.database.action" value="create"/>
         </properties>
