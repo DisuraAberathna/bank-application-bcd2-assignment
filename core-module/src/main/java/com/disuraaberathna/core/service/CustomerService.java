@@ -9,13 +9,13 @@ import java.util.Optional;
 public interface CustomerService {
     boolean validate(String username, String password);
 
-    Optional<Customer> getCustomerByUsername(String username);
+    Customer getCustomerByUsername(String username);
 
-    Optional<Customer> getCustomerByEmail(String email);
+    Customer getCustomerByEmail(String email);
 
-    Optional<Customer> getCustomerByMobile(String mobile);
+    Customer getCustomerByMobile(String mobile);
 
-    Optional<Customer> getCustomerById(String id);
+    Customer getCustomerById(String id);
 
     void addCustomer(Customer customer);
 
