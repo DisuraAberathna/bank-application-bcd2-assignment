@@ -29,6 +29,11 @@
             <groupId>com.disuraaberathna</groupId>
             <artifactId>core-module</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.glassfish.web</groupId>
+            <artifactId>jakarta.servlet.jsp.jstl</artifactId>
+            <version>3.0.1</version>
+        </dependency>
     </dependencies>
 
     <build>
