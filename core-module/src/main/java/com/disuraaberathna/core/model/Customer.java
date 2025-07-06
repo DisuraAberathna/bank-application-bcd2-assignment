@@ -13,6 +13,8 @@ import java.util.List;
 @Table(name = "customers")
 @NamedQueries({
         @NamedQuery(name = "Customer.findByUsername", query = "select c from Customer c where c.username = :username"),
+        @NamedQuery(name = "Customer.findByEmail", query = "select c from Customer c where c.email = :email"),
+        @NamedQuery(name = "Customer.findByMobile", query = "select c from Customer c where c.contact = :contact"),
 })
 public class Customer implements Serializable {
     @Id
@@ -39,6 +41,7 @@ public class Customer implements Serializable {
     private List<Account> accounts = new ArrayList<Account>();
     @Enumerated(EnumType.STRING)
     private Status status = Status.ACTIVE;
+    private boolean isVerified = false;
 
     public Customer() {
     }
@@ -148,5 +151,13 @@ public class Customer implements Serializable {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public boolean isVerified() {
+        return isVerified;
+    }
+
+    public void setVerified(boolean verified) {
+        isVerified = verified;
     }
 }
