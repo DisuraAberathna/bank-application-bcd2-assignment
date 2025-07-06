@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -34,7 +35,8 @@ public class Customer implements Serializable {
     @Column(nullable = false)
     private String password;
     private String verificationCode;
-    private LocalDateTime verificationExpireAt;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date verificationExpireAt;
     @Enumerated(EnumType.STRING)
     private UserRoles role = UserRoles.CUSTOMER;
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
@@ -127,11 +129,11 @@ public class Customer implements Serializable {
         this.verificationCode = verificationCode;
     }
 
-    public LocalDateTime getVerificationExpireAt() {
+    public Date getVerificationExpireAt() {
         return verificationExpireAt;
     }
 
-    public void setVerificationExpireAt(LocalDateTime verificationExpireAt) {
+    public void setVerificationExpireAt(Date verificationExpireAt) {
         this.verificationExpireAt = verificationExpireAt;
     }
 
