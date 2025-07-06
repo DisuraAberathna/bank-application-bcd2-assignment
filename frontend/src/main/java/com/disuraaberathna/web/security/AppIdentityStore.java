@@ -15,7 +15,6 @@ import jakarta.security.enterprise.identitystore.IdentityStore;
 import java.util.Optional;
 import java.util.Set;
 
-@AutoApplySession
 @ApplicationScoped
 public class AppIdentityStore implements IdentityStore {
     @EJB
