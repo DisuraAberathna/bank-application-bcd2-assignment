@@ -1,6 +1,5 @@
 package com.disuraaberathna.web.action;
 
-import com.disuraaberathna.core.exception.LoginFailedException;
 import jakarta.inject.Inject;
 import jakarta.security.enterprise.AuthenticationStatus;
 import jakarta.security.enterprise.SecurityContext;
@@ -38,7 +37,7 @@ public class Login extends HttpServlet {
 
         if (!errors.isEmpty()) {
             req.setAttribute("errors", errors);
-            req.getRequestDispatcher(req.getContextPath() + "/auth/login.jsp").forward(req, resp);
+            req.getRequestDispatcher( "/auth/login.jsp").forward(req, resp);
             return;
         }
 
@@ -50,7 +49,7 @@ public class Login extends HttpServlet {
         } else {
             errors.put("username", "Invalid username or password.");
             req.setAttribute("errors", errors);
-            req.getRequestDispatcher(req.getContextPath() + "/auth/login.jsp").forward(req, resp);
+            req.getRequestDispatcher( "/auth/login.jsp").forward(req, resp);
         }
     }
 }
