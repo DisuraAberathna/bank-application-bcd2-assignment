@@ -46,15 +46,13 @@ public class Customer implements Serializable {
     public Customer() {
     }
 
-    public Customer(String firstName, String lastName, String email, String contact, String username, String password, String verificationCode, LocalDateTime verificationExpireAt) {
+    public Customer(String firstName, String lastName, String email, String contact, String username, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.contact = contact;
         this.username = username;
         this.password = password;
-        this.verificationCode = verificationCode;
-        this.verificationExpireAt = verificationExpireAt;
     }
 
     public Long getId() {
