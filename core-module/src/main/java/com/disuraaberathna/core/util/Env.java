@@ -8,7 +8,7 @@ public class Env {
 
     static {
         try {
-            InputStream in = Env.class.getClassLoader().getResourceAsStream("config.properties");
+            InputStream in = Env.class.getClassLoader().getResourceAsStream("application.properties");
             PROPS.load(in);
         } catch (Exception e) {
             throw new ExceptionInInitializerError(e);
