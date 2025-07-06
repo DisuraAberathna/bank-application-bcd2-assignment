@@ -3,6 +3,8 @@ package com.disuraaberathna.web.action;
 import com.disuraaberathna.core.enums.UserRoles;
 import com.disuraaberathna.core.model.User;
 import com.disuraaberathna.core.service.UserService;
+import com.disuraaberathna.core.util.Encryptor;
+import com.disuraaberathna.core.util.Validator;
 import jakarta.ejb.EJB;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -32,32 +34,48 @@ public class Register extends HttpServlet {
 
         Map<String, String> errors = new HashMap<>();
 
-        if (firstName == null || firstName.trim().isEmpty())
+        if (firstName == null || firstName.trim().isEmpty()) {
             errors.put("firstName", "Please enter your first name.");
+        }
 
-        if (lastName == null || lastName.trim().isEmpty())
+        if (firstName != null && Validator.containsDigit(firstName)) {
+            errors.put("firstName", "First Name should not contain any digits.");
+        }
+
+        if (lastName == null || lastName.trim().isEmpty()) {
             errors.put("lastName", "Please enter your last name.");
+        }
 
-        if (email == null || email.trim().isEmpty() || !email.matches("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$"))
-            errors.put("email", "Valid Email is required.");
+        if (lastName != null && Validator.containsDigit(lastName)) {
+            errors.put("lastName", "Last Name should not contain any digits.");
+        }
 
-        if (mobile == null || !mobile.matches("^\\d{10}$"))
+        if (!Validator.validateEmail(email)) {
+            errors.put("email", "Please enter a valid email address.");
+        }
+
+        if (!Validator.validateMobile(mobile)) {
             errors.put("mobile", "Valid 10-digit Mobile Number is required.");
+        }
 
-        if (username == null || username.trim().isEmpty())
-            errors.put("username", "Username is required.");
+        if (username == null || username.trim().isEmpty()) {
+            errors.put("username", "Please enter your username.");
+        }
 
-        if (password == null || password.length() < 6)
-            errors.put("password", "Password must be at least 6 characters.");
+        if (!Validator.validatePassword(password)) {
+            errors.put("password", "Password must be at least 8 characters long and include at least one letter and one number or special character.");
+        }
 
         if (!errors.isEmpty()) {
             req.setAttribute("errors", errors);
             req.setAttribute("inputData", req.getParameterMap());
-            req.getRequestDispatcher(req.getContextPath() +"/auth/register.jsp").forward(req, resp);
+            req.getRequestDispatcher(req.getContextPath() + "/auth/register.jsp").forward(req, resp);
             return;
         }
 
-        User user = new User(firstName, lastName, email, mobile, username, password, UserRoles.CUSTOMER);
+        String hashedPassword = Encryptor.hashPassword(password.trim());
+
+        User user = new User(firstName.trim(), lastName.trim(), email.trim(), mobile.trim(), username.trim(), hashedPassword, UserRoles.CUSTOMER);
         userService.addUser(user);
     }
 }
