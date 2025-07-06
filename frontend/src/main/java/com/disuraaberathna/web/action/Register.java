@@ -17,6 +17,8 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -68,15 +70,15 @@ public class Register extends HttpServlet {
             errors.put("password", "Password must be at least 8 characters long and include at least one letter and one number or special character.");
         }
 
-        if (email != null && !email.isEmpty() && customerService.getCustomerByEmail(email.trim()).isPresent()) {
+        if (email != null && !email.isEmpty() && customerService.getCustomerByEmail(email.trim()) != null) {
             errors.put("email", "This email address is already taken.");
         }
 
-        if (mobile != null && !mobile.isEmpty() && customerService.getCustomerByMobile(mobile.trim()).isPresent()) {
+        if (mobile != null && !mobile.isEmpty() && customerService.getCustomerByMobile(mobile.trim()) != null) {
             errors.put("mobile", "This mobile number is already taken.");
         }
 
-        if (username != null && !username.isEmpty() && customerService.getCustomerByUsername(username.trim()).isPresent()) {
+        if (username != null && !username.isEmpty() && customerService.getCustomerByUsername(username.trim()) != null) {
             errors.put("username", "This username is already taken.");
         }
 
@@ -95,7 +97,7 @@ public class Register extends HttpServlet {
 
         Customer customer = new Customer(firstName.trim(), lastName.trim(), email.trim(), mobile.trim(), username.trim(), hashedPassword);
         customer.setVerificationCode(verificationCode);
-        customer.setVerificationExpireAt(LocalDateTime.now().plusDays(1));
+        customer.setVerificationExpireAt(Date.from(LocalDateTime.now().plusDays(1).atZone(ZoneId.systemDefault()).toInstant()));
         customerService.addCustomer(customer);
 
         resp.sendRedirect(req.getContextPath() + "/account/");
