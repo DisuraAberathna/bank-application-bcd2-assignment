@@ -5,7 +5,6 @@ import com.disuraaberathna.core.enums.UserRoles;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
