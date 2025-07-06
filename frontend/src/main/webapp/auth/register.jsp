@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>Bank App | Register</title>
@@ -23,38 +24,50 @@
         <div class="flex w-full items-center justify-between gap-x-3">
             <div class="flex flex-col gap-y-1">
                 <label for="firstName" class="font-medium">First Name *</label>
-                <input type="text" name="firstName" id="firstName" placeholder="Enter Your First Name"
+                <input type="text" name="firstName" id="firstName" placeholder="Enter Your First Name" value="${param.firstName}"
                        class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"/>
             </div>
             <div class="flex flex-col gap-y-1">
                 <label for="lastName" class="font-medium">Last Name *</label>
-                <input type="text" name="lastName" id="lastName" placeholder="Enter Your Last Name"
+                <input type="text" name="lastName" id="lastName" placeholder="Enter Your Last Name" value="${param.lastName}"
                        class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"/>
             </div>
         </div>
         <div class="flex flex-col gap-y-1">
             <label for="email" class="font-medium">Email Address *</label>
-            <input type="email" name="email" id="email" placeholder="Enter Your Email Address"
+            <input type="email" name="email" id="email" placeholder="Enter Your Email Address" value="${param.email}"
                    class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"/>
         </div>
         <div class="flex flex-col gap-y-1">
             <label for="mobile" class="font-medium">Mobile Number *</label>
-            <input type="text" name="mobile" id="mobile" placeholder="Enter Your Mobile Number"
+            <input type="text" name="mobile" id="mobile" placeholder="Enter Your Mobile Number" value="${param.mobile}"
                    class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"/>
         </div>
         <div class="flex w-full items-center justify-between gap-x-3">
             <div class="flex flex-col gap-y-1">
                 <label for="username" class="font-medium">Username *</label>
-                <input type="text" name="username" id="username" placeholder="Enter Your Username"
+                <input type="text" name="username" id="username" placeholder="Enter Your Username" value="${param.username}"
                        class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"/>
             </div>
             <div class="flex flex-col gap-y-1">
                 <label for="password" class="font-medium">Password *</label>
-                <input type="password" name="password" id="password" placeholder="Enter Your Password"
+                <input type="password" name="password" id="password" placeholder="Enter Your Password" value="${param.password}"
                        class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"/>
             </div>
         </div>
-        <div class="text-center mt-6">
+
+        <c:if test="${not empty errors}">
+            <div class="bg-red-100 border-2 border-red-400 text-red-700 px-4 py-3 rounded-lg relative mt-3">
+                <strong class="font-bold">Please correct the following errors:</strong>
+                <ul class="list-disc ml-5 mt-2">
+                    <c:forEach var="entry" items="${errors}">
+                        <li>${entry.value}</li>
+                    </c:forEach>
+                </ul>
+            </div>
+        </c:if>
+
+        <div class="text-center mt-4">
             <button type="submit"
                     class="bg-[#16A34A] text-white font-medium py-1.5 px-20 rounded-md hover:bg-[#28914e] cursor-pointer">
                 Register
