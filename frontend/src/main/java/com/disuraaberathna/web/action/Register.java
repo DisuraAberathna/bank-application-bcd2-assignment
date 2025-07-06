@@ -1,6 +1,5 @@
 package com.disuraaberathna.web.action;
 
-import com.disuraaberathna.core.enums.UserRoles;
 import com.disuraaberathna.core.mail.VerificationMail;
 import com.disuraaberathna.core.model.Customer;
 import com.disuraaberathna.core.provider.MailServiceProvider;
