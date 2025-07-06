@@ -61,7 +61,7 @@
                 <strong class="font-bold">Please correct the following errors:</strong>
                 <ul class="list-disc ml-5 mt-2">
                     <c:forEach var="entry" items="${errors}">
-                        <li>${entry.value}</li>
+                        <li class="max-w-sm">${entry.value}</li>
                     </c:forEach>
                 </ul>
             </div>
