@@ -68,15 +68,15 @@ public class Register extends HttpServlet {
             errors.put("password", "Password must be at least 8 characters long and include at least one letter and one number or special character.");
         }
 
-        if (email != null && customerService.getCustomerByEmail(email.trim()).isPresent()) {
+        if (email != null && !email.isEmpty() && customerService.getCustomerByEmail(email.trim()).isPresent()) {
             errors.put("email", "This email address is already taken.");
         }
 
-        if (mobile != null && customerService.getCustomerByMobile(mobile.trim()).isPresent()) {
+        if (mobile != null && !mobile.isEmpty() && customerService.getCustomerByMobile(mobile.trim()).isPresent()) {
             errors.put("mobile", "This mobile number is already taken.");
         }
 
-        if (username != null && customerService.getCustomerByUsername(username.trim()).isPresent()) {
+        if (username != null && !username.isEmpty() && customerService.getCustomerByUsername(username.trim()).isPresent()) {
             errors.put("username", "This username is already taken.");
         }
 
@@ -98,6 +98,6 @@ public class Register extends HttpServlet {
         customer.setVerificationExpireAt(LocalDateTime.now().plusDays(1));
         customerService.addCustomer(customer);
 
-        resp.sendRedirect(req.getContextPath()+"/account/");
+        resp.sendRedirect(req.getContextPath() + "/account/");
     }
 }
