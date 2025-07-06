@@ -27,12 +27,8 @@ public class AppIdentityStore implements IdentityStore {
     public CredentialValidationResult validate(Credential credential) {
         if (credential instanceof UsernamePasswordCredential upc) {
             if (customerService.validate(upc.getCaller(), upc.getPasswordAsString())) {
-                Optional<Customer> optionalCustomer = customerService.getCustomerByUsername(upc.getCaller());
-
-                if (optionalCustomer.isPresent()) {
-                    Customer customer = optionalCustomer.get();
-                    return new CredentialValidationResult(customer.getUsername(), Set.of(customer.getRole().name()));
-                }
+                Customer customer = customerService.getCustomerByUsername(upc.getCaller());
+                return new CredentialValidationResult(customer.getUsername(), Set.of(customer.getRole().name()));
             }
 
             if (userService.validate(upc.getCaller(), upc.getPasswordAsString())) {
