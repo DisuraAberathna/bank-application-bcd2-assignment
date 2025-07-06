@@ -30,7 +30,19 @@
             <input type="password" name="password" id="password" placeholder="Enter Your Password"
                    class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"/>
         </div>
-        <div class="text-center mt-6">
+
+        <c:if test="${not empty errors}">
+            <div class="bg-red-100 border-2 border-red-400 text-red-700 px-4 py-3 rounded-lg relative mt-3">
+                <strong class="font-bold">Please correct the following errors:</strong>
+                <ul class="list-disc ml-5 mt-2">
+                    <c:forEach var="entry" items="${errors}">
+                        <li>${entry.value}</li>
+                    </c:forEach>
+                </ul>
+            </div>
+        </c:if>
+
+        <div class="text-center mt-4">
             <button type="submit"
                     class="bg-[#16A34A] text-white font-medium py-1.5 px-20 rounded-md hover:bg-[#28914e] cursor-pointer">
                 Login
