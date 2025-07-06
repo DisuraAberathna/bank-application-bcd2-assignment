@@ -10,8 +10,6 @@ import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 
-import java.util.Optional;
-
 @Stateless
 public class CustomerSessionBean implements CustomerService {
     @PersistenceContext
