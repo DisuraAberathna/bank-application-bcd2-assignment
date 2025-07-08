@@ -47,11 +47,13 @@ public class VerifyEmail extends HttpServlet {
         }
 
         boolean status = customerService.verifyCustomer(customer.getId());
-        
+
         if (!status) {
             throw new CommonException("Email address is not verified.");
         }
 
+        req.getSession().setAttribute("verified", true);
+        req.removeAttribute("allow-verified");
         resp.sendRedirect(req.getContextPath() + "/auth/login.jsp");
     }
 }
