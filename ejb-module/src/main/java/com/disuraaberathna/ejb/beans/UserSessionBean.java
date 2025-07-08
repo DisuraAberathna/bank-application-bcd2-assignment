@@ -29,22 +29,22 @@ public class UserSessionBean implements UserService {
     }
 
     @Override
-    public Optional<User> getUserByUsername(String username) {
+    public User getUserByUsername(String username) {
         try {
             TypedQuery<User> query = em.createNamedQuery("User.findByUsername", User.class).setParameter("username", username);
-            return Optional.ofNullable(query.getSingleResult());
+            return query.getSingleResult();
         } catch (NoResultException e) {
-            return Optional.empty();
+            return null;
         }
     }
 
     @Override
-    public Optional<User> getUserByEmail(String email) {
+    public User getUserByEmail(String email) {
         try {
             TypedQuery<User> query = em.createNamedQuery("User.findByEmail", User.class).setParameter("email", email);
-            return Optional.ofNullable(query.getSingleResult());
+            return query.getSingleResult();
         } catch (NoResultException e) {
-            return Optional.empty();
+            return null;
         }
     }
 
