@@ -9,9 +9,9 @@ import java.util.Optional;
 public interface UserService {
     boolean validate(String username, String password);
 
-    Optional<User> getUserByUsername(String username);
+    User getUserByUsername(String username);
 
-    Optional<User> getUserByEmail(String email);
+    User getUserByEmail(String email);
 
     void addUser(User user);
 
