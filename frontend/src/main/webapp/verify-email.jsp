@@ -23,13 +23,13 @@
             account.
             If you don’t see the email, check your spam or junk folder.
         </p>
-        <c:if test="${empty pageContext.request.getAttribute('verified')}">
+        <c:if test="${empty pageContext.request.getSession().getAttribute('verified')}">
             <div class="bg-yellow-100 border-2 border-yellow-400 text-yellow-700 px-4 py-3 rounded-lg relative mt-3">
                 <span class="max-w-sm">Please verify your email address.</span>
             </div>
         </c:if>
         <div class="pt-5 text-center">
-            <a href=""
+            <a href="${pageContext.request.contextPath}/verify-email.jsp"
                class="bg-[#16A34A] text-white font-medium py-2 px-20 rounded-md hover:bg-[#28914e] cursor-pointer">Continue</a>
         </div>
     </div>
