@@ -10,7 +10,6 @@ import jakarta.security.enterprise.authentication.mechanism.http.AutoApplySessio
 import jakarta.security.enterprise.authentication.mechanism.http.HttpAuthenticationMechanism;
 import jakarta.security.enterprise.authentication.mechanism.http.HttpMessageContext;
 import jakarta.security.enterprise.identitystore.CredentialValidationResult;
-import jakarta.security.enterprise.identitystore.IdentityStore;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -38,7 +37,7 @@ public class AuthMechanism implements HttpAuthenticationMechanism {
 
         if (context.isProtected() && context.getCallerPrincipal() == null) {
             try {
-                response.sendRedirect(request.getContextPath() + "/login.jsp");
+                response.sendRedirect(request.getContextPath() + "/auth/login.jsp");
             } catch (IOException e) {
                 throw new CommonException("Can not redirect to the login page!");
             }
