@@ -1,5 +1,8 @@
 package com.disuraaberathna.web.action;
 
+import com.disuraaberathna.core.service.CustomerService;
+import com.disuraaberathna.core.service.UserService;
+import jakarta.ejb.EJB;
 import jakarta.inject.Inject;
 import jakarta.security.enterprise.AuthenticationStatus;
 import jakarta.security.enterprise.SecurityContext;
@@ -17,6 +20,12 @@ import java.util.Map;
 
 @WebServlet("/auth/login")
 public class Login extends HttpServlet {
+    @EJB
+    CustomerService customerService;
+
+    @EJB
+    UserService userService;
+
     @Inject
     private SecurityContext securityContext;
 
@@ -37,7 +46,7 @@ public class Login extends HttpServlet {
 
         if (!errors.isEmpty()) {
             req.setAttribute("errors", errors);
-            req.getRequestDispatcher( "/auth/login.jsp").forward(req, resp);
+            req.getRequestDispatcher("/auth/login.jsp").forward(req, resp);
             return;
         }
 
@@ -45,11 +54,27 @@ public class Login extends HttpServlet {
 
         AuthenticationStatus status = securityContext.authenticate(req, resp, params);
         if (status == AuthenticationStatus.SUCCESS) {
-            resp.sendRedirect(req.getContextPath() + "/index.jsp");
+            if (customerService.getCustomerByUsername(username) != null) {
+                if (customerService.getCustomerByUsername(username).isVerified()) {
+                    resp.sendRedirect(req.getContextPath() + "/account/");
+                    return;
+                }
+
+                errors.put("username", "Please verify your email address.");
+                req.setAttribute("errors", errors);
+                req.setAttribute("inputData", req.getParameterMap());
+                req.getRequestDispatcher("/auth/login.jsp").forward(req, resp);
+            }
+
+            if (userService.getUserByUsername(username) != null) {
+                resp.sendRedirect(req.getContextPath() + "/employee/");
+            }
         } else {
             errors.put("username", "Invalid username or password.");
             req.setAttribute("errors", errors);
-            req.getRequestDispatcher( "/auth/login.jsp").forward(req, resp);
+            req.getRequestDispatcher("/auth/login.jsp").forward(req, resp);
         }
+
+        req.getSession().removeAttribute("verified");
     }
 }
