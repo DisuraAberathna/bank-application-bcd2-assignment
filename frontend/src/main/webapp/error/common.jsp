@@ -14,7 +14,7 @@
 </head>
 <body>
 <main class="w-full h-screen flex justify-center items-center bg-neutral-100">
-    <div class="border-2 h-full flex justify-center items-center">
+    <div class="h-full flex justify-center items-center">
         <div class="bg-red-100 border-2 border-red-400 text-red-700 px-6 py-5 rounded-lg shadow-lg max-w-lg w-full mx-4 flex flex-col">
             <span class="text-lg font-bold">Oops! Something went wrong.</span>
             <span class="font-medium text-[15px]">Error Code: ${requestScope['jakarta.servlet.error.status_code']}</span>
