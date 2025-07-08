@@ -11,6 +11,8 @@
     <title>Bank App | Dashboard</title>
 </head>
 <body>
-
+<button>Create New Account</button>
+<button>Schedule Payment</button>
+<a href="${pageContext.request.contextPath}/auth/logout">Log Out</a>
 </body>
 </html>
