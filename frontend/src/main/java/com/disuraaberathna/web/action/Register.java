@@ -99,6 +99,6 @@ public class Register extends HttpServlet {
         customer.setVerificationExpireAt(Date.from(LocalDateTime.now().plusDays(1).atZone(ZoneId.systemDefault()).toInstant()));
         customerService.addCustomer(customer);
 
-        resp.sendRedirect(req.getContextPath() + "/account/");
+        resp.sendRedirect(req.getContextPath() + "/verify-email.jsp");
     }
 }
