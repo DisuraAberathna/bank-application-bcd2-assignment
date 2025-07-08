@@ -13,9 +13,11 @@ public interface CustomerService {
 
     Customer getCustomerByMobile(String mobile);
 
-    Customer getCustomerById(String id);
+    Customer getCustomerById(Long id);
 
     void addCustomer(Customer customer);
 
     void updateCustomer(Customer customer);
+
+    boolean verifyCustomer(Long id);
 }
