@@ -10,8 +10,6 @@ import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 
-import java.util.Optional;
-
 @Stateless
 public class UserSessionBean implements UserService {
     @PersistenceContext
@@ -20,8 +18,7 @@ public class UserSessionBean implements UserService {
     @Override
     public boolean validate(String username, String password) {
         try {
-            User user = em.createNamedQuery("Customer.findByUsername", User.class).setParameter("username", username).getSingleResult();
-
+            User user = em.createNamedQuery("User.findByUsername", User.class).setParameter("username", username).getSingleResult();
             return user != null && Encryptor.checkPassword(password, user.getPassword());
         } catch (NoResultException e) {
             return false;
