@@ -57,7 +57,7 @@ public class CustomerSessionBean implements CustomerService {
     }
 
     @Override
-    public Customer getCustomerById(String id) {
+    public Customer getCustomerById(Long id) {
         try {
             return em.find(Customer.class, id);
         } catch (NoResultException e) {
@@ -74,5 +74,19 @@ public class CustomerSessionBean implements CustomerService {
     @RolesAllowed({"CUSTOMER", "USER", "ADMIN", "SUPER_ADMIN"})
     public void updateCustomer(Customer customer) {
         em.merge(customer);
+    }
+
+    @Override
+    public boolean verifyCustomer(Long id) {
+        Customer customer = getCustomerById(id);
+        if (customer != null) {
+            customer.setVerified(true);
+            customer.setVerificationCode(null);
+            customer.setVerificationExpireAt(null);
+            em.merge(customer);
+            return true;
+        }
+
+        return false;
     }
 }
