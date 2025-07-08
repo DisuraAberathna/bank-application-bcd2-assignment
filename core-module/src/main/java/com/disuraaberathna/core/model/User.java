@@ -8,6 +8,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "users")
+@Cacheable(false)
 @NamedQueries({
         @NamedQuery(name = "User.findByUsername", query = "select u from User u where u.username = :username"),
         @NamedQuery(name = "User.findByEmail", query = "select u from User u where u.email = :email")

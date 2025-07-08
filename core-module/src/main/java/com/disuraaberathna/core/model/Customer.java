@@ -11,6 +11,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "customers")
+@Cacheable(false)
 @NamedQueries({
         @NamedQuery(name = "Customer.findByUsername", query = "select c from Customer c where c.username = :username"),
         @NamedQuery(name = "Customer.findByEmail", query = "select c from Customer c where c.email = :email"),
