@@ -16,6 +16,8 @@ import java.util.List;
         @NamedQuery(name = "Customer.findByUsername", query = "select c from Customer c where c.username = :username"),
         @NamedQuery(name = "Customer.findByEmail", query = "select c from Customer c where c.email = :email"),
         @NamedQuery(name = "Customer.findByMobile", query = "select c from Customer c where c.contact = :contact"),
+        @NamedQuery(name = "Customer.findByNic", query = "select c from Customer c where c.nic = :nic"),
+        @NamedQuery(name = "Customer.findByNicAndOtp", query = "select c from Customer c where c.nic = :nic and c.verificationCode = :otp"),
 })
 public class Customer implements Serializable {
     @Id
