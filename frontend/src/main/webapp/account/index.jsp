@@ -10,6 +10,7 @@
 <head>
     <title>Bank App | Dashboard</title>
     <link rel="stylesheet" href="../css/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script>
         function openOtpModal() {
@@ -30,10 +31,14 @@
         </div>
         <div class="flex items-center justify-between gap-x-8">
             <a href="${pageContext.request.contextPath}/auth/logout"
-               class="text-white font-bold hover:text-gray-100 cursor-pointer text-xl hover:underline underline-offset-8">
-                Log Out
+               class="text-white font-bold hover:text-gray-100 cursor-pointer text-xl flex item-center gap-x-2">
+                <span class="material-symbols-outlined rotate-180">logout</span>
+                <span class="hover:underline underline-offset-8">Logout</span>
             </a>
-            <h1 class="text-xl font-bold capitalize">${pageContext.request.userPrincipal.name}</h1>
+            <h1 class="text-xl font-bold capitalize flex item-center gap-x-2">
+                <span class="material-symbols-outlined">account_circle</span>
+                ${pageContext.request.userPrincipal.name}
+            </h1>
         </div>
     </header>
 
