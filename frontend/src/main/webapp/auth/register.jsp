@@ -23,35 +23,28 @@
         </div>
         <div class="flex w-full items-center justify-between gap-x-3">
             <div class="flex flex-col gap-y-1">
-                <label for="firstName" class="font-medium">First Name *</label>
-                <input type="text" name="firstName" id="firstName" placeholder="Enter Your First Name" value="${param.firstName}"
+                <label for="nic" class="font-medium">NIC Number *</label>
+                <input type="text" name="nic" id="nic" placeholder="Enter Your NIC Number" value="${param.nic}"
                        class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"/>
             </div>
             <div class="flex flex-col gap-y-1">
-                <label for="lastName" class="font-medium">Last Name *</label>
-                <input type="text" name="lastName" id="lastName" placeholder="Enter Your Last Name" value="${param.lastName}"
+                <label for="username" class="font-medium">Username *</label>
+                <input type="text" name="username" id="username" placeholder="Enter Your Username"
+                       value="${param.username}"
                        class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"/>
             </div>
-        </div>
-        <div class="flex flex-col gap-y-1">
-            <label for="email" class="font-medium">Email Address *</label>
-            <input type="email" name="email" id="email" placeholder="Enter Your Email Address" value="${param.email}"
-                   class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"/>
-        </div>
-        <div class="flex flex-col gap-y-1">
-            <label for="mobile" class="font-medium">Mobile Number *</label>
-            <input type="text" name="mobile" id="mobile" placeholder="Enter Your Mobile Number" value="${param.mobile}"
-                   class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"/>
         </div>
         <div class="flex w-full items-center justify-between gap-x-3">
             <div class="flex flex-col gap-y-1">
-                <label for="username" class="font-medium">Username *</label>
-                <input type="text" name="username" id="username" placeholder="Enter Your Username" value="${param.username}"
+                <label for="password" class="font-medium">Password *</label>
+                <input type="password" name="password" id="password" placeholder="Enter Your Password"
+                       value="${param.password}"
                        class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"/>
             </div>
             <div class="flex flex-col gap-y-1">
-                <label for="password" class="font-medium">Password *</label>
-                <input type="password" name="password" id="password" placeholder="Enter Your Password" value="${param.password}"
+                <label for="otp" class="font-medium">Password *</label>
+                <input type="text" name="otp" id="otp" placeholder="Enter Your OTP"
+                       value="${param.otp}"
                        class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"/>
             </div>
         </div>
