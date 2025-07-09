@@ -15,9 +15,13 @@ public interface CustomerService {
 
     Customer getCustomerById(Long id);
 
+    Customer findCustomerByNic(String nic);
+
+    Customer findCustomerByNicAndOtp(String nic, String otp);
+
     void addCustomer(Customer customer);
 
     void updateCustomer(Customer customer);
 
-    boolean verifyCustomer(Long id);
+    boolean verifyCustomer(String username, String password, String nic, String otp);
 }
