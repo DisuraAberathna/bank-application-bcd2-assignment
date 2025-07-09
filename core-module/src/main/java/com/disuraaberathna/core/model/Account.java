@@ -18,7 +18,7 @@ public class Account implements Serializable {
     private Double balance;
     @Enumerated(EnumType.STRING)
     private Status status = Status.ACTIVE;
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
     @Column(updatable = false)
