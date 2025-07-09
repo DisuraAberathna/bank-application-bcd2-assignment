@@ -25,7 +25,15 @@ public class Validator {
         return mobile.matches("^07[01245678]{1}[0-9]{7}$");
     }
 
+    public static boolean validateNic(String nic) {
+        if ((nic == null || nic.trim().isEmpty())) {
+            return false;
+        }
+
+        return nic.matches("^(?:\\d{9}[vVxX]|\\d{12})$");
+    }
+
     public static boolean containsDigit(String input) {
-        return input.matches("^[0-9]+");
+        return input.matches(".*\\d.*");
     }
 }
