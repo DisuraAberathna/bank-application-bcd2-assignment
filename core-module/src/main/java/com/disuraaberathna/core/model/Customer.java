@@ -30,16 +30,18 @@ public class Customer implements Serializable {
     private String email;
     @Column(unique = true, nullable = false)
     private String contact;
-    @Column(unique = true, nullable = false)
+    @Column(unique = true)
     private String username;
-    @Column(nullable = false)
     private String password;
+    @Column(nullable = false)
+    private String nic;
     private String verificationCode;
     @Temporal(TemporalType.TIMESTAMP)
     private Date verificationExpireAt;
     @Enumerated(EnumType.STRING)
     private UserRoles role = UserRoles.CUSTOMER;
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    //    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "customer")
     private List<Account> accounts = new ArrayList<Account>();
     @Enumerated(EnumType.STRING)
     private Status status = Status.ACTIVE;
@@ -48,13 +50,12 @@ public class Customer implements Serializable {
     public Customer() {
     }
 
-    public Customer(String firstName, String lastName, String email, String contact, String username, String password) {
+    public Customer(String firstName, String lastName, String email, String contact, String nic) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.contact = contact;
-        this.username = username;
-        this.password = password;
+        this.nic = nic;
     }
 
     public Long getId() {
@@ -111,6 +112,14 @@ public class Customer implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getNic() {
+        return nic;
+    }
+
+    public void setNic(String nic) {
+        this.nic = nic;
     }
 
     public UserRoles getRole() {
