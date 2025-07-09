@@ -66,6 +66,26 @@ public class CustomerSessionBean implements CustomerService {
     }
 
     @Override
+    public Customer findCustomerByNic(String nic) {
+        try {
+            TypedQuery<Customer> query = em.createNamedQuery("Customer.findByNic", Customer.class).setParameter("nic", nic);
+            return query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    @Override
+    public Customer findCustomerByNicAndOtp(String nic, String otp) {
+        try {
+            TypedQuery<Customer> query = em.createNamedQuery("Customer.findByNicAndOtp", Customer.class).setParameter("nic", nic).setParameter("otp", otp);
+            return query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    @Override
     public void addCustomer(Customer customer) {
         em.persist(customer);
     }
@@ -77,9 +97,11 @@ public class CustomerSessionBean implements CustomerService {
     }
 
     @Override
-    public boolean verifyCustomer(Long id) {
-        Customer customer = getCustomerById(id);
+    public boolean verifyCustomer(String username, String password, String nic, String otp) {
+        Customer customer = findCustomerByNicAndOtp(nic, otp);
         if (customer != null) {
+            customer.setUsername(username);
+            customer.setPassword(password);
             customer.setVerified(true);
             customer.setVerificationCode(null);
             customer.setVerificationExpireAt(null);
