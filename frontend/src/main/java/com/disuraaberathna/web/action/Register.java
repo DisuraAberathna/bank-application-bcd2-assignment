@@ -1,12 +1,10 @@
 package com.disuraaberathna.web.action;
 
-import com.disuraaberathna.core.mail.VerificationMail;
+import com.disuraaberathna.core.exception.CommonException;
 import com.disuraaberathna.core.model.Customer;
-import com.disuraaberathna.core.provider.MailServiceProvider;
 import com.disuraaberathna.core.service.CustomerService;
 import com.disuraaberathna.core.util.Encryptor;
 import com.disuraaberathna.core.util.Validator;
-import com.disuraaberathna.core.util.VerificationCode;
 import jakarta.ejb.EJB;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -15,9 +13,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,37 +23,15 @@ public class Register extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String firstName = req.getParameter("firstName");
-        String lastName = req.getParameter("lastName");
-        String email = req.getParameter("email");
-        String mobile = req.getParameter("mobile");
+        String nic = req.getParameter("nic");
         String username = req.getParameter("username");
         String password = req.getParameter("password");
+        String otp = req.getParameter("otp");
 
         Map<String, String> errors = new HashMap<>();
 
-        if (firstName == null || firstName.trim().isEmpty()) {
-            errors.put("firstName", "Please enter your first name.");
-        }
-
-        if (firstName != null && Validator.containsDigit(firstName)) {
-            errors.put("firstName", "First Name should not contain any digits.");
-        }
-
-        if (lastName == null || lastName.trim().isEmpty()) {
-            errors.put("lastName", "Please enter your last name.");
-        }
-
-        if (lastName != null && Validator.containsDigit(lastName)) {
-            errors.put("lastName", "Last Name should not contain any digits.");
-        }
-
-        if (!Validator.validateEmail(email)) {
-            errors.put("email", "Please enter a valid email address.");
-        }
-
-        if (!Validator.validateMobile(mobile)) {
-            errors.put("mobile", "Valid 10-digit Mobile Number is required.");
+        if (!Validator.validateNic(nic)) {
+            errors.put("nic", "Please enter a valid nic number.");
         }
 
         if (username == null || username.trim().isEmpty()) {
@@ -69,16 +42,16 @@ public class Register extends HttpServlet {
             errors.put("password", "Password must be at least 8 characters long and include at least one letter and one number or special character.");
         }
 
-        if (email != null && !email.isEmpty() && customerService.getCustomerByEmail(email.trim()) != null) {
-            errors.put("email", "This email address is already taken.");
-        }
-
-        if (mobile != null && !mobile.isEmpty() && customerService.getCustomerByMobile(mobile.trim()) != null) {
-            errors.put("mobile", "This mobile number is already taken.");
+        if (otp == null || otp.trim().isEmpty()) {
+            errors.put("otp", "Please enter your OTP.");
         }
 
         if (username != null && !username.isEmpty() && customerService.getCustomerByUsername(username.trim()) != null) {
             errors.put("username", "This username is already taken.");
+        }
+
+        if (customerService.findCustomerByNicAndOtp(nic, otp) == null) {
+            errors.put("otp", "Invalid NIC Number or OTP, Please try again.");
         }
 
         if (!errors.isEmpty()) {
@@ -89,17 +62,12 @@ public class Register extends HttpServlet {
         }
 
         String hashedPassword = Encryptor.hashPassword(password.trim());
-        String verificationCode = VerificationCode.generate();
+        boolean status = customerService.verifyCustomer(username, hashedPassword, nic, otp);
 
-        VerificationMail mail = new VerificationMail(email, verificationCode);
-        MailServiceProvider.getInstance().sendMail(mail);
+        if (!status) {
+            throw new CommonException("Can not verify your registration, Please contact the bank.");
+        }
 
-        Customer customer = new Customer(firstName.trim(), lastName.trim(), email.trim(), mobile.trim(), username.trim(), hashedPassword);
-        customer.setVerificationCode(verificationCode);
-        customer.setVerificationExpireAt(Date.from(LocalDateTime.now().plusDays(1).atZone(ZoneId.systemDefault()).toInstant()));
-        customerService.addCustomer(customer);
-
-        req.setAttribute("allow-verified", true);
-        req.getRequestDispatcher("/verify-email.jsp").forward(req, resp);
+        resp.sendRedirect(req.getContextPath() + "/auth/login.jsp");
     }
 }
