@@ -42,7 +42,7 @@
                        class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"/>
             </div>
             <div class="flex flex-col gap-y-1">
-                <label for="otp" class="font-medium">Password *</label>
+                <label for="otp" class="font-medium">OTP *</label>
                 <input type="text" name="otp" id="otp" placeholder="Enter Your OTP"
                        value="${param.otp}"
                        class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"/>
