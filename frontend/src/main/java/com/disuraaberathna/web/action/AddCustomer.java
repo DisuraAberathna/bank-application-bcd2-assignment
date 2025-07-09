@@ -98,6 +98,10 @@ public class AddCustomer extends HttpServlet {
             errors.put("mobile", "This mobile number is already taken.");
         }
 
+        if (nic != null && !nic.isEmpty() && customerService.findCustomerByNic(nic.trim()) != null) {
+            errors.put("nic", "This nic number is already taken.");
+        }
+
         if (!errors.isEmpty()) {
             responseData.put("success", false);
             responseData.put("errors", errors);
