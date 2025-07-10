@@ -19,6 +19,8 @@ public interface CustomerService {
 
     Customer findCustomerByNicAndOtp(String nic, String otp);
 
+    Customer isExist(String email, String mobile, String nic);
+
     void addCustomer(Customer customer);
 
     void updateCustomer(Customer customer);
@@ -26,6 +28,4 @@ public interface CustomerService {
     void deleteCustomer(Customer customer);
 
     boolean verifyCustomer(String username, String password, String nic, String otp);
-
-    boolean isExist(String email, String mobile, String nic);
 }
