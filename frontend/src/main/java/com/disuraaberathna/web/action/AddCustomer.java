@@ -112,7 +112,7 @@ public class AddCustomer extends HttpServlet {
                 errors.put("nic", "This nic number is already taken.");
             }
 
-            if (!exists) {
+            if (customer != null && !exists) {
                 errors.put("useExists", "Please check the checkbox.");
             }
         }
