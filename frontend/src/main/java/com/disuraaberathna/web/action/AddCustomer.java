@@ -6,7 +6,7 @@ import com.disuraaberathna.core.provider.MailServiceProvider;
 import com.disuraaberathna.core.service.AccountService;
 import com.disuraaberathna.core.service.CustomerService;
 import com.disuraaberathna.core.util.Validator;
-import com.disuraaberathna.core.util.VerificationCode;
+import com.disuraaberathna.core.util.VerificationCodeGenerator;
 import com.google.gson.JsonObject;
 import jakarta.ejb.EJB;
 import jakarta.ejb.TransactionAttribute;
@@ -109,7 +109,7 @@ public class AddCustomer extends HttpServlet {
             return;
         }
 
-        String verificationCode = VerificationCode.generate();
+        String verificationCode = VerificationCodeGenerator.generate();
 
         VerificationMail mail = new VerificationMail(email, verificationCode);
         MailServiceProvider.getInstance().sendMail(mail);
