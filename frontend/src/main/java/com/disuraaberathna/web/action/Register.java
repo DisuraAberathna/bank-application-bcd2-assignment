@@ -1,7 +1,6 @@
 package com.disuraaberathna.web.action;
 
 import com.disuraaberathna.core.exception.CommonException;
-import com.disuraaberathna.core.model.Customer;
 import com.disuraaberathna.core.service.CustomerService;
 import com.disuraaberathna.core.util.Encryptor;
 import com.disuraaberathna.core.util.Validator;
