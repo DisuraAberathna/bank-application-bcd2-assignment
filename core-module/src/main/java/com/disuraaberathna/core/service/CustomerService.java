@@ -26,4 +26,6 @@ public interface CustomerService {
     void deleteCustomer(Customer customer);
 
     boolean verifyCustomer(String username, String password, String nic, String otp);
+
+    boolean isExist(String email, String mobile, String nic);
 }
