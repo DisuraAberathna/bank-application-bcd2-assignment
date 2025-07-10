@@ -23,5 +23,7 @@ public interface CustomerService {
 
     void updateCustomer(Customer customer);
 
+    void deleteCustomer(Customer customer);
+
     boolean verifyCustomer(String username, String password, String nic, String otp);
 }
