@@ -90,6 +90,10 @@
                         </select>
                     </div>
                 </div>
+                <div class="flex gap-x-2 px-3 py-1" id="useExistsView" style="display: none;">
+                    <input type="checkbox" id="useExists" name="useExists" class="rounded-lg border-2 border-gray-300 outline-none w-4 active:border-[#16A34A]" />
+                    <label for="useExists" class="font-normal cursor-pointer select-none">Use Existing Customer Account</label>
+                </div>
                 <button type="submit"
                         class="bg-[#16A34A] text-white font-medium py-1.5 w-full rounded-md hover:bg-[#28914e] cursor-pointer">
                     Create Account
@@ -196,6 +200,7 @@
             "nic": form.nic.value,
             "deposit": form.deposit.value,
             "type": form.type.value,
+            "exists":form.useExists.checked,
         };
 
         document.getElementById("messageList").innerHTML = "";
@@ -215,6 +220,9 @@
                 alert(data.message);
                 form.reset();
             } else {
+                if (data.exists){
+                    document.getElementById("useExistsView").style.display = "block";
+                }
                 const messageList = document.getElementById("messageList");
                 for (const [field, message] of Object.entries(data.errors)) {
                     const li = document.createElement("li");
