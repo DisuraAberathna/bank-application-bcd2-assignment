@@ -218,6 +218,7 @@
 
             if (data.success) {
                 document.getElementById("messageView").style.display = "none";
+                document.getElementById("useExistsView").style.display = "none";
 
                 alert(data.message);
                 form.reset();
