@@ -3,6 +3,7 @@ package com.disuraaberathna.ejb.beans;
 import com.disuraaberathna.core.model.Customer;
 import com.disuraaberathna.core.service.CustomerService;
 import com.disuraaberathna.core.util.Encryptor;
+import jakarta.annotation.security.DenyAll;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
@@ -86,14 +87,21 @@ public class CustomerSessionBean implements CustomerService {
     }
 
     @Override
+    @RolesAllowed({"USER", "ADMIN", "SUPER_ADMIN"})
     public void addCustomer(Customer customer) {
         em.persist(customer);
     }
 
     @Override
-    @RolesAllowed({"CUSTOMER", "USER", "ADMIN", "SUPER_ADMIN"})
+    @RolesAllowed({"USER", "ADMIN", "SUPER_ADMIN"})
     public void updateCustomer(Customer customer) {
         em.merge(customer);
+    }
+
+    @Override
+    @DenyAll
+    public void deleteCustomer(Customer customer) {
+        em.remove(customer);
     }
 
     @Override
