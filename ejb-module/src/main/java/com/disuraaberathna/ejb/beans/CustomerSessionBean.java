@@ -122,12 +122,12 @@ public class CustomerSessionBean implements CustomerService {
 
     @Override
     @RolesAllowed({"USER", "ADMIN", "SUPER_ADMIN"})
-    public boolean isExist(String email, String mobile, String nic) {
+    public Customer isExist(String email, String mobile, String nic) {
         try {
             TypedQuery<Customer> query = em.createNamedQuery("Customer.findExists", Customer.class).setParameter("email", email).setParameter("nic", nic).setParameter("contact", mobile);
-            return query.getSingleResult() != null;
+            return query.getSingleResult();
         } catch (NoResultException e) {
-            return false;
+            return null;
         }
     }
 }
