@@ -48,8 +48,9 @@ public class AddCustomer extends HttpServlet {
         String email = json.get("email").getAsString();
         String mobile = json.get("mobile").getAsString();
         String nic = json.get("nic").getAsString();
-        String deposit = json.get("deposit").getAsString();
+        double deposit = json.get("deposit").getAsDouble();
         String type = json.get("type").getAsString();
+        boolean exists = json.get("exists").getAsBoolean();
 
         Map<String, String> errors = new HashMap<>();
         Map<String, Object> responseData = new HashMap<>();
@@ -82,7 +83,7 @@ public class AddCustomer extends HttpServlet {
             errors.put("nic", "Please enter a valid nic number.");
         }
 
-        if (deposit == null || deposit.trim().isEmpty()) {
+        if (deposit < 0) {
             errors.put("deposit", "Please enter a valid initial deposit.");
         }
 
@@ -90,16 +91,30 @@ public class AddCustomer extends HttpServlet {
             errors.put("type", "Please select a valid account type.");
         }
 
-        if (email != null && !email.isEmpty() && customerService.getCustomerByEmail(email.trim()) != null) {
-            errors.put("email", "This email address is already taken.");
-        }
+        Customer customer = customerService.isExist(email, mobile, nic);
 
-        if (mobile != null && !mobile.isEmpty() && customerService.getCustomerByMobile(mobile.trim()) != null) {
-            errors.put("mobile", "This mobile number is already taken.");
-        }
+        if (customer != null && !exists) {
+            responseData.put("success", false);
+            responseData.put("warning", "Customer already exists.");
+            responseData.put("existsCustomer", true);
+            resp.getWriter().write(gson.toJson(responseData));
+            return;
+        } else {
+            if (customerService.getCustomerByEmail(email.trim()) != null && !exists) {
+                errors.put("email", "This email address is already taken.");
+            }
 
-        if (nic != null && !nic.isEmpty() && customerService.findCustomerByNic(nic.trim()) != null) {
-            errors.put("nic", "This nic number is already taken.");
+            if (customerService.getCustomerByMobile(mobile.trim()) != null && !exists) {
+                errors.put("mobile", "This mobile number is already taken.");
+            }
+
+            if (customerService.findCustomerByNic(nic.trim()) != null && !exists) {
+                errors.put("nic", "This nic number is already taken.");
+            }
+
+            if (!exists) {
+                errors.put("useExists", "Please check the checkbox.");
+            }
         }
 
         if (!errors.isEmpty()) {
@@ -109,20 +124,26 @@ public class AddCustomer extends HttpServlet {
             return;
         }
 
-        String verificationCode = VerificationCodeGenerator.generate();
+        if (customer == null) {
+            String verificationCode = VerificationCodeGenerator.generate();
 
-        VerificationMail mail = new VerificationMail(email, verificationCode);
-        MailServiceProvider.getInstance().sendMail(mail);
+            VerificationMail mail = new VerificationMail(email, verificationCode);
+            MailServiceProvider.getInstance().sendMail(mail);
 
-        Customer customer = new Customer(firstName.trim(), lastName.trim(), email.trim(), mobile.trim(), nic.trim());
-        customer.setVerificationCode(verificationCode);
-        customer.setVerificationExpireAt(Date.from(LocalDateTime.now().plusDays(1).atZone(ZoneId.systemDefault()).toInstant()));
-        customerService.addCustomer(customer);
+            Customer newCustomer = new Customer(firstName.trim(), lastName.trim(), email.trim(), mobile.trim(), nic.trim());
+            newCustomer.setVerificationCode(verificationCode);
+            newCustomer.setVerificationExpireAt(Date.from(LocalDateTime.now().plusDays(1).atZone(ZoneId.systemDefault()).toInstant()));
+            customerService.addCustomer(newCustomer);
+        }
 
-        accountService.addAccount(Double.parseDouble(deposit.trim()), email.trim());
+        accountService.addAccount(deposit, email.trim());
 
         responseData.put("success", true);
-        responseData.put("message", "Customer and account successfully created. Verification email sent.");
+        if (customer != null) {
+            responseData.put("message", "New Account has been added successfully.");
+        } else {
+            responseData.put("message", "Customer and account successfully created. Verification email sent.");
+        }
 
         resp.getWriter().write(gson.toJson(responseData));
     }
