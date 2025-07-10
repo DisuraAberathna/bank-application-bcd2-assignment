@@ -9,7 +9,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>Bank App | Register</title>
+    <title>National Bank | Register</title>
     <link rel="stylesheet" href="../css/main.css">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
@@ -18,7 +18,7 @@
     <form action="${pageContext.request.contextPath}/auth/register" method="post"
           class="min-w-sm lg:min-w-md bg-white drop-shadow-xl rounded-xl px-6 py-8 space-y-3">
         <div>
-            <h2 class="font-semibold text-2xl mb-1">Banking App Registration</h2>
+            <h2 class="font-semibold text-2xl mb-1">National Bank Registration</h2>
             <h6>Welcome back!</h6>
         </div>
         <div class="flex w-full items-center justify-between gap-x-3">
