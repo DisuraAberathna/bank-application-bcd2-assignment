@@ -4,6 +4,7 @@ import com.disuraaberathna.core.model.Account;
 import com.disuraaberathna.core.model.Customer;
 import com.disuraaberathna.core.service.AccountService;
 import com.disuraaberathna.core.service.CustomerService;
+import com.disuraaberathna.core.util.AccountNumberGenerator;
 import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
@@ -21,7 +22,7 @@ public class AccountSessionBean implements AccountService {
 
     @Override
     public void addAccount(Double deposit, String email) {
-        String accountNumber = UUID.randomUUID().toString();
+        String accountNumber = AccountNumberGenerator.generate();
 
         Customer customer = customerService.getCustomerByEmail(email);
         Account account = new Account(customer, deposit, accountNumber);
