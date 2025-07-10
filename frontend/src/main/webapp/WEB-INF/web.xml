@@ -6,15 +6,6 @@
 
     <security-constraint>
         <web-resource-collection>
-            <web-resource-name>Admin Area</web-resource-name>
-            <url-pattern>/admin/*</url-pattern>
-        </web-resource-collection>
-        <auth-constraint>
-            <role-name>ADMIN</role-name>
-        </auth-constraint>
-    </security-constraint>
-    <security-constraint>
-        <web-resource-collection>
             <web-resource-name>Employee Area</web-resource-name>
             <url-pattern>/employee/*</url-pattern>
         </web-resource-collection>
