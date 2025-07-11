@@ -3,7 +3,6 @@ package com.disuraaberathna.web.action;
 import com.disuraaberathna.core.dto.AccountDTO;
 import com.disuraaberathna.core.model.Account;
 import com.disuraaberathna.core.model.Customer;
-import com.disuraaberathna.core.service.AccountService;
 import com.disuraaberathna.core.service.CustomerService;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -31,9 +30,6 @@ public class LoadCustomerAccounts extends HttpServlet {
     @EJB
     private CustomerService customerService;
 
-    @EJB
-    private AccountService accountService;
-
     @Inject
     private SecurityContext securityContext;
 
@@ -44,7 +40,7 @@ public class LoadCustomerAccounts extends HttpServlet {
         if (userPrincipal != null) {
             Customer customer = customerService.getCustomerByUsername(userPrincipal.getName());
 
-            List<Account> accounts = accountService.getCustomerAccounts(customer);
+            List<Account> accounts = customer.getAccounts();
             JsonArray jsonArray = new JsonArray();
             Gson gson = new Gson();
             JsonObject respObj = new JsonObject();
