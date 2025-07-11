@@ -8,10 +8,7 @@ import com.disuraaberathna.core.service.CustomerService;
 import com.disuraaberathna.core.util.AccountNumberGenerator;
 import jakarta.annotation.security.DenyAll;
 import jakarta.annotation.security.RolesAllowed;
-import jakarta.ejb.EJB;
-import jakarta.ejb.Stateless;
-import jakarta.ejb.TransactionManagement;
-import jakarta.ejb.TransactionManagementType;
+import jakarta.ejb.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
@@ -30,6 +27,17 @@ public class AccountSessionBean implements AccountService {
     @Override
     public List<Account> getCustomerAccounts(Customer customer) {
         return em.createNamedQuery("Account.findCustomerAccounts", Account.class).setParameter("customer", customer).getResultList();
+    }
+
+    @Override
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
+    public Account getAccountByNo(String accountNo) {
+        try {
+            TypedQuery<Account> query = em.createNamedQuery("Account.findByAccountNo", Account.class).setParameter("accountNo", accountNo);
+            return query.getSingleResult();
+        } catch (NullPointerException e) {
+            return null;
+        }
     }
 
     @Override
