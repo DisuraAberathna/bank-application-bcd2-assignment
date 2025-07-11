@@ -22,12 +22,12 @@
         }
     </script>
 </head>
-<body class="bg-gray-100 text-gray-900">
+<body class="bg-gray-100 text-gray-900" onload="loadAccounts()">
 <div class="min-h-screen flex flex-col">
     <!-- Navbar -->
     <header class="bg-blue-600 text-white p-4 shadow-md flex justify-between items-center">
         <div class="flex-2">
-            <h1 class="text-2xl font-bold">Customer Dashboard</h1>
+            <h1 class="text-2xl font-bold">Account Dashboard</h1>
         </div>
         <div class="flex items-center justify-between gap-x-8">
             <a href="${pageContext.request.contextPath}/auth/logout"
@@ -152,23 +152,15 @@
             </form>
         </div>
 
-        <!-- View Available Accounts -->
         <div class="bg-white p-5 rounded-xl shadow-md md:col-span-2">
             <h2 class="text-xl font-semibold mb-3">Your Accounts</h2>
-            <ul class="space-y-2">
-                <li class="p-3 border rounded flex justify-between">
+            <ul class="space-y-2" id="accounts">
+                <li class="p-3 border rounded-lg flex justify-between" id="account">
                     <div>
-                        <p class="font-semibold">Savings Account</p>
-                        <p class="text-sm text-gray-600">Account No: ACC1001</p>
+                        <p class="font-semibold capitalize" id="account-type">Savings Account</p>
+                        <p class="text-sm text-gray-600" id="account-no">Account No: ACC1001</p>
                     </div>
-                    <p class="font-semibold text-green-600">LKR 100,000.00</p>
-                </li>
-                <li class="p-3 border rounded flex justify-between">
-                    <div>
-                        <p class="font-semibold">Current Account</p>
-                        <p class="text-sm text-gray-600">Account No: ACC1002</p>
-                    </div>
-                    <p class="font-semibold text-green-600">LKR 52,000.00</p>
+                    <p class="font-semibold text-green-600" id="account-balance">LKR 100,000.00</p>
                 </li>
             </ul>
         </div>
@@ -192,5 +184,41 @@
         </div>
     </div>
 </div>
+<script>
+    const loadAccounts = async () => {
+        try {
+            const response = await fetch("${pageContext.request.contextPath}/load-my-accounts", {
+                method: "POST",
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+
+                const accountView = document.getElementById("accounts");
+                const accountItem = document.getElementById("account");
+
+                console.log(data)
+                if (data.success) {
+                    accountView.innerHTML = "";
+
+                    data.accounts.forEach((account) => {
+                        let clone = accountItem.cloneNode(true);
+                        clone.querySelector("#account-type").innerHTML = account.accountType + " Account";
+                        clone.querySelector("#account-no").innerHTML = "Account No: " + account.accountNumber;
+                        clone.querySelector("#account-balance").innerHTML = "LKR " + new Intl.NumberFormat("en-US", {
+                            minimumFractionDigits: 2,
+                        }).format(account.balance);
+
+                        accountView.appendChild(clone);
+                    });
+                } else {
+                    accountView.innerHTML = '<p class="font-semibold capitalize text-gray-500 py-5 text-center">No Accounts Found</p>';
+                }
+            }
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    };
+</script>
 </body>
 </html>
