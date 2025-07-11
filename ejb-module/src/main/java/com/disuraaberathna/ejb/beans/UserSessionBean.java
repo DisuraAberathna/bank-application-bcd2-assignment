@@ -5,12 +5,15 @@ import com.disuraaberathna.core.service.UserService;
 import com.disuraaberathna.core.util.Encryptor;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.Stateless;
+import jakarta.ejb.TransactionManagement;
+import jakarta.ejb.TransactionManagementType;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 
 @Stateless
+@TransactionManagement(TransactionManagementType.CONTAINER)
 public class UserSessionBean implements UserService {
     @PersistenceContext
     private EntityManager em;
