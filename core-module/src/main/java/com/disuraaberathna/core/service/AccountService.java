@@ -11,6 +11,8 @@ import java.util.List;
 public interface AccountService {
     List<Account> getCustomerAccounts(Customer customer);
 
+    Account getAccountByNo(String accountNo);
+
     void addAccount(Double deposit, String email, AccountType type);
 
     void updateAccount(Account account);
