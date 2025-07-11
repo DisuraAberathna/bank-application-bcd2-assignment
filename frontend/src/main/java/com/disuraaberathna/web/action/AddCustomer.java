@@ -1,5 +1,6 @@
 package com.disuraaberathna.web.action;
 
+import com.disuraaberathna.core.enums.AccountType;
 import com.disuraaberathna.core.mail.VerificationMail;
 import com.disuraaberathna.core.model.Customer;
 import com.disuraaberathna.core.provider.MailServiceProvider;
@@ -8,10 +9,13 @@ import com.disuraaberathna.core.service.CustomerService;
 import com.disuraaberathna.core.util.Validator;
 import com.disuraaberathna.core.util.VerificationCodeGenerator;
 import com.google.gson.JsonObject;
+import jakarta.annotation.security.DeclareRoles;
 import jakarta.ejb.EJB;
 import jakarta.ejb.TransactionAttribute;
 import jakarta.ejb.TransactionAttributeType;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.HttpConstraint;
+import jakarta.servlet.annotation.ServletSecurity;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,6 +30,8 @@ import java.util.Map;
 
 import com.google.gson.Gson;
 
+@DeclareRoles({"USER", "ADMIN"})
+@ServletSecurity(@HttpConstraint(rolesAllowed = {"USER", "ADMIN"}))
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 @WebServlet("/add-customer")
 public class AddCustomer extends HttpServlet {
@@ -136,7 +142,21 @@ public class AddCustomer extends HttpServlet {
             customerService.addCustomer(newCustomer);
         }
 
-        accountService.addAccount(deposit, email.trim());
+        AccountType accountType = null;
+
+        switch (type) {
+            case "savings":
+                accountType = AccountType.SAVINGS;
+                break;
+            case "current":
+                accountType = AccountType.CURRENT;
+                break;
+            case "deposit":
+                accountType = AccountType.DEPOSIT;
+                break;
+        }
+
+        accountService.addAccount(deposit, email.trim(), accountType);
 
         responseData.put("success", true);
         if (customer != null) {
