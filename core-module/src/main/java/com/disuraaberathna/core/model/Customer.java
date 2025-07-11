@@ -43,8 +43,7 @@ public class Customer implements Serializable {
     private Date verificationExpireAt;
     @Enumerated(EnumType.STRING)
     private UserRoles role = UserRoles.CUSTOMER;
-    //    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @OneToMany(mappedBy = "customer")
+    @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
     private List<Account> accounts = new ArrayList<Account>();
     @Enumerated(EnumType.STRING)
     private Status status = Status.ACTIVE;
