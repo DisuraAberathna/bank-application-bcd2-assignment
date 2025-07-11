@@ -4,5 +4,7 @@ import jakarta.ejb.Remote;
 
 @Remote
 public interface TransferService {
-    void transfer(String fromAccount, String toAccount, double amount);
+    void transfer(String fromAccountNo, String toAccountNo, double amount, String otp);
+
+    void transferConfirm(String fromAccountNo, String toAccountNo, double amount, String otp);
 }
