@@ -21,10 +21,10 @@ import java.util.Map;
 @WebServlet("/auth/login")
 public class Login extends HttpServlet {
     @EJB
-    CustomerService customerService;
+    private   CustomerService customerService;
 
     @EJB
-    UserService userService;
+    private UserService userService;
 
     @Inject
     private SecurityContext securityContext;
