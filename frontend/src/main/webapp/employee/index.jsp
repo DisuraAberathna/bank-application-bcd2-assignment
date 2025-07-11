@@ -87,6 +87,7 @@
                             <option value="">Select Account Type</option>
                             <option value="savings">Savings</option>
                             <option value="current">Current</option>
+                            <option value="deposit">Deposit</option>
                         </select>
                     </div>
                 </div>
@@ -189,7 +190,7 @@
     </main>
 </div>
 <script>
-    document.getElementById("addCustomerForm").addEventListener("submit", async function (e) {
+    document.getElementById("addCustomerForm").addEventListener("submit", async (e) => {
         e.preventDefault();
 
         const form = e.target;
