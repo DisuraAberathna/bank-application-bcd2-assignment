@@ -6,12 +6,15 @@ import com.disuraaberathna.core.util.Encryptor;
 import jakarta.annotation.security.DenyAll;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.Stateless;
+import jakarta.ejb.TransactionManagement;
+import jakarta.ejb.TransactionManagementType;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 
 @Stateless
+@TransactionManagement(TransactionManagementType.CONTAINER)
 public class CustomerSessionBean implements CustomerService {
     @PersistenceContext
     private EntityManager em;
