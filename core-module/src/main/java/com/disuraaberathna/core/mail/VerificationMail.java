@@ -18,7 +18,7 @@ public class VerificationMail extends Mailable {
     @Override
     public void build(Message message) throws Exception {
         message.setRecipient(Message.RecipientType.TO, new InternetAddress(TO));
-        message.setSubject("Verify Your Email Address - Bank App");
+        message.setSubject("Verify Your Email Address - National Bank");
 
         String link = Env.get("app.path") + "/auth/register.jsp";
 
