@@ -85,7 +85,7 @@ public class AddCustomer extends HttpServlet {
             errors.put("mobile", "Valid 10-digit Mobile Number is required.");
         }
 
-        if (!Validator.validateNic(nic)) {
+        if (Validator.validateNic(nic)) {
             errors.put("nic", "Please enter a valid nic number.");
         }
 
@@ -116,10 +116,6 @@ public class AddCustomer extends HttpServlet {
 
             if (customerService.findCustomerByNic(nic.trim()) != null && !exists) {
                 errors.put("nic", "This nic number is already taken.");
-            }
-
-            if (customer != null && !exists) {
-                errors.put("useExists", "Please check the checkbox.");
             }
         }
 
