@@ -27,10 +27,10 @@ public class Validator {
 
     public static boolean validateNic(String nic) {
         if ((nic == null || nic.trim().isEmpty())) {
-            return false;
+            return true;
         }
 
-        return nic.matches("^(?:\\d{9}[vVxX]|\\d{12})$");
+        return !nic.matches("^(?:\\d{9}[vVxX]|\\d{12})$");
     }
 
     public static boolean containsDigit(String input) {
