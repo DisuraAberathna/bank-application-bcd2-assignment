@@ -53,18 +53,18 @@
         <div class="bg-white p-5 rounded-xl shadow-md">
             <h2 class="text-xl font-semibold mb-3">Fund Transfer</h2>
             <form class="space-y-3 flex flex-col" onsubmit="event.preventDefault(); openOtpModal();">
-                <select class="rounded-md px-3 py-2 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"
+                <select class="rounded-md px-3 py-2 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none capitalize"
                         required id="transfer-account-select">
                     <option value="">Select Source Account</option>
                 </select>
                 <input type="text" placeholder="Recipient Account Number"
                        class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"
-                       required/>
+                       required maxlength="13"/>
                 <input type="number" placeholder="Amount (LKR)"
                        class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"
-                       required/>
+                       required min="100"/>
                 <button type="submit"
-                        class="bg-blue-500 text-white font-medium py-1.5 w-full rounded-md hover:bg-blue-600 cursor-pointer">
+                        class="bg-[#16A34A] text-white font-medium py-1.5 w-full rounded-md hover:bg-[#28914e] cursor-pointer">
                     Transfer
                 </button>
             </form>
@@ -74,7 +74,7 @@
         <div class="bg-white p-5 rounded-xl shadow-md">
             <h2 class="text-xl font-semibold mb-3">Schedule Fund Transfer</h2>
             <form class="space-y-3 flex flex-col">
-                <select class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"
+                <select class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none capitalize"
                         required id="scheduled-transfer-account-select">
                     <option value="">Select Source Account</option>
                 </select>
@@ -93,6 +93,19 @@
                     Schedule
                 </button>
             </form>
+        </div>
+
+        <div class="bg-white p-5 rounded-xl shadow-md md:col-span-2">
+            <h2 class="text-xl font-semibold mb-3">Your Accounts</h2>
+            <ul class="space-y-2" id="accounts">
+                <li class="p-3 border rounded-lg flex justify-between" id="account">
+                    <div>
+                        <p class="font-semibold capitalize" id="account-type">Savings Account</p>
+                        <p class="text-sm text-gray-600" id="account-no">Account No: ACC1001</p>
+                    </div>
+                    <p class="font-semibold text-green-600" id="account-balance">LKR 100,000.00</p>
+                </li>
+            </ul>
         </div>
 
         <!-- Balance History -->
@@ -129,19 +142,6 @@
                 </table>
             </div>
         </div>
-
-        <div class="bg-white p-5 rounded-xl shadow-md md:col-span-2">
-            <h2 class="text-xl font-semibold mb-3">Your Accounts</h2>
-            <ul class="space-y-2" id="accounts">
-                <li class="p-3 border rounded-lg flex justify-between" id="account">
-                    <div>
-                        <p class="font-semibold capitalize" id="account-type">Savings Account</p>
-                        <p class="text-sm text-gray-600" id="account-no">Account No: ACC1001</p>
-                    </div>
-                    <p class="font-semibold text-green-600" id="account-balance">LKR 100,000.00</p>
-                </li>
-            </ul>
-        </div>
     </main>
 </div>
 
@@ -177,7 +177,7 @@
                 const accountView = document.getElementById("accounts");
                 const accountItem = document.getElementById("account");
 
-                const option='<option value="">Select Source Account</option>';
+                const option = '<option value="">Select Source Account</option>';
 
                 if (data.success && data.accounts.length > 0) {
                     accountView.innerHTML = "";
