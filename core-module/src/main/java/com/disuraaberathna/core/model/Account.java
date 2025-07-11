@@ -13,6 +13,7 @@ import java.util.Date;
 @Cacheable(false)
 @NamedQueries({
         @NamedQuery(name = "Account.findCustomerAccounts", query = "select a from Account a where a.customer = :customer"),
+        @NamedQuery(name = "Account.findByAccountNo", query = "select a from Account a where a.accountNumber = :accountNo"),
 })
 public class Account implements Serializable {
     @Id
