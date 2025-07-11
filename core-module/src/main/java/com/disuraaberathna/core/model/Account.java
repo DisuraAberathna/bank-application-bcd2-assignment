@@ -1,14 +1,19 @@
 package com.disuraaberathna.core.model;
 
+import com.disuraaberathna.core.enums.AccountType;
 import com.disuraaberathna.core.enums.Status;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Table(name = "accounts")
 @Cacheable(false)
+@NamedQueries({
+        @NamedQuery(name = "Account.findCustomerAccounts", query = "select a from Account a where a.customer = :customer"),
+})
 public class Account implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,20 +22,23 @@ public class Account implements Serializable {
     private String accountNumber;
     private Double balance;
     @Enumerated(EnumType.STRING)
+    private AccountType accountType;
+    @Enumerated(EnumType.STRING)
     private Status status = Status.ACTIVE;
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
     @Column(updatable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private Date createdAt = new Date();
 
     public Account() {
     }
 
-    public Account(Customer customer, Double balance, String accountNumber) {
+    public Account(Customer customer, Double balance, String accountNumber, AccountType accountType) {
         this.customer = customer;
         this.balance = balance;
         this.accountNumber = accountNumber;
+        this.accountType = accountType;
     }
 
     public Long getId() {
@@ -57,6 +65,14 @@ public class Account implements Serializable {
         this.balance = balance;
     }
 
+    public AccountType getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(AccountType accountType) {
+        this.accountType = accountType;
+    }
+
     public Status getStatus() {
         return status;
     }
@@ -73,11 +89,11 @@ public class Account implements Serializable {
         this.customer = customer;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 }
