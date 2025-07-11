@@ -62,13 +62,13 @@
                 <div class="flex w-full items-center justify-between gap-x-3">
                     <div class="flex flex-1 flex-col gap-y-1">
                         <label for="mobile" class="font-medium">Mobile Number *</label>
-                        <input type="tel" name="mobile" id="mobile" placeholder="Enter Mobile Number"
+                        <input type="tel" name="mobile" id="mobile" placeholder="Enter Mobile Number" maxlength="10"
                                class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"
                                required/>
                     </div>
                     <div class="flex flex-1 flex-col gap-y-1">
                         <label for="nic" class="font-medium">NIC Number *</label>
-                        <input type="text" name="nic" id="nic" placeholder="Enter NIC Number"
+                        <input type="text" name="nic" id="nic" placeholder="Enter NIC Number" maxlength="10"
                                class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"
                                required/>
                     </div>
