@@ -25,7 +25,7 @@
     </div>
 </header>
 
-<section class="text-center bg-gradient-to-br from-green-100 to-white h-[92dvh] place-content-center">
+<section class="text-center bg-gradient-to-br from-green-100 to-white h-screen place-content-center">
     <div class="max-w-3xl mx-auto px-6">
         <h2 class="text-4xl font-extrabold text-[#16A34A] mb-4">Welcome to National Bank</h2>
         <p class="text-lg text-gray-600 mb-6">Secure, Reliable, and Fast Banking Experience.</p>
@@ -37,9 +37,5 @@
         </div>
     </div>
 </section>
-
-<footer class="text-center py-6 bg-white">
-    <p class="text-sm text-gray-500">&copy; 2025 National Bank. All rights reserved.</p>
-</footer>
 </body>
 </html>
