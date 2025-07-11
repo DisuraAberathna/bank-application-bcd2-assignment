@@ -54,10 +54,8 @@
             <h2 class="text-xl font-semibold mb-3">Fund Transfer</h2>
             <form class="space-y-3 flex flex-col" onsubmit="event.preventDefault(); openOtpModal();">
                 <select class="rounded-md px-3 py-2 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"
-                        required>
+                        required id="transfer-account-select">
                     <option value="">Select Source Account</option>
-                    <option value="acc1001">Savings - ACC1001</option>
-                    <option value="acc1002">Current - ACC1002</option>
                 </select>
                 <input type="text" placeholder="Recipient Account Number"
                        class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"
@@ -77,10 +75,8 @@
             <h2 class="text-xl font-semibold mb-3">Schedule Fund Transfer</h2>
             <form class="space-y-3 flex flex-col">
                 <select class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"
-                        required>
+                        required id="scheduled-transfer-account-select">
                     <option value="">Select Source Account</option>
-                    <option value="acc1001">Savings - ACC1001</option>
-                    <option value="acc1002">Current - ACC1002</option>
                 </select>
                 <input type="text" placeholder="Recipient Account Number"
                        class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"
@@ -134,24 +130,6 @@
             </div>
         </div>
 
-        <!-- Add New Account -->
-        <div class="bg-white p-5 rounded-xl shadow-md">
-            <h2 class="text-xl font-semibold mb-3">Add New Account</h2>
-            <form class="space-y-3 flex flex-col">
-                <input type="text" placeholder="Full Name"
-                       class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"/>
-                <input type="email" placeholder="Email Address"
-                       class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"/>
-                <input type="text" placeholder="Initial Deposit (LKR)"
-                       class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"/>
-                <button type="submit"
-                        class="bg-[#16A34A] text-white font-medium py-1.5 w-full rounded-md hover:bg-[#28914e] cursor-pointer">
-                    Create
-                    Account
-                </button>
-            </form>
-        </div>
-
         <div class="bg-white p-5 rounded-xl shadow-md md:col-span-2">
             <h2 class="text-xl font-semibold mb-3">Your Accounts</h2>
             <ul class="space-y-2" id="accounts">
@@ -194,12 +172,20 @@
             if (response.ok) {
                 const data = await response.json();
 
+                const transferSelect = document.getElementById("transfer-account-select");
+                const scheduledTransferSelect = document.getElementById("scheduled-transfer-account-select");
                 const accountView = document.getElementById("accounts");
                 const accountItem = document.getElementById("account");
 
-                console.log(data)
-                if (data.success) {
+                const option='<option value="">Select Source Account</option>';
+
+                if (data.success && data.accounts.length > 0) {
                     accountView.innerHTML = "";
+                    transferSelect.innerHTML = "";
+                    scheduledTransferSelect.innerHTML = "";
+
+                    transferSelect.innerHTML = option;
+                    scheduledTransferSelect.innerHTML = option;
 
                     data.accounts.forEach((account) => {
                         let clone = accountItem.cloneNode(true);
@@ -209,6 +195,15 @@
                             minimumFractionDigits: 2,
                         }).format(account.balance);
 
+                        let accountOption1 = document.createElement("option");
+                        accountOption1.classList.add("capitalize");
+                        accountOption1.value = account.accountNumber;
+                        accountOption1.innerHTML = account.accountType + " Account : " + account.accountNumber;
+
+                        let accountOption2 = accountOption1.cloneNode(true);
+
+                        transferSelect.appendChild(accountOption1);
+                        scheduledTransferSelect.appendChild(accountOption2);
                         accountView.appendChild(clone);
                     });
                 } else {
