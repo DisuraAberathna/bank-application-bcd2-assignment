@@ -1,0 +1,89 @@
+package com.disuraaberathna.web.action;
+
+import com.disuraaberathna.core.model.Account;
+import com.disuraaberathna.core.service.AccountService;
+import com.disuraaberathna.core.util.Validator;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import jakarta.annotation.security.DeclareRoles;
+import jakarta.ejb.EJB;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.HttpConstraint;
+import jakarta.servlet.annotation.ServletSecurity;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+@DeclareRoles({"CUSTOMER"})
+@ServletSecurity(@HttpConstraint(rolesAllowed = "CUSTOMER"))
+@WebServlet("/validate-transfer")
+public class ValidateTransfer extends HttpServlet {
+    @EJB
+    private AccountService accountService;
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
+
+        Gson gson = new Gson();
+        JsonObject json = gson.fromJson(req.getReader(), JsonObject.class);
+
+        String fromAccountNo = json.get("fromAccount").getAsString();
+        String toAccountNo = json.get("toAccount").getAsString();
+        double amount = json.get("amount").getAsDouble();
+
+        Map<String, String> errors = new HashMap<>();
+        Map<String, Object> responseData = new HashMap<>();
+
+        if (fromAccountNo == null || fromAccountNo.trim().isEmpty()) {
+            errors.put("fromAccountNo", "Please select your account.");
+        }
+
+        if (toAccountNo == null || toAccountNo.trim().isEmpty()) {
+            errors.put("toAccountNo", "Please enter recipient account number.");
+        }
+
+        if (toAccountNo != null && toAccountNo.length() < 13 && !Validator.containsDigit(toAccountNo)) {
+            errors.put("toAccountNo", "Please enter a valid account number.");
+        }
+
+        if (amount < 100) {
+            errors.put("amount", "Amount must be greater than LKR 100.00");
+        }
+
+        Account toAccount = null;
+
+        if (toAccountNo != null) {
+            toAccount = accountService.getAccountByNo(toAccountNo);
+        }
+
+        if (fromAccountNo != null) {
+            Account fromAccount = accountService.getAccountByNo(fromAccountNo);
+            if (fromAccount.getBalance() - amount < 1000) {
+                errors.put("amount", "Can not continue with your selected account balance");
+            }
+        }
+
+        if (toAccount == null) {
+            errors.put("toAccountNo", "Please enter a valid account number.");
+        }
+
+        if (!errors.isEmpty()) {
+            responseData.put("success", false);
+            responseData.put("errors", errors);
+            resp.getWriter().write(gson.toJson(responseData));
+            return;
+        }
+
+
+        String toName = toAccount.getCustomer().getFirstName() + " " + toAccount.getCustomer().getLastName();
+        responseData.put("success", true);
+        resp.getWriter().write(gson.toJson(responseData));
+    }
+}
