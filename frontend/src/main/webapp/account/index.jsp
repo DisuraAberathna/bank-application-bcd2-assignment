@@ -44,17 +44,27 @@
         <!-- Fund Transfer with Account Selection -->
         <div class="bg-white p-5 rounded-xl shadow-md">
             <h2 class="text-xl font-semibold mb-3">Fund Transfer</h2>
-            <form class="space-y-3 flex flex-col" onsubmit="event.preventDefault(); openOtpModal();">
-                <select class="rounded-md px-3 py-2 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none capitalize"
-                        required id="transfer-account-select">
-                    <option value="">Select Source Account</option>
-                </select>
-                <input type="text" placeholder="Recipient Account Number"
-                       class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"
-                       required maxlength="13"/>
-                <input type="number" placeholder="Amount (LKR)"
-                       class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"
-                       required min="100"/>
+            <form class="space-y-3 flex flex-col" id="fundTransferForm">
+                <div class="flex flex-col gap-y-1">
+                    <label for="transfer-account-select" class="font-medium">Select your account *</label>
+                    <select class="rounded-md px-3 py-2 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none capitalize"
+                            required id="transfer-account-select" name="transferAccountSelect">
+                        <option value="">Select Source Account</option>
+                    </select>
+                </div>
+                <div class="flex flex-col gap-y-1">
+                    <label for="transfer-to-account-no" class="font-medium">Recipient Account Number *</label>
+                    <input type="text" placeholder="Add Recipient Account Number" id="transfer-to-account-no"
+                           name="transferToAccountNo"
+                           class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"
+                           required maxlength="13"/>
+                </div>
+                <div class="flex flex-col gap-y-1">
+                    <label for="transfer-amount" class="font-medium">Transfer Amount *</label>
+                    <input type="number" placeholder="Amount (LKR)" id="transfer-amount" name="transferAmount"
+                           class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"
+                           required min="100"/>
+                </div>
                 <button type="submit"
                         class="bg-[#16A34A] text-white font-medium py-1.5 w-full rounded-md hover:bg-[#28914e] cursor-pointer">
                     Transfer
@@ -155,36 +165,29 @@
     </div>
 </div>
 
-<!-- Modal background overlay -->
 <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden" id="confirmModal">
-    <!-- Modal container -->
     <div class="bg-white rounded-xl w-full max-w-md shadow-lg">
-        <!-- Modal Header -->
         <div class="bg-blue-700 text-white text-lg font-semibold px-6 py-4 rounded-t-xl">
             Confirm Transaction
         </div>
-
-        <!-- Modal Body -->
         <div class="px-6 py-4 space-y-2 text-gray-800">
             <div class="flex justify-between">
                 <span class="font-medium">Transfer Amount:</span>
-                <span>LKR 1000</span>
+                <span id="transfer-modal-amount">LKR 1000</span>
             </div>
             <div class="flex justify-between">
                 <span class="font-medium">From Account:</span>
-                <span>397521358</span>
+                <span id="transfer-modal-from-account-no">397521358</span>
             </div>
             <div class="flex justify-between">
                 <span class="font-medium">To Account:</span>
-                <span>983542818</span>
+                <span id="transfer-modal-to-account-no">983542818</span>
             </div>
             <div class="flex justify-between">
                 <span class="font-medium">Recipient Name:</span>
-                <span>Heshan Bandar</span>
+                <span id="transfer-modal-to-name">Heshan Bandar</span>
             </div>
         </div>
-
-        <!-- Modal Footer -->
         <div class="px-6 py-4 bg-gray-100 rounded-b-xl flex justify-center space-x-4">
             <button class="bg-teal-500 hover:bg-teal-600 text-white px-6 py-2 rounded-md">
                 Cancel
