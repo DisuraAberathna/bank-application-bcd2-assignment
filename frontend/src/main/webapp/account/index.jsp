@@ -12,7 +12,6 @@
     <link rel="stylesheet" href="../public/css/main.css">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <script src="../public/js/account-dashboard.js"></script>
 </head>
 <body class="bg-gray-100 text-gray-900" onload="loadAccounts()">
 <div class="min-h-screen flex flex-col">
@@ -165,31 +164,32 @@
     </div>
 </div>
 
-<div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden" id="confirmModal">
+<div class="fixed inset-0 bg-black bg-opacity-20 flex items-center justify-center z-50 hidden" id="confirmModal">
     <div class="bg-white rounded-xl w-full max-w-md shadow-lg">
         <div class="bg-blue-700 text-white text-lg font-semibold px-6 py-4 rounded-t-xl">
             Confirm Transaction
         </div>
         <div class="px-6 py-4 space-y-2 text-gray-800">
             <div class="flex justify-between">
-                <span class="font-medium">Transfer Amount:</span>
-                <span id="transfer-modal-amount">LKR 1000</span>
+                <span class="font-semibold">Transfer Amount: </span>
+                <span id="transfer-modal-amount" class="font-medium"></span>
             </div>
             <div class="flex justify-between">
-                <span class="font-medium">From Account:</span>
-                <span id="transfer-modal-from-account-no">397521358</span>
+                <span class="font-semibold">From Account: </span>
+                <span id="transfer-modal-from-account-no" class="font-medium"></span>
             </div>
             <div class="flex justify-between">
-                <span class="font-medium">To Account:</span>
-                <span id="transfer-modal-to-account-no">983542818</span>
+                <span class="font-semibold">To Account: </span>
+                <span id="transfer-modal-to-account-no" class="font-medium"></span>
             </div>
             <div class="flex justify-between">
-                <span class="font-medium">Recipient Name:</span>
-                <span id="transfer-modal-to-name">Heshan Bandar</span>
+                <span class="font-semibold">Recipient Name: </span>
+                <span id="transfer-modal-to-name" class="font-medium capitalize"></span>
             </div>
         </div>
         <div class="px-6 py-4 bg-gray-100 rounded-b-xl flex justify-center space-x-4">
-            <button class="bg-teal-500 hover:bg-teal-600 text-white px-6 py-2 rounded-md">
+            <button class="bg-teal-500 hover:bg-teal-600 text-white px-6 py-2 rounded-md"
+                    onclick="closeModal('confirmModal')">
                 Cancel
             </button>
             <button class="bg-teal-500 hover:bg-teal-600 text-white px-6 py-2 rounded-md">
@@ -198,5 +198,102 @@
         </div>
     </div>
 </div>
+<script>
+    const loadAccounts = async () => {
+        try {
+            const response = await fetch("${pageContext.request.contextPath}/load-my-accounts", {
+                method: "POST",
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+
+                const transferSelect = document.getElementById("transfer-account-select");
+                const scheduledTransferSelect = document.getElementById("scheduled-transfer-account-select");
+                const accountView = document.getElementById("accounts");
+                const accountItem = document.getElementById("account");
+
+                const option = '<option value="">Select Source Account</option>';
+
+                if (data.success && data.accounts.length > 0) {
+                    accountView.innerHTML = "";
+                    transferSelect.innerHTML = "";
+                    scheduledTransferSelect.innerHTML = "";
+
+                    transferSelect.innerHTML = option;
+                    scheduledTransferSelect.innerHTML = option;
+
+                    data.accounts.forEach((account) => {
+                        let clone = accountItem.cloneNode(true);
+                        clone.querySelector("#account-type").innerHTML = account.accountType + " Account";
+                        clone.querySelector("#account-no").innerHTML = "Account No: " + account.accountNumber;
+                        clone.querySelector("#account-balance").innerHTML = "LKR " + new Intl.NumberFormat("en-US", {
+                            minimumFractionDigits: 2,
+                        }).format(account.balance);
+
+                        let accountOption1 = document.createElement("option");
+                        accountOption1.classList.add("capitalize");
+                        accountOption1.value = account.accountNumber;
+                        accountOption1.innerHTML = account.accountType + " Account : " + account.accountNumber;
+
+                        let accountOption2 = accountOption1.cloneNode(true);
+
+                        transferSelect.appendChild(accountOption1);
+                        scheduledTransferSelect.appendChild(accountOption2);
+                        accountView.appendChild(clone);
+                    });
+                } else {
+                    accountView.innerHTML = '<p class="font-semibold capitalize text-gray-500 py-5 text-center">No Accounts Found</p>';
+                }
+            }
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    };
+
+    const openModal = (id) => {
+        document.getElementById(id).classList.remove('hidden');
+    }
+
+    const closeModal = (id) => {
+        document.getElementById(id).classList.add('hidden');
+    }
+
+    document.getElementById("fundTransferForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const form = e.target;
+        const formData = {
+            fromAccount: form.transferAccountSelect.value,
+            toAccount: form.transferToAccountNo.value,
+            amount: form.transferAmount.value,
+        };
+
+        try {
+            const response = await fetch("${pageContext.request.contextPath}/validate-transfer", {
+                method: "POST",
+                body: JSON.stringify(formData),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+
+                if (data.success) {
+                    document.getElementById("transfer-modal-amount").innerHTML = "LKR " + new Intl.NumberFormat("en-US", {
+                        minimumFractionDigits: 2,
+                    }).format(data.transferData.amount);
+                    document.getElementById("transfer-modal-from-account-no").innerHTML = data.transferData.fromAccountNo;
+                    document.getElementById("transfer-modal-to-account-no").innerHTML = data.transferData.toAccountNo;
+                    document.getElementById("transfer-modal-to-name").innerHTML = data.transferData.toName;
+                    openModal("confirmModal");
+                } else {
+
+                }
+            }
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    });
+</script>
 </body>
 </html>
