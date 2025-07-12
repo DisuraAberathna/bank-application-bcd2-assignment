@@ -86,9 +86,10 @@ public class FundTransfer extends HttpServlet {
             MailServiceProvider.getInstance().sendMail(mail);
         }
 
-        transferService.transfer(fromAccountNo, toAccountNo, amount, otp);
+        Long transferId = transferService.transfer(fromAccountNo, toAccountNo, amount, otp);
 
         responseData.put("success", true);
+        responseData.put("transferId", transferId);
         resp.getWriter().write(gson.toJson(responseData));
     }
 }
