@@ -1,12 +1,15 @@
 package com.disuraaberathna.ejb.beans;
 
+import com.disuraaberathna.core.enums.TransferStatus;
 import com.disuraaberathna.core.model.Account;
 import com.disuraaberathna.core.model.TransferHistory;
 import com.disuraaberathna.core.service.AccountService;
 import com.disuraaberathna.core.service.TransferService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.*;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.*;
 
@@ -23,7 +26,8 @@ public class TransferSessionBean implements TransferService {
     private UserTransaction transaction;
 
     @Override
-    public void transfer(String fromAccountNo, String toAccountNo, double amount, String otp) {
+    @RolesAllowed({"CUSTOMER"})
+    public Long transfer(String fromAccountNo, String toAccountNo, double amount, String otp) {
         try {
             transaction.begin();
             em.joinTransaction();
@@ -34,6 +38,7 @@ public class TransferSessionBean implements TransferService {
 
             em.persist(transferHistory);
             transaction.commit();
+            return transferHistory.getId();
         } catch (NotSupportedException | SystemException | HeuristicRollbackException | HeuristicMixedException |
                  RollbackException e) {
             rollback();
@@ -42,8 +47,34 @@ public class TransferSessionBean implements TransferService {
     }
 
     @Override
-    public void transferConfirm(String fromAccountNo, String toAccountNo, double amount, String otp) {
+    @RolesAllowed({"CUSTOMER"})
+    public boolean transferConfirm(Long id, String otp) {
+        try {
+            transaction.begin();
+            em.joinTransaction();
 
+            TransferHistory transferHistory;
+            try {
+                transferHistory = em.createNamedQuery("TransferHistory.verify", TransferHistory.class)
+                        .setParameter("id", id)
+                        .setParameter("otp", otp)
+                        .getSingleResult();
+            } catch (NoResultException e) {
+                rollback();
+                return false;
+            }
+
+            transferHistory.setStatus(TransferStatus.COMPLETED);
+            transferHistory.setOtp(null);
+            em.merge(transferHistory);
+
+            transaction.commit();
+            return true;
+        } catch (NotSupportedException | SystemException | HeuristicRollbackException | HeuristicMixedException |
+                 RollbackException e) {
+            rollback();
+            throw new RuntimeException(e);
+        }
     }
 
     private void rollback() {
