@@ -26,7 +26,7 @@ public class Account implements Serializable {
     private AccountType accountType;
     @Enumerated(EnumType.STRING)
     private Status status = Status.ACTIVE;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
     @Column(updatable = false)
