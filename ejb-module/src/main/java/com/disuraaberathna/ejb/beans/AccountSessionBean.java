@@ -30,7 +30,7 @@ public class AccountSessionBean implements AccountService {
     }
 
     @Override
-    @TransactionAttribute(TransactionAttributeType.MANDATORY)
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public Account getAccountByNo(String accountNo) {
         try {
             TypedQuery<Account> query = em.createNamedQuery("Account.findByAccountNo", Account.class).setParameter("accountNo", accountNo);
