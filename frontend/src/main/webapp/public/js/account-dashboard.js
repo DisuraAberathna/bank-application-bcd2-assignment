@@ -1,6 +1,6 @@
 const loadAccounts = async () => {
     try {
-        const response = await fetch("${pageContext.request.contextPath}/load-my-accounts", {
+        const response = await fetch("load-my-accounts", {
             method: "POST",
         });
 
@@ -58,8 +58,17 @@ const closeModal = (id) => {
     document.getElementById(id).classList.add('hidden');
 }
 
-document.getElementById("addCustomerForm").addEventListener("submit", async (e) => {
+document.getElementById("fundTransferForm").addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const form = e.target;
+    const formData = {
+        fromAccount: form.transferAccountSelect.value,
+        toAccount: form.transferToAccountNo.value,
+        amount: form.transferAmount.value,
+    };
+
+    const response = await fetch("validate-transfer", {
+        method: "POST",
+    });
 });
