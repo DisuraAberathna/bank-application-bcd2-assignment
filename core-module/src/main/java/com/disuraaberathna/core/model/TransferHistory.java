@@ -8,6 +8,9 @@ import java.util.Date;
 
 @Entity
 @Table(name = "transfer_history")
+@NamedQueries({
+        @NamedQuery(name = "TransferHistory.verify", query = "select th from TransferHistory th where th.id = :id and th.otp = :otp"),
+})
 public class TransferHistory implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
