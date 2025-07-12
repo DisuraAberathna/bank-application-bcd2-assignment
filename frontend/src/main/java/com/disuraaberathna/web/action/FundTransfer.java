@@ -41,11 +41,11 @@ public class FundTransfer extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("application/json");
-        resp.setCharacterEncoding("UTF-8");
-
         Gson gson = new Gson();
         JsonObject json = gson.fromJson(req.getReader(), JsonObject.class);
+
+        resp.setCharacterEncoding("UTF-8");
+        resp.setContentType("application/json");
 
         String fromAccountNo = json.get("fromAccount").getAsString();
         String toAccountNo = json.get("toAccount").getAsString();
