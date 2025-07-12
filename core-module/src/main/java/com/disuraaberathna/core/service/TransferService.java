@@ -4,7 +4,7 @@ import jakarta.ejb.Remote;
 
 @Remote
 public interface TransferService {
-    void transfer(String fromAccountNo, String toAccountNo, double amount, String otp);
+    Long transfer(String fromAccountNo, String toAccountNo, double amount, String otp);
 
-    void transferConfirm(String fromAccountNo, String toAccountNo, double amount, String otp);
+    boolean transferConfirm(Long id, String otp);
 }
