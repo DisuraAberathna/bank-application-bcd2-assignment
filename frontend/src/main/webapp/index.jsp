@@ -9,7 +9,7 @@
 <html>
 <head>
     <title>National Bank</title>
-    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./public/css/main.css">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 <body class="bg-gray-50 text-gray-900 max-h-screen">
