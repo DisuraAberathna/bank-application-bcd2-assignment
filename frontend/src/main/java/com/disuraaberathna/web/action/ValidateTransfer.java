@@ -7,6 +7,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import jakarta.annotation.security.DeclareRoles;
 import jakarta.ejb.EJB;
+import jakarta.ejb.TransactionAttribute;
+import jakarta.ejb.TransactionAttributeType;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.HttpConstraint;
 import jakarta.servlet.annotation.ServletSecurity;
@@ -66,7 +68,7 @@ public class ValidateTransfer extends HttpServlet {
         if (fromAccountNo != null) {
             Account fromAccount = accountService.getAccountByNo(fromAccountNo);
             if (fromAccount.getBalance() - amount < 1000) {
-                errors.put("amount", "Can not continue with your selected account balance");
+                errors.put("amount", "Can not continue with your selected account, cause to low balance");
             }
         }
 
@@ -81,9 +83,15 @@ public class ValidateTransfer extends HttpServlet {
             return;
         }
 
-
         String toName = toAccount.getCustomer().getFirstName() + " " + toAccount.getCustomer().getLastName();
+        JsonObject object = new JsonObject();
+        object.addProperty("fromAccountNo", fromAccountNo);
+        object.addProperty("toAccountNo", toAccountNo);
+        object.addProperty("amount", amount);
+        object.addProperty("toName", toName);
+
         responseData.put("success", true);
+        responseData.put("transferData", object);
         resp.getWriter().write(gson.toJson(responseData));
     }
 }
