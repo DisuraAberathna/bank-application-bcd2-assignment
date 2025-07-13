@@ -2,6 +2,7 @@ package com.disuraaberathna.ejb.beans;
 
 import com.disuraaberathna.core.enums.TransferStatus;
 import com.disuraaberathna.core.model.Account;
+import com.disuraaberathna.core.model.ScheduledTransfer;
 import com.disuraaberathna.core.model.TransferHistory;
 import com.disuraaberathna.core.service.AccountService;
 import com.disuraaberathna.core.service.TransferService;
@@ -55,10 +56,7 @@ public class TransferSessionBean implements TransferService {
 
             TransferHistory transferHistory;
             try {
-                transferHistory = em.createNamedQuery("TransferHistory.verify", TransferHistory.class)
-                        .setParameter("id", id)
-                        .setParameter("otp", otp)
-                        .getSingleResult();
+                transferHistory = em.createNamedQuery("TransferHistory.verify", TransferHistory.class).setParameter("id", id).setParameter("otp", otp).getSingleResult();
             } catch (NoResultException e) {
                 rollback();
                 return false;
@@ -73,6 +71,32 @@ public class TransferSessionBean implements TransferService {
 
             transaction.commit();
             return true;
+        } catch (Exception e) {
+            rollback();
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void saveScheduledTransfer(ScheduledTransfer scheduledTransfer) {
+        try {
+            transaction.begin();
+            em.joinTransaction();
+
+            double amount = scheduledTransfer.getAmount();
+            Account fromAccount = scheduledTransfer.getFromAccount();
+            Account toAccount = scheduledTransfer.getToAccount();
+
+            TransferHistory transferHistory =
+                    new TransferHistory(fromAccount, toAccount, null, amount, null);
+            transferHistory.setStatus(TransferStatus.COMPLETED);
+
+            em.persist(transferHistory);
+
+            accountService.credit(toAccount.getAccountNumber(), amount);
+            accountService.debit(fromAccount.getAccountNumber(), amount);
+
+            transaction.commit();
         } catch (Exception e) {
             rollback();
             throw new RuntimeException(e);
