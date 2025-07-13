@@ -85,6 +85,7 @@ public class ScheduleTransferSessionBean implements ScheduleTransferService {
     }
 
     @Override
+    @PermitAll
     public List<ScheduledTransfer> getScheduledTransfers() {
         try {
             transaction.begin();
@@ -94,6 +95,22 @@ public class ScheduleTransferSessionBean implements ScheduleTransferService {
 
             transaction.commit();
             return scheduledTransfers;
+        } catch (Exception e) {
+            rollback();
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    @PermitAll
+    public void delete(ScheduledTransfer scheduledTransfer) {
+        try {
+            transaction.begin();
+            em.joinTransaction();
+
+            em.remove(scheduledTransfer);
+
+            transaction.commit();
         } catch (Exception e) {
             rollback();
             throw new RuntimeException(e);
