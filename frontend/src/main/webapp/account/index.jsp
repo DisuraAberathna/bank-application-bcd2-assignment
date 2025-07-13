@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="../public/css/main.css">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="../public/js/account-dashboard.js"></script>
 </head>
 <body class="bg-gray-100 text-gray-900" onload="loadAccounts()">
 <div class="min-h-screen flex flex-col">
@@ -42,7 +43,7 @@
 
         <div class="bg-white p-5 rounded-xl shadow-md">
             <h2 class="text-xl font-semibold mb-3">Fund Transfer</h2>
-            <form class="space-y-2 flex flex-col" id="fundTransferForm">
+            <form class="space-y-2 flex flex-col" onsubmit="sendTransfer(event)">
                 <div class="flex flex-col gap-y-1">
                     <label for="transfer-account-select" class="font-medium">Your Account *</label>
                     <select class="rounded-md px-3 py-2 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none capitalize"
@@ -82,37 +83,39 @@
             </form>
         </div>
 
-        <!-- Schedule Fund Transfer with Time + Account -->
         <div class="bg-white p-5 rounded-xl shadow-md">
             <h2 class="text-xl font-semibold mb-3">Schedule Fund Transfer</h2>
-            <form class="space-y-2 flex flex-col">
+            <form class="space-y-2 flex flex-col" onsubmit="sendScheduleTransfer(event)">
                 <div class="flex flex-col gap-y-1">
                     <label for="scheduled-transfer-account-select" class="font-medium">Your Account *</label>
                     <select class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none capitalize"
-                            required id="scheduled-transfer-account-select">
+                            required id="scheduled-transfer-account-select" name="scheduledAccountSelect">
                         <option value="">Select Source Account</option>
                     </select>
                 </div>
                 <div class="flex flex-col gap-y-1">
                     <label for="scheduled-transfer-to-account-no" class="font-medium">Recipient Account Number *</label>
                     <input type="text" placeholder="Recipient Account Number" id="scheduled-transfer-to-account-no"
+                           name="scheduledAccountNo"
                            class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"
                            required/>
                 </div>
                 <div class="flex flex-col gap-y-1">
                     <label for="scheduled-transfer-amount" class="font-medium">Transfer Amount *</label>
                     <input type="number" placeholder="Amount (LKR)" id="scheduled-transfer-amount"
+                           name="scheduledAmount"
                            class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"
                            required/>
                 </div>
                 <div class="flex flex-col gap-y-1">
                     <label for="scheduled-transfer-date-time" class="font-medium">Transfer Date & Time</label>
-                    <input type="datetime-local" id="scheduled-transfer-date-time"
+                    <input type="datetime-local" id="scheduled-transfer-date-time" name="scheduledDate"
                            class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"
                            required/>
                 </div>
                 <div class="flex gap-x-2 mt-2">
-                    <button class="bg-black flex-1 text-white font-medium py-1.5 rounded-md hover:bg-gray-800 cursor-pointer">
+                    <button onclick="scheduleTransferReset()"
+                            class="bg-black flex-1 text-white font-medium py-1.5 rounded-md hover:bg-gray-800 cursor-pointer">
                         Reset
                     </button>
                     <button type="submit"
@@ -227,248 +230,59 @@
         </div>
     </div>
 </div>
-<script>
-    const loadAccounts = async () => {
-        try {
-            const response = await fetch("${pageContext.request.contextPath}/load-my-accounts", {
-                method: "POST",
-            });
 
-            if (response.ok) {
-                const data = await response.json();
-
-                const transferSelect = document.getElementById("transfer-account-select");
-                const scheduledTransferSelect = document.getElementById("scheduled-transfer-account-select");
-                const accountView = document.getElementById("accounts");
-                const accountItem = document.getElementById("account");
-
-                const option = '<option value="">Select Source Account</option>';
-
-                if (data.success && data.accounts.length > 0) {
-                    accountView.innerHTML = "";
-                    transferSelect.innerHTML = "";
-                    scheduledTransferSelect.innerHTML = "";
-
-                    transferSelect.innerHTML = option;
-                    scheduledTransferSelect.innerHTML = option;
-
-                    data.accounts.forEach((account) => {
-                        let clone = accountItem.cloneNode(true);
-                        clone.querySelector("#account-type").innerHTML = account.accountType + " Account";
-                        clone.querySelector("#account-no").innerHTML = "Account No: " + account.accountNumber;
-                        clone.querySelector("#account-balance").innerHTML = "LKR " + new Intl.NumberFormat("en-US", {
-                            minimumFractionDigits: 2,
-                        }).format(account.balance);
-
-                        let accountOption1 = document.createElement("option");
-                        accountOption1.classList.add("capitalize");
-                        accountOption1.value = account.accountNumber;
-                        accountOption1.innerHTML = account.accountType + " Account : " + account.accountNumber;
-
-                        let accountOption2 = accountOption1.cloneNode(true);
-
-                        transferSelect.appendChild(accountOption1);
-                        scheduledTransferSelect.appendChild(accountOption2);
-                        accountView.appendChild(clone);
-                    });
-                } else {
-                    accountView.innerHTML = '<p class="font-semibold capitalize text-gray-500 py-5 text-center">No Accounts Found</p>';
-                }
-            }
-        } catch (error) {
-            console.error("Error:", error);
-        }
-    };
-
-    const openModal = (id) => {
-        document.getElementById(id).classList.remove('hidden');
-    }
-
-    const closeModal = (id) => {
-        document.getElementById(id).classList.add('hidden');
-    }
-
-    document.getElementById("fundTransferForm").addEventListener("submit", async (e) => {
-        e.preventDefault();
-
-        const form = e.target;
-        const formData = {
-            fromAccount: form.transferAccountSelect.value,
-            toAccount: form.transferToAccountNo.value,
-            amount: form.transferAmount.value,
-        };
-
-        document.getElementById("transferMessageList").innerHTML = "";
-        document.getElementById("transferMessageView").style.display = "none";
-
-        try {
-            const response = await fetch("${pageContext.request.contextPath}/validate-transfer", {
-                method: "POST",
-                body: JSON.stringify(formData),
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-
-                if (data.success) {
-                    document.getElementById("transferMessageView").style.display = "none";
-                    document.getElementById("transfer-modal-amount").innerHTML = "LKR " + new Intl.NumberFormat("en-US", {
-                        minimumFractionDigits: 2,
-                    }).format(data.transferData.amount);
-                    document.getElementById("transfer-modal-from-account-no").innerHTML = data.transferData.fromAccountNo;
-                    document.getElementById("transfer-modal-to-account-no").innerHTML = data.transferData.toAccountNo;
-                    document.getElementById("transfer-modal-to-name").innerHTML = data.transferData.toName;
-
-                    openModal("confirmModal");
-                } else {
-                    const messageList = document.getElementById("transferMessageList");
-                    for (const [field, message] of Object.entries(data.errors)) {
-                        const li = document.createElement("li");
-                        li.textContent = message;
-                        li.classList.add("max-w-sm");
-                        messageList.appendChild(li);
-                    }
-
-                    document.getElementById("transferMessageView").style.display = "block";
-                }
-            }
-        } catch (error) {
-            console.error("Error:", error);
-            const messageList = document.getElementById("transferMessageList");
-            const li = document.createElement("li");
-            li.textContent = "An unexpected error occurred.";
-            li.classList.add("max-w-sm");
-            messageList.appendChild(li);
-            document.getElementById("transferMessageView").style.display = "block";
-        }
-    });
-
-    let otpVerify = false;
-    let transferId = "";
-
-    const transfer = async () => {
-        const fromAcc = document.getElementById("transfer-account-select");
-        const toAcc = document.getElementById("transfer-to-account-no");
-        const amount = document.getElementById("transfer-amount");
-
-        const formData = {
-            fromAccount: fromAcc.value,
-            toAccount: toAcc.value,
-            amount: amount.value,
-        };
-
-        document.getElementById("transferModalMessageList").innerHTML = "";
-        document.getElementById("transferModalMessageView").style.display = "none";
-
-        try {
-            const response = await fetch("${pageContext.request.contextPath}/fund-transfer", {
-                method: "POST",
-                body: JSON.stringify(formData),
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-
-                if (data.success) {
-                    document.getElementById("transferModalMessageView").style.display = "none";
-                    document.getElementById("transfer-modal-otp-view").style.display = "block";
-                    otpVerify = true;
-                    transferId = data.transferId;
-                } else {
-                    const messageList = document.getElementById("transferModalMessageList");
-                    for (const [field, message] of Object.entries(data.errors)) {
-                        const li = document.createElement("li");
-                        li.textContent = message;
-                        li.classList.add("max-w-sm");
-                        messageList.appendChild(li);
-                    }
-
-                    document.getElementById("transferModalMessageView").style.display = "block";
-                }
-            }
-        } catch (error) {
-            console.error("Error:", error);
-            const messageList = document.getElementById("transferModalMessageList");
-            const li = document.createElement("li");
-            li.textContent = "An unexpected error occurred.";
-            li.classList.add("max-w-sm");
-            messageList.appendChild(li);
-            document.getElementById("transferModalMessageView").style.display = "block";
-        }
-    };
-
-    const verifyTransfer = async () => {
-        const otp = document.getElementById("transfer-modal-otp");
-
-        const formData = {
-            transferId: transferId,
-            otp: otp.value,
-        };
-
-        document.getElementById("transferModalMessageList").innerHTML = "";
-        document.getElementById("transferModalMessageView").style.display = "none";
-
-        try {
-            const response = await fetch("${pageContext.request.contextPath}/verify-transfer", {
-                method: "POST",
-                body: JSON.stringify(formData),
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-
-                if (data.success) {
-                    document.getElementById("transferModalMessageView").style.display = "none";
-                    document.getElementById("transfer-modal-otp-view").style.display = "none";
-                    document.getElementById("transfer-account-select").value = "";
-                    document.getElementById("transfer-to-account-no").value = "";
-                    document.getElementById("transfer-amount").value = "";
-
-                    otp.value = "";
-                    otpVerify = false;
-                    transferId = "";
-                    closeModal("confirmModal");
-                } else {
-                    const messageList = document.getElementById("transferModalMessageList");
-                    for (const [field, message] of Object.entries(data.errors)) {
-                        const li = document.createElement("li");
-                        li.textContent = message;
-                        li.classList.add("max-w-sm");
-                        messageList.appendChild(li);
-                    }
-
-                    document.getElementById("transferModalMessageView").style.display = "block";
-                }
-            }
-        } catch (error) {
-            console.error("Error:", error);
-            const messageList = document.getElementById("transferModalMessageList");
-            const li = document.createElement("li");
-            li.textContent = "An unexpected error occurred.";
-            li.classList.add("max-w-sm");
-            messageList.appendChild(li);
-            document.getElementById("transferModalMessageView").style.display = "block";
-        }
-    };
-
-    const confirmTransfer = () => {
-        if (!otpVerify) {
-            transfer();
-        } else {
-            verifyTransfer();
-        }
-    };
-
-    const transferReset = () => {
-        otpVerify = false;
-        transferId = "";
-        document.getElementById("transferModalMessageView").style.display = "none";
-        document.getElementById("transfer-modal-otp-view").style.display = "none";
-        document.getElementById("transfer-modal-otp").value = "";
-        document.getElementById("transfer-account-select").value = "";
-        document.getElementById("transfer-to-account-no").value = "";
-        document.getElementById("transfer-amount").value = "";
-    };
-</script>
+<div class="fixed inset-0 bg-black bg-opacity-20 flex items-center justify-center z-50 hidden"
+     id="confirmScheduleModal">
+    <div class="bg-white rounded-xl w-full max-w-md shadow-lg">
+        <div class="bg-blue-700 text-white text-lg font-semibold px-6 py-4 rounded-t-xl">
+            Confirm Transaction
+        </div>
+        <div class="px-6 py-4 space-y-2 text-gray-800">
+            <div class="flex justify-between">
+                <span class="font-semibold">Transfer Amount: </span>
+                <span id="scheduled-modal-amount" class="font-medium"></span>
+            </div>
+            <div class="flex justify-between">
+                <span class="font-semibold">From Account: </span>
+                <span id="scheduled-modal-from-account-no" class="font-medium"></span>
+            </div>
+            <div class="flex justify-between">
+                <span class="font-semibold">To Account: </span>
+                <span id="scheduled-modal-to-account-no" class="font-medium"></span>
+            </div>
+            <div class="flex justify-between">
+                <span class="font-semibold">Recipient Name: </span>
+                <span id="scheduled-modal-to-name" class="font-medium capitalize"></span>
+            </div>
+            <div class="flex justify-between">
+                <span class="font-semibold">Scheduled At: </span>
+                <span id="scheduled-modal-date" class="font-medium capitalize"></span>
+            </div>
+        </div>
+        <div class="flex flex-col gap-y-1 px-6 py-4" style="display: none;" id="scheduled-modal-otp-view">
+            <label for="scheduled-modal-otp" class="font-medium">OTP *</label>
+            <input type="text" placeholder="Enter OTP" id="scheduled-modal-otp"
+                   class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none w-full"
+                   required/>
+            <p class="text-sm text-gray-600 mb-3">An OTP has been sent to your registered mobile/email.</p>
+        </div>
+        <div class="bg-red-100 border-2 border-red-400 text-red-700 px-4 py-3 rounded-lg relative mt-3"
+             id="scheduledModalMessageView" style="display: none;">
+            <strong class="font-bold">Please correct the following errors:</strong>
+            <ul class="list-disc ml-5 mt-2" id="scheduledModalMessageList">
+            </ul>
+        </div>
+        <div class="px-6 py-4 bg-gray-100 rounded-b-xl flex justify-center space-x-4">
+            <button class="font-medium py-2 px-6 rounded-md bg-gray-300 hover:bg-gray-400"
+                    onclick="closeModal('confirmScheduleModal')">
+                Cancel
+            </button>
+            <button class="bg-[#16A34A] text-white font-medium py-2 px-6 rounded-md hover:bg-[#28914e] cursor-pointer"
+                    onclick="confirmScheduleTransfer()">
+                Confirm
+            </button>
+        </div>
+    </div>
+</div>
 </body>
 </html>
