@@ -40,12 +40,11 @@
             <p class="text-4xl font-bold text-green-600">LKR 152,000.00</p>
         </div>
 
-        <!-- Fund Transfer with Account Selection -->
         <div class="bg-white p-5 rounded-xl shadow-md">
             <h2 class="text-xl font-semibold mb-3">Fund Transfer</h2>
-            <form class="space-y-3 flex flex-col" id="fundTransferForm">
+            <form class="space-y-2 flex flex-col" id="fundTransferForm">
                 <div class="flex flex-col gap-y-1">
-                    <label for="transfer-account-select" class="font-medium">Select your account *</label>
+                    <label for="transfer-account-select" class="font-medium">Your Account *</label>
                     <select class="rounded-md px-3 py-2 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none capitalize"
                             required id="transfer-account-select" name="transferAccountSelect">
                         <option value="">Select Source Account</option>
@@ -64,10 +63,16 @@
                            class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"
                            required min="100"/>
                 </div>
-                <button type="submit"
-                        class="bg-[#16A34A] text-white font-medium py-1.5 w-full rounded-md hover:bg-[#28914e] cursor-pointer">
-                    Transfer
-                </button>
+                <div class="flex gap-x-2 mt-2">
+                    <button onclick="transferReset()"
+                            class="bg-black flex-1 text-white font-medium py-1.5 rounded-md hover:bg-gray-800 cursor-pointer">
+                        Reset
+                    </button>
+                    <button type="submit"
+                            class="bg-[#16A34A] text-white font-medium py-1.5 flex-4 rounded-md hover:bg-[#28914e] cursor-pointer">
+                        Transfer
+                    </button>
+                </div>
                 <div class="bg-red-100 border-2 border-red-400 text-red-700 px-4 py-3 rounded-lg relative mt-3"
                      id="transferMessageView" style="display: none;">
                     <strong class="font-bold">Please correct the following errors:</strong>
@@ -80,25 +85,47 @@
         <!-- Schedule Fund Transfer with Time + Account -->
         <div class="bg-white p-5 rounded-xl shadow-md">
             <h2 class="text-xl font-semibold mb-3">Schedule Fund Transfer</h2>
-            <form class="space-y-3 flex flex-col">
-                <select class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none capitalize"
-                        required id="scheduled-transfer-account-select">
-                    <option value="">Select Source Account</option>
-                </select>
-                <input type="text" placeholder="Recipient Account Number"
-                       class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"
-                       required/>
-                <input type="number" placeholder="Amount (LKR)"
-                       class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"
-                       required/>
-                <label class="block text-sm text-gray-600">Transfer Date & Time</label>
-                <input type="datetime-local"
-                       class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"
-                       required/>
-                <button type="submit"
-                        class="bg-yellow-400 text-white font-medium py-1.5 w-full rounded-md hover:bg-yellow-500 cursor-pointer">
-                    Schedule
-                </button>
+            <form class="space-y-2 flex flex-col">
+                <div class="flex flex-col gap-y-1">
+                    <label for="scheduled-transfer-account-select" class="font-medium">Your Account *</label>
+                    <select class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none capitalize"
+                            required id="scheduled-transfer-account-select">
+                        <option value="">Select Source Account</option>
+                    </select>
+                </div>
+                <div class="flex flex-col gap-y-1">
+                    <label for="scheduled-transfer-to-account-no" class="font-medium">Recipient Account Number *</label>
+                    <input type="text" placeholder="Recipient Account Number" id="scheduled-transfer-to-account-no"
+                           class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"
+                           required/>
+                </div>
+                <div class="flex flex-col gap-y-1">
+                    <label for="scheduled-transfer-amount" class="font-medium">Transfer Amount *</label>
+                    <input type="number" placeholder="Amount (LKR)" id="scheduled-transfer-amount"
+                           class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"
+                           required/>
+                </div>
+                <div class="flex flex-col gap-y-1">
+                    <label for="scheduled-transfer-date-time" class="font-medium">Transfer Date & Time</label>
+                    <input type="datetime-local" id="scheduled-transfer-date-time"
+                           class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"
+                           required/>
+                </div>
+                <div class="flex gap-x-2 mt-2">
+                    <button class="bg-black flex-1 text-white font-medium py-1.5 rounded-md hover:bg-gray-800 cursor-pointer">
+                        Reset
+                    </button>
+                    <button type="submit"
+                            class="bg-yellow-400 text-white font-medium py-1.5 flex-4 rounded-md hover:bg-yellow-500 cursor-pointer">
+                        Schedule
+                    </button>
+                </div>
+                <div class="bg-red-100 border-2 border-red-400 text-red-700 px-4 py-3 rounded-lg relative mt-3"
+                     id="scheduledTransferMessageView" style="display: none;">
+                    <strong class="font-bold">Please correct the following errors:</strong>
+                    <ul class="list-disc ml-5 mt-2" id="scheduledTransferMessageList">
+                    </ul>
+                </div>
             </form>
         </div>
 
@@ -178,9 +205,15 @@
         <div class="flex flex-col gap-y-1 px-6 py-4" style="display: none;" id="transfer-modal-otp-view">
             <label for="transfer-modal-otp" class="font-medium">OTP *</label>
             <input type="text" placeholder="Enter OTP" id="transfer-modal-otp"
-                   class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"
+                   class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none w-full"
                    required/>
             <p class="text-sm text-gray-600 mb-3">An OTP has been sent to your registered mobile/email.</p>
+        </div>
+        <div class="bg-red-100 border-2 border-red-400 text-red-700 px-4 py-3 rounded-lg relative mt-3"
+             id="transferModalMessageView" style="display: none;">
+            <strong class="font-bold">Please correct the following errors:</strong>
+            <ul class="list-disc ml-5 mt-2" id="transferModalMessageList">
+            </ul>
         </div>
         <div class="px-6 py-4 bg-gray-100 rounded-b-xl flex justify-center space-x-4">
             <button class="font-medium py-2 px-6 rounded-md bg-gray-300 hover:bg-gray-400"
@@ -324,8 +357,8 @@
             amount: amount.value,
         };
 
-        document.getElementById("transferMessageList").innerHTML = "";
-        document.getElementById("transferMessageView").style.display = "none";
+        document.getElementById("transferModalMessageList").innerHTML = "";
+        document.getElementById("transferModalMessageView").style.display = "none";
 
         try {
             const response = await fetch("${pageContext.request.contextPath}/fund-transfer", {
@@ -337,12 +370,12 @@
                 const data = await response.json();
 
                 if (data.success) {
-                    document.getElementById("transferMessageView").style.display = "none";
+                    document.getElementById("transferModalMessageView").style.display = "none";
                     document.getElementById("transfer-modal-otp-view").style.display = "block";
                     otpVerify = true;
                     transferId = data.transferId;
                 } else {
-                    const messageList = document.getElementById("transferMessageList");
+                    const messageList = document.getElementById("transferModalMessageList");
                     for (const [field, message] of Object.entries(data.errors)) {
                         const li = document.createElement("li");
                         li.textContent = message;
@@ -350,17 +383,17 @@
                         messageList.appendChild(li);
                     }
 
-                    document.getElementById("transferMessageView").style.display = "block";
+                    document.getElementById("transferModalMessageView").style.display = "block";
                 }
             }
         } catch (error) {
             console.error("Error:", error);
-            const messageList = document.getElementById("transferMessageList");
+            const messageList = document.getElementById("transferModalMessageList");
             const li = document.createElement("li");
             li.textContent = "An unexpected error occurred.";
             li.classList.add("max-w-sm");
             messageList.appendChild(li);
-            document.getElementById("transferMessageView").style.display = "block";
+            document.getElementById("transferModalMessageView").style.display = "block";
         }
     };
 
@@ -372,8 +405,8 @@
             otp: otp.value,
         };
 
-        document.getElementById("transferMessageList").innerHTML = "";
-        document.getElementById("transferMessageView").style.display = "none";
+        document.getElementById("transferModalMessageList").innerHTML = "";
+        document.getElementById("transferModalMessageView").style.display = "none";
 
         try {
             const response = await fetch("${pageContext.request.contextPath}/verify-transfer", {
@@ -385,7 +418,7 @@
                 const data = await response.json();
 
                 if (data.success) {
-                    document.getElementById("transferMessageView").style.display = "none";
+                    document.getElementById("transferModalMessageView").style.display = "none";
                     document.getElementById("transfer-modal-otp-view").style.display = "none";
                     document.getElementById("transfer-account-select").value = "";
                     document.getElementById("transfer-to-account-no").value = "";
@@ -396,7 +429,7 @@
                     transferId = "";
                     closeModal("confirmModal");
                 } else {
-                    const messageList = document.getElementById("transferMessageList");
+                    const messageList = document.getElementById("transferModalMessageList");
                     for (const [field, message] of Object.entries(data.errors)) {
                         const li = document.createElement("li");
                         li.textContent = message;
@@ -404,17 +437,17 @@
                         messageList.appendChild(li);
                     }
 
-                    document.getElementById("transferMessageView").style.display = "block";
+                    document.getElementById("transferModalMessageView").style.display = "block";
                 }
             }
         } catch (error) {
             console.error("Error:", error);
-            const messageList = document.getElementById("transferMessageList");
+            const messageList = document.getElementById("transferModalMessageList");
             const li = document.createElement("li");
             li.textContent = "An unexpected error occurred.";
             li.classList.add("max-w-sm");
             messageList.appendChild(li);
-            document.getElementById("transferMessageView").style.display = "block";
+            document.getElementById("transferModalMessageView").style.display = "block";
         }
     };
 
@@ -424,6 +457,17 @@
         } else {
             verifyTransfer();
         }
+    };
+
+    const transferReset = () => {
+        otpVerify = false;
+        transferId = "";
+        document.getElementById("transferModalMessageView").style.display = "none";
+        document.getElementById("transfer-modal-otp-view").style.display = "none";
+        document.getElementById("transfer-modal-otp").value = "";
+        document.getElementById("transfer-account-select").value = "";
+        document.getElementById("transfer-to-account-no").value = "";
+        document.getElementById("transfer-amount").value = "";
     };
 </script>
 </body>
