@@ -1,6 +1,8 @@
 package com.disuraaberathna.ejb.timers;
 
 import com.disuraaberathna.core.enums.TransferStatus;
+import com.disuraaberathna.core.mail.ScheduledTransferErrorMail;
+import com.disuraaberathna.core.provider.MailServiceProvider;
 import com.disuraaberathna.core.service.ScheduleTransferService;
 import com.disuraaberathna.core.service.TransferService;
 import jakarta.annotation.security.PermitAll;
@@ -30,8 +32,26 @@ public class ScheduledFundTransferBean {
             if (diff <= 15000 && scheduledTransfer.getStatus() == TransferStatus.VERIFIED &&
                     scheduledTransfer.getFromAccount().getBalance() - scheduledTransfer.getAmount() > 1000) {
                 transferService.saveScheduledTransfer(scheduledTransfer);
-
                 scheduleTransferService.delete(scheduledTransfer);
+            } else {
+                String reason = "";
+
+                if (scheduledTransfer.getStatus() != TransferStatus.VERIFIED) {
+                    reason = "Transfer is not verified.";
+                } else if (scheduledTransfer.getFromAccount().getBalance() - scheduledTransfer.getAmount() <= 1000) {
+                    reason = "Insufficient balance. Minimum balance must be maintained.";
+                }
+
+                if (!reason.isEmpty()) {
+                    ScheduledTransferErrorMail mail = new ScheduledTransferErrorMail(
+                            scheduledTransfer.getToAccount().getCustomer().getEmail(),
+                            scheduledTransfer.getToAccount().getAccountNumber(),
+                            scheduledTransfer.getFromAccount().getCustomer().getFirstName() + " " + scheduledTransfer.getFromAccount().getCustomer().getLastName(),
+                            scheduledTransfer.getScheduledDate().toString(),
+                            reason
+                    );
+                    MailServiceProvider.getInstance().sendMail(mail);
+                }
             }
         });
     }
