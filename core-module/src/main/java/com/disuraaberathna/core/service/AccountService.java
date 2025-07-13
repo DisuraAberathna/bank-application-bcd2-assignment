@@ -15,6 +15,10 @@ public interface AccountService {
 
     void addAccount(Double deposit, String email, AccountType type);
 
+    void credit(String accountNo, double amount);
+
+    void debit(String accountNo, double amount);
+
     void updateAccount(Account account);
 
     void deleteAccount(Account account);
