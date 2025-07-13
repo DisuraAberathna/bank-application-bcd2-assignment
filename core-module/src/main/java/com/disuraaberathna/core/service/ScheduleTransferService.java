@@ -13,4 +13,6 @@ public interface ScheduleTransferService {
     boolean scheduleTransferConfirm(Long id, String otp);
 
     List<ScheduledTransfer> getScheduledTransfers();
+
+    void delete(ScheduledTransfer scheduledTransfer);
 }
