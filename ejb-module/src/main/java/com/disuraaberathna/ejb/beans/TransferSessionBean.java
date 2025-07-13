@@ -5,6 +5,7 @@ import com.disuraaberathna.core.model.Account;
 import com.disuraaberathna.core.model.TransferHistory;
 import com.disuraaberathna.core.service.AccountService;
 import com.disuraaberathna.core.service.TransferService;
+import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.*;
 import jakarta.inject.Inject;
@@ -34,7 +35,7 @@ public class TransferSessionBean implements TransferService {
 
             Account fromAccount = accountService.getAccountByNo(fromAccountNo);
             Account toAccount = accountService.getAccountByNo(toAccountNo);
-            TransferHistory transferHistory = new TransferHistory(fromAccount, toAccount, amount, otp);
+            TransferHistory transferHistory = new TransferHistory(fromAccount, toAccount, null, amount, otp);
 
             em.persist(transferHistory);
             transaction.commit();
@@ -78,6 +79,7 @@ public class TransferSessionBean implements TransferService {
         }
     }
 
+    @PermitAll
     private void rollback() {
         try {
             if (transaction.getStatus() == Status.STATUS_ACTIVE) {
