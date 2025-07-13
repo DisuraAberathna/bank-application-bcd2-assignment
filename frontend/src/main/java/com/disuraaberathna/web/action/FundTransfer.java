@@ -66,6 +66,10 @@ public class FundTransfer extends HttpServlet {
             errors.put("toAccountNo", "Please enter a valid account number.");
         }
 
+        if (fromAccountNo != null && fromAccountNo.equals(toAccountNo)){
+            errors.put("toAccountNo", "Can not transfer to the same account.");
+        }
+
         if (amount < 100) {
             errors.put("amount", "Amount must be greater than LKR 100.00");
         }
