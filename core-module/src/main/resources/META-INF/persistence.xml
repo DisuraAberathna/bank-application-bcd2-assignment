@@ -7,6 +7,7 @@
         <class>com.disuraaberathna.core.model.Customer</class>
         <class>com.disuraaberathna.core.model.Account</class>
         <class>com.disuraaberathna.core.model.TransferHistory</class>
+        <class>com.disuraaberathna.core.model.ScheduledTransfer</class>
 
         <properties>
             <property name="jakarta.persistence.schema-generation.database.action" value="create"/>
