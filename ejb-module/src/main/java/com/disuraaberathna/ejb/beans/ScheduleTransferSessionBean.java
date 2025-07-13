@@ -5,6 +5,7 @@ import com.disuraaberathna.core.model.Account;
 import com.disuraaberathna.core.model.ScheduledTransfer;
 import com.disuraaberathna.core.service.AccountService;
 import com.disuraaberathna.core.service.ScheduleTransferService;
+import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
@@ -19,6 +20,7 @@ import jakarta.transaction.SystemException;
 import jakarta.transaction.UserTransaction;
 
 import java.util.Date;
+import java.util.List;
 
 @Stateless
 @TransactionManagement(TransactionManagementType.BEAN)
@@ -82,6 +84,23 @@ public class ScheduleTransferSessionBean implements ScheduleTransferService {
         }
     }
 
+    @Override
+    public List<ScheduledTransfer> getScheduledTransfers() {
+        try {
+            transaction.begin();
+            em.joinTransaction();
+
+            List<ScheduledTransfer> scheduledTransfers = em.createNamedQuery("ScheduledTransfer.getVerifiedSchedules", ScheduledTransfer.class).setParameter("status", TransferStatus.VERIFIED).getResultList();
+
+            transaction.commit();
+            return scheduledTransfers;
+        } catch (Exception e) {
+            rollback();
+            throw new RuntimeException(e);
+        }
+    }
+
+    @PermitAll
     private void rollback() {
         try {
             if (transaction.getStatus() == Status.STATUS_ACTIVE) {
