@@ -7,16 +7,21 @@ import com.disuraaberathna.core.service.AccountService;
 import com.disuraaberathna.core.service.CustomerService;
 import com.disuraaberathna.core.util.AccountNumberGenerator;
 import jakarta.annotation.security.DenyAll;
+import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.*;
+import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
+import jakarta.transaction.Status;
+import jakarta.transaction.SystemException;
+import jakarta.transaction.UserTransaction;
 
 import java.util.List;
 
 @Stateless
-@TransactionManagement(TransactionManagementType.CONTAINER)
+@TransactionManagement(TransactionManagementType.BEAN)
 public class AccountSessionBean implements AccountService {
     @PersistenceContext
     private EntityManager em;
@@ -24,61 +29,106 @@ public class AccountSessionBean implements AccountService {
     @EJB
     private CustomerService customerService;
 
+    @Inject
+    private UserTransaction transaction;
+
     @Override
     @RolesAllowed({"CUSTOMER", "USER", "ADMIN", "SUPER_ADMIN"})
     public List<Account> getCustomerAccounts(Customer customer) {
-        return em.createNamedQuery("Account.findCustomerAccounts", Account.class).setParameter("customer", customer).getResultList();
+        try {
+            transaction.begin();
+            em.joinTransaction();
+
+            List<Account> accounts = em.createNamedQuery("Account.findCustomerAccounts", Account.class).setParameter("customer", customer).getResultList();
+
+            transaction.commit();
+            return accounts;
+        } catch (Exception e) {
+            rollback();
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     @RolesAllowed({"CUSTOMER", "USER", "ADMIN", "SUPER_ADMIN"})
-    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public Account getAccountByNo(String accountNo) {
         try {
-            TypedQuery<Account> query = em.createNamedQuery("Account.findByAccountNo", Account.class).setParameter("accountNo", accountNo);
-            return query.getSingleResult();
-        } catch (NullPointerException e) {
-            return null;
+            transaction.begin();
+            em.joinTransaction();
+
+            try {
+                TypedQuery<Account> query = em.createNamedQuery("Account.findByAccountNo", Account.class).setParameter("accountNo", accountNo);
+                Account account = query.getSingleResult();
+
+                transaction.commit();
+                return account;
+            } catch (NullPointerException e) {
+                return null;
+            }
+        } catch (Exception e) {
+            rollback();
+            throw new RuntimeException(e);
         }
+    }
+
+    private Account findAccountByNo(String accountNo) {
+        TypedQuery<Account> query = em.createNamedQuery("Account.findByAccountNo", Account.class)
+                .setParameter("accountNo", accountNo);
+        return query.getSingleResult();
     }
 
     @Override
     @RolesAllowed({"USER", "ADMIN", "SUPER_ADMIN"})
     public void addAccount(Double deposit, String email, AccountType type) {
-        String accountNumber = AccountNumberGenerator.generate();
-
-        Customer customer = customerService.getCustomerByEmail(email);
-        Account account = new Account(customer, deposit, accountNumber, type);
-
-        em.persist(account);
-    }
-
-    @Override
-    @RolesAllowed({"CUSTOMER"})
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public void credit(String accountNo, double amount) {
         try {
-            Account account = getAccountByNo(accountNo);
-            if (amount > 0) {
-                account.setBalance(account.getBalance() + amount);
-            }
-            em.merge(account);
-        } catch (NullPointerException e) {
+            transaction.begin();
+            em.joinTransaction();
+
+            String accountNumber = AccountNumberGenerator.generate();
+
+            Customer customer = customerService.getCustomerByEmail(email);
+            Account account = new Account(customer, deposit, accountNumber, type);
+
+            em.persist(account);
+            transaction.commit();
+        } catch (Exception e) {
+            rollback();
             throw new RuntimeException(e);
         }
     }
 
     @Override
     @RolesAllowed({"CUSTOMER"})
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public void credit(String accountNo, double amount) {
+        try {
+            transaction.begin();
+            em.joinTransaction();
+
+            Account account = findAccountByNo(accountNo);
+            account.setBalance(account.getBalance() + amount);
+
+            em.merge(account);
+            transaction.commit();
+        } catch (Exception e) {
+            rollback();
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    @RolesAllowed({"CUSTOMER"})
     public void debit(String accountNo, double amount) {
         try {
-            Account account = getAccountByNo(accountNo);
-            if (account.getBalance() - amount > 1000) {
-                account.setBalance(account.getBalance() - amount);
-            }
+            transaction.begin();
+            em.joinTransaction();
+
+            Account account = findAccountByNo(accountNo);
+            account.setBalance(account.getBalance() - amount);
+
             em.merge(account);
-        } catch (NullPointerException e) {
+            transaction.commit();
+        } catch (Exception e) {
+            rollback();
             throw new RuntimeException(e);
         }
     }
@@ -86,12 +136,43 @@ public class AccountSessionBean implements AccountService {
     @Override
     @RolesAllowed({"USER", "ADMIN", "SUPER_ADMIN"})
     public void updateAccount(Account account) {
-        em.merge(account);
+        try {
+            transaction.begin();
+            em.joinTransaction();
+
+            em.merge(account);
+            transaction.commit();
+        } catch (Exception e) {
+            rollback();
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     @DenyAll
     public void deleteAccount(Account account) {
-        em.remove(account);
+        try {
+            transaction.begin();
+            em.joinTransaction();
+
+            Account managed = em.merge(account);
+
+            em.remove(managed);
+            transaction.commit();
+        } catch (Exception e) {
+            rollback();
+            throw new RuntimeException(e);
+        }
+    }
+
+    @PermitAll
+    private void rollback() {
+        try {
+            if (transaction.getStatus() == Status.STATUS_ACTIVE) {
+                transaction.rollback();
+            }
+        } catch (SystemException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
