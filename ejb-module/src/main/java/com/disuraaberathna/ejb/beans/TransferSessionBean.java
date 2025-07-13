@@ -39,8 +39,7 @@ public class TransferSessionBean implements TransferService {
             em.persist(transferHistory);
             transaction.commit();
             return transferHistory.getId();
-        } catch (NotSupportedException | SystemException | HeuristicRollbackException | HeuristicMixedException |
-                 RollbackException e) {
+        } catch (Exception e) {
             rollback();
             throw new RuntimeException(e);
         }
@@ -68,10 +67,12 @@ public class TransferSessionBean implements TransferService {
             transferHistory.setOtp(null);
             em.merge(transferHistory);
 
+            accountService.credit(transferHistory.getToAccount().getAccountNumber(), transferHistory.getAmount());
+            accountService.debit(transferHistory.getFromAccount().getAccountNumber(), transferHistory.getAmount());
+
             transaction.commit();
             return true;
-        } catch (NotSupportedException | SystemException | HeuristicRollbackException | HeuristicMixedException |
-                 RollbackException e) {
+        } catch (Exception e) {
             rollback();
             throw new RuntimeException(e);
         }
@@ -79,7 +80,9 @@ public class TransferSessionBean implements TransferService {
 
     private void rollback() {
         try {
-            transaction.rollback();
+            if (transaction.getStatus() == Status.STATUS_ACTIVE) {
+                transaction.rollback();
+            }
         } catch (SystemException e) {
             throw new RuntimeException(e);
         }
