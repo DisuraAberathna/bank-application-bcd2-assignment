@@ -21,6 +21,7 @@ public class TransferHistory implements Serializable {
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "to_account_id", nullable = false)
     private Account toAccount;
+    private String description;
     private double amount;
     private String otp;
     @Enumerated(EnumType.STRING)
@@ -31,9 +32,10 @@ public class TransferHistory implements Serializable {
     public TransferHistory() {
     }
 
-    public TransferHistory(Account fromAccount, Account toAccount, double amount, String otp) {
+    public TransferHistory(Account fromAccount, Account toAccount,String description, double amount, String otp) {
         this.fromAccount = fromAccount;
         this.toAccount = toAccount;
+        this.description = description;
         this.amount = amount;
         this.otp = otp;
     }
@@ -60,6 +62,14 @@ public class TransferHistory implements Serializable {
 
     public void setToAccount(Account toAccount) {
         this.toAccount = toAccount;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public double getAmount() {
