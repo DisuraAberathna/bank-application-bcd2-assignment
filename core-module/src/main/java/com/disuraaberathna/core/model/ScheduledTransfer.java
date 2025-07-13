@@ -10,6 +10,7 @@ import java.util.Date;
 @Table(name = "schedule_transfers")
 @NamedQueries({
         @NamedQuery(name = "ScheduledTransfer.verify", query = "select st from ScheduledTransfer st where st.id = :id and st.otp = :otp"),
+        @NamedQuery(name = "ScheduledTransfer.getVerifiedSchedules", query = "select st from ScheduledTransfer st where st.status = :status and st.otp = null"),
 })
 public class ScheduledTransfer implements Serializable {
     @Id
