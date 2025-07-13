@@ -1,5 +1,6 @@
 package com.disuraaberathna.ejb.beans;
 
+import com.disuraaberathna.core.enums.TransferStatus;
 import com.disuraaberathna.core.model.Account;
 import com.disuraaberathna.core.model.ScheduledTransfer;
 import com.disuraaberathna.core.service.AccountService;
@@ -69,6 +70,7 @@ public class ScheduleTransferSessionBean implements ScheduleTransferService {
                 return false;
             }
 
+            scheduledTransfer.setStatus(TransferStatus.VERIFIED);
             scheduledTransfer.setOtp(null);
             em.merge(scheduledTransfer);
 
