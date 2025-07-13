@@ -1,5 +1,6 @@
 package com.disuraaberathna.core.model;
 
+import com.disuraaberathna.core.enums.TransferStatus;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -23,6 +24,8 @@ public class ScheduledTransfer implements Serializable {
     private double amount;
     private String otp;
     private Date scheduledDate;
+    @Enumerated(EnumType.STRING)
+    private TransferStatus status = TransferStatus.PENDING;
     @Column(updatable = false)
     private Date createdAt = new Date();
 
@@ -83,6 +86,14 @@ public class ScheduledTransfer implements Serializable {
 
     public void setScheduledDate(Date scheduledDate) {
         this.scheduledDate = scheduledDate;
+    }
+
+    public TransferStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(TransferStatus status) {
+        this.status = status;
     }
 
     public Date getCreatedAt() {
