@@ -7,6 +7,9 @@ import java.util.Date;
 
 @Entity
 @Table(name = "schedule_transfers")
+@NamedQueries({
+        @NamedQuery(name = "ScheduledTransfer.verify", query = "select st from ScheduledTransfer st where st.id = :id and st.otp = :otp"),
+})
 public class ScheduledTransfer implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
