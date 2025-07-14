@@ -1,5 +1,6 @@
 package com.disuraaberathna.ejb.beans;
 
+import com.disuraaberathna.core.annotation.Audit;
 import com.disuraaberathna.core.enums.AccountType;
 import com.disuraaberathna.core.model.Account;
 import com.disuraaberathna.core.model.Customer;
@@ -21,6 +22,7 @@ import jakarta.transaction.UserTransaction;
 import java.util.List;
 
 @Stateless
+@Audit
 @TransactionManagement(TransactionManagementType.BEAN)
 public class AccountSessionBean implements AccountService {
     @PersistenceContext
