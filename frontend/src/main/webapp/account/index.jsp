@@ -147,7 +147,11 @@
 
         <!-- Balance History -->
         <div class="bg-white p-5 rounded-xl shadow-md md:col-span-2">
-            <h2 class="text-xl font-semibold mb-3">Balance History</h2>
+            <div class="flex justify-between items-center px-3 py-2">
+                <label for="accountList" class="mb-3 text-xl font-semibold">Balance History</label>
+                <select class="rounded-md border-2 border-gray-300 px-3 py-2 w-xs capitalize outline-none hover:border-[#16A34A] active:border-[#16A34A]" id="accountList" onchange="loadTransferHistory(event.target.value)">
+                </select>
+            </div>
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse">
                     <thead>
