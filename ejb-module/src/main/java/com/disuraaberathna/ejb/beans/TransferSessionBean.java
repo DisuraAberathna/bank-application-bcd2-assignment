@@ -60,19 +60,18 @@ public class TransferSessionBean implements TransferService {
             try {
                 transferHistory = em.createNamedQuery("TransferHistory.verify", TransferHistory.class).setParameter("id", id).setParameter("otp", otp).getSingleResult();
             } catch (NoResultException e) {
-                rollback();
                 return false;
             }
 
-            transferHistory.setFromAccountBalance(transferHistory.getFromAccount().getBalance());
-            transferHistory.setToAccountBalance(transferHistory.getToAccount().getBalance());
+            double fromAccountBalance = accountService.debit(transferHistory.getFromAccount().getAccountNumber(), transferHistory.getAmount());
+            double toAccountBalance = accountService.credit(transferHistory.getToAccount().getAccountNumber(), transferHistory.getAmount());
+
+            transferHistory.setFromAccountBalance(fromAccountBalance);
+            transferHistory.setToAccountBalance(toAccountBalance);
             transferHistory.setStatus(TransferStatus.COMPLETED);
             transferHistory.setOtp(null);
+
             em.merge(transferHistory);
-
-            accountService.credit(transferHistory.getToAccount().getAccountNumber(), transferHistory.getAmount());
-            accountService.debit(transferHistory.getFromAccount().getAccountNumber(), transferHistory.getAmount());
-
             transaction.commit();
             return true;
         } catch (Exception e) {
@@ -91,16 +90,15 @@ public class TransferSessionBean implements TransferService {
             Account fromAccount = scheduledTransfer.getFromAccount();
             Account toAccount = scheduledTransfer.getToAccount();
 
+            double fromAccountBalance = accountService.debit(fromAccount.getAccountNumber(), amount);
+            double toAccountBalance = accountService.credit(toAccount.getAccountNumber(), amount);
+
             TransferHistory transferHistory = new TransferHistory(fromAccount, toAccount, amount, null);
             transferHistory.setStatus(TransferStatus.COMPLETED);
-            transferHistory.setFromAccountBalance(fromAccount.getBalance());
-            transferHistory.setToAccountBalance(toAccount.getBalance());
+            transferHistory.setFromAccountBalance(fromAccountBalance);
+            transferHistory.setToAccountBalance(toAccountBalance);
 
             em.persist(transferHistory);
-
-            accountService.credit(toAccount.getAccountNumber(), amount);
-            accountService.debit(fromAccount.getAccountNumber(), amount);
-
             transaction.commit();
         } catch (Exception e) {
             rollback();
