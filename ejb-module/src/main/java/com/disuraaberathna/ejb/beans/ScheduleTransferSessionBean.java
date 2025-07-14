@@ -8,10 +8,7 @@ import com.disuraaberathna.core.service.AccountService;
 import com.disuraaberathna.core.service.ScheduleTransferService;
 import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
-import jakarta.ejb.EJB;
-import jakarta.ejb.Stateless;
-import jakarta.ejb.TransactionManagement;
-import jakarta.ejb.TransactionManagementType;
+import jakarta.ejb.*;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
@@ -110,7 +107,7 @@ public class ScheduleTransferSessionBean implements ScheduleTransferService {
             transaction.begin();
             em.joinTransaction();
 
-            em.remove(scheduledTransfer);
+            em.remove(em.merge(scheduledTransfer));
 
             transaction.commit();
         } catch (Exception e) {
