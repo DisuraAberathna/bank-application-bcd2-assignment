@@ -46,7 +46,6 @@ public class InterestCalculatorBean {
 
     private double calculateInterest(double balance) {
         double interestRate = 0.06;
-
-        return balance * interestRate;
+        return Math.round(balance * interestRate * 100.0) / 100.0;
     }
 }
