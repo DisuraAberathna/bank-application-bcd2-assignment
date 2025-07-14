@@ -93,16 +93,15 @@ const loadTransferHistory = async (val) => {
                 error.classList.add("hidden");
                 tbody.innerHTML = "";
 
-                console.log(data.transferHistory)
-
                 data.transferHistory.forEach(transferHistory => {
                     let clone = trow.cloneNode(true);
                     clone.querySelector("#table-date").innerHTML = transferHistory.date;
                     clone.querySelector("#table-desc").innerHTML = transferHistory.description;
+                    clone.querySelector("#table-amount").classList.remove("text-green-600", "text-red-600");
                     clone.querySelector("#table-amount").classList.add(transferHistory.isCreditor ? "text-green-600" : "text-red-600");
-                    clone.querySelector("#table-amount").innerHTML = transferHistory.isCreditor ? "+" : "-" + "LKR " + new Intl.NumberFormat("en-US", {
+                    clone.querySelector("#table-amount").innerHTML = `${transferHistory.isCreditor ? "+" : "-"} LKR ${new Intl.NumberFormat("en-US", {
                         minimumFractionDigits: 2,
-                    }).format(transferHistory.amount);
+                    }).format(transferHistory.amount)}`;
                     clone.querySelector("#table-balance").innerHTML = "LKR " + new Intl.NumberFormat("en-US", {
                         minimumFractionDigits: 2,
                     }).format(transferHistory.balance);
