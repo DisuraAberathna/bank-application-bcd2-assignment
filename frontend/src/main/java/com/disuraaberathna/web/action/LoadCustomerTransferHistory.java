@@ -45,7 +45,7 @@ public class LoadCustomerTransferHistory extends HttpServlet {
                 if (accNo.equals(transferHistory.getFromAccount().getAccountNumber())) {
                     transferHistoryDTO.setCreditor(false);
                     transferHistoryDTO.setBalance(transferHistory.getFromAccountBalance());
-                    transferHistoryDTO.setDescription("Fund Transfer to" + transferHistory.getToAccount().getAccountNumber());
+                    transferHistoryDTO.setDescription("Fund Transfer to " + transferHistory.getToAccount().getAccountNumber());
                 }
 
                 if (accNo.equals(transferHistory.getToAccount().getAccountNumber())) {
@@ -55,7 +55,7 @@ public class LoadCustomerTransferHistory extends HttpServlet {
                     if (transferHistory.getFromAccount() == null) {
                         transferHistoryDTO.setDescription("Interest Credit");
                     } else {
-                        transferHistoryDTO.setDescription("Fund Transfer from" + transferHistory.getFromAccount().getAccountNumber());
+                        transferHistoryDTO.setDescription("Fund Transfer from " + transferHistory.getFromAccount().getAccountNumber());
                     }
                 }
 
