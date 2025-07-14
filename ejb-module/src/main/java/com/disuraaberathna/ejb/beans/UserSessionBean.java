@@ -1,6 +1,7 @@
 package com.disuraaberathna.ejb.beans;
 
 import com.disuraaberathna.core.annotation.Audit;
+import com.disuraaberathna.core.annotation.Performance;
 import com.disuraaberathna.core.model.User;
 import com.disuraaberathna.core.service.UserService;
 import com.disuraaberathna.core.util.Encryptor;
@@ -15,6 +16,7 @@ import jakarta.persistence.TypedQuery;
 
 @Stateless
 @Audit
+@Performance
 @TransactionManagement(TransactionManagementType.CONTAINER)
 public class UserSessionBean implements UserService {
     @PersistenceContext
