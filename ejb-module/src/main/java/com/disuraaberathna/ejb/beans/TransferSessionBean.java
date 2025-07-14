@@ -15,6 +15,8 @@ import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.*;
 
+import java.util.List;
+
 @Stateless
 @TransactionManagement(TransactionManagementType.BEAN)
 public class TransferSessionBean implements TransferService {
@@ -36,7 +38,7 @@ public class TransferSessionBean implements TransferService {
 
             Account fromAccount = accountService.getAccountByNo(fromAccountNo);
             Account toAccount = accountService.getAccountByNo(toAccountNo);
-            TransferHistory transferHistory = new TransferHistory(fromAccount, toAccount, null, amount, otp);
+            TransferHistory transferHistory = new TransferHistory(fromAccount, toAccount, amount, otp);
 
             em.persist(transferHistory);
             transaction.commit();
@@ -62,6 +64,8 @@ public class TransferSessionBean implements TransferService {
                 return false;
             }
 
+            transferHistory.setFromAccountBalance(transferHistory.getFromAccount().getBalance());
+            transferHistory.setToAccountBalance(transferHistory.getToAccount().getBalance());
             transferHistory.setStatus(TransferStatus.COMPLETED);
             transferHistory.setOtp(null);
             em.merge(transferHistory);
@@ -87,9 +91,10 @@ public class TransferSessionBean implements TransferService {
             Account fromAccount = scheduledTransfer.getFromAccount();
             Account toAccount = scheduledTransfer.getToAccount();
 
-            TransferHistory transferHistory =
-                    new TransferHistory(fromAccount, toAccount, null, amount, null);
+            TransferHistory transferHistory = new TransferHistory(fromAccount, toAccount, amount, null);
             transferHistory.setStatus(TransferStatus.COMPLETED);
+            transferHistory.setFromAccountBalance(fromAccount.getBalance());
+            transferHistory.setToAccountBalance(toAccount.getBalance());
 
             em.persist(transferHistory);
 
@@ -99,6 +104,22 @@ public class TransferSessionBean implements TransferService {
             transaction.commit();
         } catch (Exception e) {
             rollback();
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<TransferHistory> getTransferHistory(String accNo) {
+        try {
+            transaction.begin();
+            em.joinTransaction();
+
+            Account account = accountService.getAccountByNo(accNo);
+            List<TransferHistory> transferHistory = em.createNamedQuery("TransferHistory.getHistoryByAccount", TransferHistory.class).setParameter("account", account).getResultList();
+
+            transaction.commit();
+            return transferHistory;
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
