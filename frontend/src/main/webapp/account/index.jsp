@@ -38,7 +38,7 @@
         <!-- Available Balance -->
         <div class="bg-white p-5 rounded-xl shadow-md">
             <h2 class="text-xl font-semibold mb-3">Total Balance</h2>
-            <p class="text-4xl font-bold text-green-600" id="total-balance">LKR 152,000.00</p>
+            <p class="text-4xl font-bold text-green-600" id="total-balance">LKR 0.00</p>
         </div>
 
         <div class="bg-white p-5 rounded-xl shadow-md">
