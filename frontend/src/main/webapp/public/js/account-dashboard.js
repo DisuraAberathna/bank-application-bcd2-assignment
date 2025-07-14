@@ -65,6 +65,9 @@ const loadAccounts = async () => {
 };
 
 const loadTransferHistory = async (val) => {
+    const error = document.getElementById("transferHistoryError");
+    const table = document.getElementById("transferHistoryTable");
+
     try {
         const response = await fetch("/bank-app/load-my-transfer-history", {
             method: "POST",
@@ -76,10 +79,32 @@ const loadTransferHistory = async (val) => {
         if (response.ok) {
             const data = await response.json();
 
-            if (data.success) {
-                console.log(data.transferHistory);
-            }else {
-                accountView.innerHTML = '<p class="font-semibold capitalize text-gray-500 py-5 text-center">No Transfers Found</p>';
+            const tbody = document.getElementById("table-body");
+            const trow = document.getElementById("table-row");
+
+            if (data.success && data.transferHistory.length > 0) {
+                table.classList.remove("hidden");
+                error.classList.add("hidden");
+                tbody.innerHTML = "";
+
+                data.transferHistory.forEach(transferHistory => {
+                    let clone = trow.cloneNode(true);
+                    clone.querySelector("#table-date").innerHTML = formatDate(transferHistory.date);
+                    clone.querySelector("#table-desc").innerHTML = transferHistory.description;
+                    clone.querySelector("#table-amount").classList.add(transferHistory.isCreditor ? "text-green-600" : "text-red-600");
+                    clone.querySelector("#table-amount").innerHTML = transferHistory.isCreditor ? "+" : "-" + "LKR " + new Intl.NumberFormat("en-US", {
+                        minimumFractionDigits: 2,
+                    }).format(transferHistory.amount);
+                    clone.querySelector("#table-balance").innerHTML = "LKR " + new Intl.NumberFormat("en-US", {
+                        minimumFractionDigits: 2,
+                    }).format(transferHistory.balance);
+
+                    tbody.appendChild(clone);
+                });
+            } else {
+                error.classList.remove("hidden");
+                table.classList.add("hidden");
+                error.innerHTML = '<p class="font-semibold capitalize text-gray-500 py-5 text-center">No Transfers Found</p>';
             }
         }
     } catch (error) {
