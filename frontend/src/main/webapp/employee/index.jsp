@@ -16,7 +16,6 @@
 </head>
 <body class="bg-gray-100 text-gray-900">
 <div class="min-h-screen flex flex-col">
-    <!-- Navbar -->
     <header class="bg-indigo-600 text-white p-4 shadow-md flex justify-between items-center">
         <div class="flex-2">
             <h1 class="text-2xl font-bold">Employee Dashboard</h1>
@@ -35,7 +34,6 @@
     </header>
 
     <main class="flex-1 p-6 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-        <!-- Add New Customer Account -->
         <div class="bg-white p-5 rounded-xl shadow-md md:col-span-1">
             <h2 class="text-xl font-semibold mb-3">Add New Customer Account</h2>
             <form class="space-y-3 flex flex-col" id="addCustomerForm">
@@ -110,38 +108,16 @@
             </form>
         </div>
 
-        <!-- View All Customer Accounts -->
-        <div class="bg-white p-5 rounded-xl shadow-md md:col-span-2">
-            <h2 class="text-xl font-semibold mb-3">Customer Accounts</h2>
-            <div class="overflow-x-auto">
-                <table class="w-full text-left border-collapse">
-                    <thead>
-                    <tr class="bg-gray-100">
-                        <th class="p-2 border-b">Customer Name</th>
-                        <th class="p-2 border-b">Account No</th>
-                        <th class="p-2 border-b">Type</th>
-                        <th class="p-2 border-b">Balance</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td class="p-2 border-b">Disura Aberathna</td>
-                        <td class="p-2 border-b">ACC1001</td>
-                        <td class="p-2 border-b">Savings</td>
-                        <td class="p-2 border-b">
-                            <span class="text-green-600">LKR 100,000.00</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="p-2 border-b">Sanduni Perera</td>
-                        <td class="p-2 border-b">ACC1002</td>
-                        <td class="p-2 border-b">Current</td>
-                        <td class="p-2 border-b">
-                            <span class="text-green-600">LKR 52,000.00</span>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+        <div class="bg-white p-5 rounded-xl shadow-md md:col-span-1">
+            <h2 class="text-xl font-semibold mb-3">Add New Customer Account</h2>
+            <div class="flex justify-between items-end py-2 px-4">
+                <div class="flex flex-col gap-y-1 w-2/4">
+                    <label for="email" class="font-medium">Email Address *</label>
+                    <input type="email" name="email" id="email" placeholder="Enter Email Address" class="rounded-md border-2 border-gray-300 px-3 w-full py-1 outline-none hover:border-[#16A34A] active:border-[#16A34A]" required />
+                </div>
+                <div class="w-1/4">
+                    <button class="cursor-pointer w-full rounded-md bg-[#16A34A] py-1.5 font-medium text-white hover:bg-[#28914e]">Search</button>
+                </div>
             </div>
         </div>
 
@@ -187,6 +163,68 @@
                 </table>
             </div>
         </div>
+
+
+        <c:if test="${pageContext.request.isUserInRole('ADMIN')}">
+            <div class="bg-white p-5 rounded-xl shadow-md md:col-span-1">
+                <h2 class="text-xl font-semibold mb-3">Add New Employee Account</h2>
+                <form class="space-y-3 flex flex-col" id="addEmployeeForm">
+                    <div class="flex w-full items-center justify-between gap-x-3">
+                        <div class="flex flex-1 flex-col gap-y-1">
+                            <label for="empFirstName" class="font-medium">First Name *</label>
+                            <input type="text" name="empFirstName" id="empFirstName" placeholder="Enter First Name"
+                                   class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"
+                                   required/>
+                        </div>
+                        <div class="flex flex-1 flex-col gap-y-1">
+                            <label for="empLastName" class="font-medium">Last Name *</label>
+                            <input type="text" name="empLastName" id="empLastName" placeholder="Enter Last Name"
+                                   class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"
+                                   required/>
+                        </div>
+                    </div>
+                    <div class="flex w-full items-center justify-between gap-x-3">
+                        <div class="flex flex-1 flex-col gap-y-1">
+                            <label for="empEmail" class="font-medium">Email Address *</label>
+                            <input type="email" name="empEmail" id="empEmail" placeholder="Enter Email Address"
+                                   class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"
+                                   required/>
+                        </div>
+                        <div class="flex flex-1 flex-col gap-y-1">
+                            <label for="empMobile" class="font-medium">Mobile Number *</label>
+                            <input type="tel" name="empMobile" id="empMobile" placeholder="Enter Mobile Number"
+                                   maxlength="10"
+                                   class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"
+                                   required/>
+                        </div>
+                    </div>
+                    <div class="flex w-full items-center justify-between gap-x-3">
+                        <div class="flex flex-1 flex-col gap-y-1">
+                            <label for="empUsername" class="font-medium">Username *</label>
+                            <input type="text" name="empUserName" id="empUsername" placeholder="Enter Username"
+                                   class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"
+                                   required/>
+                        </div>
+                        <div class="flex flex-1 flex-col gap-y-1">
+                            <label for="empPassword" class="font-medium">Password *</label>
+                            <input type="text" name="empPassword" id="empPassword" placeholder="Enter Password"
+                                   class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"
+                                   required/>
+                        </div>
+                    </div>
+                    <button type="submit"
+                            class="bg-[#16A34A] text-white font-medium py-1.5 w-full rounded-md hover:bg-[#28914e] cursor-pointer">
+                        Add Employee
+                    </button>
+                    <div class="bg-red-100 border-2 border-red-400 text-red-700 px-4 py-3 rounded-lg relative mt-3"
+                         id="empMessageView" style="display: none;">
+                        <strong class="font-bold">Please correct the following errors:</strong>
+                        <ul class="list-disc ml-5 mt-2" id="empMessageList">
+                        </ul>
+                    </div>
+                </form>
+            </div>
+        </c:if>
     </main>
 </div>
 <script>
