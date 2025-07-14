@@ -20,10 +20,13 @@ const loadAccounts = async () => {
                 transferSelect.innerHTML = "";
                 scheduledTransferSelect.innerHTML = "";
 
+                let total = 0;
+
                 transferSelect.innerHTML = option;
                 scheduledTransferSelect.innerHTML = option;
 
                 data.accounts.forEach((account) => {
+                    total += account.balance;
                     let clone = accountItem.cloneNode(true);
                     clone.querySelector("#account-type").innerHTML = account.accountType + " Account";
                     clone.querySelector("#account-no").innerHTML = "Account No: " + account.accountNumber;
@@ -54,6 +57,9 @@ const loadAccounts = async () => {
                     accountView.appendChild(clone);
                 });
 
+                document.getElementById("total-balance").innerHTML = "LKR " + new Intl.NumberFormat("en-US", {
+                    minimumFractionDigits: 2,
+                }).format(total);
                 loadTransferHistory(data.accounts[0].accountNumber);
             } else {
                 accountView.innerHTML = '<p class="font-semibold capitalize text-gray-500 py-5 text-center">No Accounts Found</p>';
@@ -87,9 +93,11 @@ const loadTransferHistory = async (val) => {
                 error.classList.add("hidden");
                 tbody.innerHTML = "";
 
+                console.log(data.transferHistory)
+
                 data.transferHistory.forEach(transferHistory => {
                     let clone = trow.cloneNode(true);
-                    clone.querySelector("#table-date").innerHTML = formatDate(transferHistory.date);
+                    clone.querySelector("#table-date").innerHTML = transferHistory.date;
                     clone.querySelector("#table-desc").innerHTML = transferHistory.description;
                     clone.querySelector("#table-amount").classList.add(transferHistory.isCreditor ? "text-green-600" : "text-red-600");
                     clone.querySelector("#table-amount").innerHTML = transferHistory.isCreditor ? "+" : "-" + "LKR " + new Intl.NumberFormat("en-US", {
@@ -265,6 +273,7 @@ const verifyTransfer = async () => {
                 otpVerify = false;
                 transferId = "";
                 closeModal("confirmModal");
+                loadAccounts();
             } else {
                 const messageList = document.getElementById("transferModalMessageList");
                 for (const [field, message] of Object.entries(data.errors)) {
