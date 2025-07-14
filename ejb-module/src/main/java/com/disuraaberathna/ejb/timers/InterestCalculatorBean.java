@@ -1,9 +1,14 @@
 package com.disuraaberathna.ejb.timers;
 
+import com.disuraaberathna.core.enums.TransferStatus;
+import com.disuraaberathna.core.model.TransferHistory;
 import com.disuraaberathna.core.service.AccountService;
 import com.disuraaberathna.core.service.TransferService;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ejb.*;
+
+import java.util.Calendar;
+import java.util.Date;
 
 @Startup
 @Singleton
@@ -18,6 +23,30 @@ public class InterestCalculatorBean {
     @Schedule(dayOfMonth = "L", hour = "12", minute = "00", second = "00")
     @Lock(LockType.WRITE)
     public void doTask() {
+        accountService.getAccounts().forEach(account -> {
+            Date createdAt = account.getCreatedAt();
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(createdAt);
+            int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
 
+            if (dayOfMonth <= 28) {
+                double balance = account.getBalance();
+                double interest = calculateInterest(balance);
+
+                double toAccountBalance = accountService.credit(account.getAccountNumber(), interest);
+
+                TransferHistory transferHistory = new TransferHistory(null, account, interest, null);
+                transferHistory.setToAccountBalance(toAccountBalance);
+                transferHistory.setStatus(TransferStatus.COMPLETED);
+
+                transferService.addInterest(transferHistory);
+            }
+        });
+    }
+
+    private double calculateInterest(double balance) {
+        double interestRate = 0.06;
+
+        return balance * interestRate;
     }
 }
