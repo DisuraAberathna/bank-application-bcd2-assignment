@@ -97,7 +97,7 @@ public class AccountSessionBean implements AccountService {
 
     @Override
     @RolesAllowed({"CUSTOMER"})
-    public void credit(String accountNo, double amount) {
+    public double credit(String accountNo, double amount) {
         try {
             transaction.begin();
             em.joinTransaction();
@@ -107,6 +107,7 @@ public class AccountSessionBean implements AccountService {
 
             em.merge(account);
             transaction.commit();
+            return account.getBalance();
         } catch (Exception e) {
             rollback();
             throw new RuntimeException(e);
@@ -115,7 +116,7 @@ public class AccountSessionBean implements AccountService {
 
     @Override
     @RolesAllowed({"CUSTOMER"})
-    public void debit(String accountNo, double amount) {
+    public double debit(String accountNo, double amount) {
         try {
             transaction.begin();
             em.joinTransaction();
@@ -125,6 +126,7 @@ public class AccountSessionBean implements AccountService {
 
             em.merge(account);
             transaction.commit();
+            return account.getBalance();
         } catch (Exception e) {
             rollback();
             throw new RuntimeException(e);
