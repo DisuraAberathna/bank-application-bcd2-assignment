@@ -37,8 +37,8 @@
     <main class="flex-1 p-6 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
         <!-- Available Balance -->
         <div class="bg-white p-5 rounded-xl shadow-md">
-            <h2 class="text-xl font-semibold mb-3">Available Balance</h2>
-            <p class="text-4xl font-bold text-green-600">LKR 152,000.00</p>
+            <h2 class="text-xl font-semibold mb-3">Total Balance</h2>
+            <p class="text-4xl font-bold text-green-600" id="total-balance">LKR 152,000.00</p>
         </div>
 
         <div class="bg-white p-5 rounded-xl shadow-md">
@@ -145,7 +145,6 @@
             </ul>
         </div>
 
-        <!-- Balance History -->
         <div class="bg-white p-5 rounded-xl shadow-md md:col-span-2">
             <div class="flex justify-between items-center px-3 py-2">
                 <label for="accountList" class="mb-3 text-xl font-semibold">Balance History</label>
