@@ -20,7 +20,7 @@ public class InterestCalculatorBean {
     @EJB
     private TransferService transferService;
 
-    @Schedule(dayOfMonth = "L", hour = "12", minute = "00", second = "00")
+    @Schedule(dayOfMonth = "Last", hour = "12", minute = "00", second = "00")
     @Lock(LockType.WRITE)
     public void doTask() {
         accountService.getAccounts().forEach(account -> {
