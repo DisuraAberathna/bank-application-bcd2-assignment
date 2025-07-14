@@ -1,6 +1,7 @@
 package com.disuraaberathna.ejb.beans;
 
 import com.disuraaberathna.core.annotation.Audit;
+import com.disuraaberathna.core.annotation.Performance;
 import com.disuraaberathna.core.enums.TransferStatus;
 import com.disuraaberathna.core.model.Account;
 import com.disuraaberathna.core.model.ScheduledTransfer;
@@ -22,6 +23,7 @@ import java.util.List;
 
 @Stateless
 @Audit
+@Performance
 @TransactionManagement(TransactionManagementType.BEAN)
 public class ScheduleTransferSessionBean implements ScheduleTransferService {
     @PersistenceContext
