@@ -231,6 +231,7 @@ const transfer = async () => {
 
 const verifyTransfer = async () => {
     const otp = document.getElementById("transfer-modal-otp");
+    const accountList = document.getElementById("accountList");
 
     const formData = {
         transferId: transferId,
@@ -250,6 +251,10 @@ const verifyTransfer = async () => {
             const data = await response.json();
 
             if (data.success) {
+                if (accountList.value === document.getElementById("transfer-account-select").value) {
+                    loadTransferHistory(accountList.value);
+                }
+
                 document.getElementById("transferModalMessageView").style.display = "none";
                 document.getElementById("transfer-modal-otp-view").style.display = "none";
                 document.getElementById("transfer-account-select").value = "";
