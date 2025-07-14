@@ -16,7 +16,6 @@
 </head>
 <body class="bg-gray-100 text-gray-900" onload="loadAccounts()">
 <div class="min-h-screen flex flex-col">
-    <!-- Navbar -->
     <header class="bg-blue-600 text-white p-4 shadow-md flex justify-between items-center">
         <div class="flex-2">
             <h1 class="text-2xl font-bold">Account Dashboard</h1>
@@ -35,7 +34,6 @@
     </header>
 
     <main class="flex-1 p-6 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-        <!-- Available Balance -->
         <div class="bg-white p-5 rounded-xl shadow-md">
             <h2 class="text-xl font-semibold mb-3">Total Balance</h2>
             <p class="text-4xl font-bold text-green-600" id="total-balance">LKR 0.00</p>
