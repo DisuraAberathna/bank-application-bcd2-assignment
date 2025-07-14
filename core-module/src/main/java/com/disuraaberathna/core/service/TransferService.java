@@ -15,4 +15,6 @@ public interface TransferService {
     void saveScheduledTransfer(ScheduledTransfer scheduledTransfer);
 
     List<TransferHistory> getTransferHistory(String accNo);
+
+    void addInterest(TransferHistory transferHistory);
 }
