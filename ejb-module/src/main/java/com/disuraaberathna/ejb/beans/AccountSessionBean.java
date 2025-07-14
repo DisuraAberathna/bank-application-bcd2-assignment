@@ -44,7 +44,6 @@ public class AccountSessionBean implements AccountService {
             transaction.commit();
             return accounts;
         } catch (Exception e) {
-            rollback();
             throw new RuntimeException(e);
         }
     }
@@ -66,7 +65,6 @@ public class AccountSessionBean implements AccountService {
                 return null;
             }
         } catch (Exception e) {
-            rollback();
             throw new RuntimeException(e);
         }
     }
