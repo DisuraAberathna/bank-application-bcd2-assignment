@@ -149,11 +149,12 @@
         <div class="bg-white p-5 rounded-xl shadow-md md:col-span-2">
             <div class="flex justify-between items-center px-3 py-2">
                 <label for="accountList" class="mb-3 text-xl font-semibold">Balance History</label>
-                <select class="rounded-md border-2 border-gray-300 px-3 py-2 w-xs capitalize outline-none hover:border-[#16A34A] active:border-[#16A34A]" id="accountList" onchange="loadTransferHistory(event.target.value)">
+                <select class="rounded-md border-2 border-gray-300 px-3 py-2 w-sm capitalize outline-none hover:border-[#16A34A] active:border-[#16A34A]"
+                        id="accountList" onchange="loadTransferHistory(event.target.value)">
                 </select>
             </div>
             <div class="overflow-x-auto">
-                <table class="w-full text-left border-collapse">
+                <table class="w-full text-left border-collapse" id="transferHistoryTable">
                     <thead>
                     <tr class="bg-gray-100">
                         <th class="p-2 border-b">Date</th>
@@ -162,25 +163,19 @@
                         <th class="p-2 border-b">Balance</th>
                     </tr>
                     </thead>
-                    <tbody>
-                    <tr>
-                        <td class="p-2 border-b">2025-07-01</td>
-                        <td class="p-2 border-b">Interest Credit</td>
+                    <tbody id="table-body">
+                    <tr id="table-row">
+                        <td class="p-2 border-b" id="table-date">2025-07-01</td>
+                        <td class="p-2 border-b" id="table-desc">Interest Credit</td>
                         <td class="p-2 border-b">
-                            <span class="text-green-600">+LKR 1,200.00</span>
+                            <span class="" id="table-amount">+LKR 1,200.00</span>
                         </td>
-                        <td class="p-2 border-b">LKR 152,000.00</td>
-                    </tr>
-                    <tr>
-                        <td class="p-2 border-b">2025-06-28</td>
-                        <td class="p-2 border-b">Fund Transfer to ACC1234</td>
-                        <td class="p-2 border-b">
-                            <span class="text-red-600">-LKR 10,000.00</span>
-                        </td>
-                        <td class="p-2 border-b">LKR 150,800.00</td>
+                        <td class="p-2 border-b" id="table-balance">LKR 152,000.00</td>
                     </tr>
                     </tbody>
                 </table>
+            </div>
+            <div id="transferHistoryError" class="w-full hidden">
             </div>
         </div>
     </main>
