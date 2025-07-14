@@ -1,5 +1,6 @@
 package com.disuraaberathna.ejb.timers;
 
+import com.disuraaberathna.core.annotation.Performance;
 import com.disuraaberathna.core.enums.TransferStatus;
 import com.disuraaberathna.core.model.TransferHistory;
 import com.disuraaberathna.core.service.AccountService;
@@ -13,6 +14,7 @@ import java.util.Date;
 @Startup
 @Singleton
 @PermitAll
+@Performance
 public class InterestCalculatorBean {
     @EJB
     private AccountService accountService;
