@@ -11,13 +11,15 @@ import java.util.List;
 public interface AccountService {
     List<Account> getCustomerAccounts(Customer customer);
 
+    List<Account> getAccounts();
+
     Account getAccountByNo(String accountNo);
 
     void addAccount(Double deposit, String email, AccountType type);
 
-    void credit(String accountNo, double amount);
+    double credit(String accountNo, double amount);
 
-    void debit(String accountNo, double amount);
+    double debit(String accountNo, double amount);
 
     void updateAccount(Account account);
 
