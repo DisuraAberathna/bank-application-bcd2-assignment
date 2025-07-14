@@ -16,6 +16,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,7 +41,7 @@ public class LoadCustomerTransferHistory extends HttpServlet {
             transferService.getTransferHistory(accNo).forEach(transferHistory -> {
                 TransferHistoryDTO transferHistoryDTO = new TransferHistoryDTO();
                 transferHistoryDTO.setAmount(transferHistory.getAmount());
-                transferHistoryDTO.setDate(transferHistory.getCreatedAt().toString());
+                transferHistoryDTO.setDate(new SimpleDateFormat("yyyy/MM/dd hh.mm a").format(transferHistory.getCreatedAt()));
 
                 if (accNo.equals(transferHistory.getFromAccount().getAccountNumber())) {
                     transferHistoryDTO.setCreditor(false);
