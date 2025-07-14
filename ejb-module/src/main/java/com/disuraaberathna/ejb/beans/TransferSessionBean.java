@@ -81,6 +81,7 @@ public class TransferSessionBean implements TransferService {
     }
 
     @Override
+    @PermitAll
     public void saveScheduledTransfer(ScheduledTransfer scheduledTransfer) {
         try {
             transaction.begin();
@@ -107,6 +108,7 @@ public class TransferSessionBean implements TransferService {
     }
 
     @Override
+    @PermitAll
     public List<TransferHistory> getTransferHistory(String accNo) {
         try {
             transaction.begin();
@@ -120,6 +122,23 @@ public class TransferSessionBean implements TransferService {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    @PermitAll
+    public void addInterest(TransferHistory transferHistory) {
+        try {
+            transaction.begin();
+            em.joinTransaction();
+
+            em.persist(transferHistory);
+
+            transaction.commit();
+        } catch (Exception e) {
+            rollback();
+            throw new RuntimeException(e);
+        }
+
     }
 
     @PermitAll
