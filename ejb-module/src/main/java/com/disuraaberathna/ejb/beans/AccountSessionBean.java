@@ -49,6 +49,22 @@ public class AccountSessionBean implements AccountService {
     }
 
     @Override
+    @PermitAll
+    public List<Account> getAccounts() {
+        try {
+            transaction.begin();
+            em.joinTransaction();
+
+            List<Account> accounts = em.createNamedQuery("Account.getActiveAccount", Account.class).setParameter("status", com.disuraaberathna.core.enums.Status.ACTIVE).getResultList();
+
+            transaction.commit();
+            return accounts;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     @RolesAllowed({"CUSTOMER", "USER", "ADMIN", "SUPER_ADMIN"})
     public Account getAccountByNo(String accountNo) {
         try {
