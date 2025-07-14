@@ -9,6 +9,7 @@ const loadAccounts = async () => {
 
             const transferSelect = document.getElementById("transfer-account-select");
             const scheduledTransferSelect = document.getElementById("scheduled-transfer-account-select");
+            const accountList = document.getElementById("accountList");
             const accountView = document.getElementById("accounts");
             const accountItem = document.getElementById("account");
 
@@ -36,13 +37,49 @@ const loadAccounts = async () => {
                     accountOption1.innerHTML = account.accountType + " Account : " + account.accountNumber;
 
                     let accountOption2 = accountOption1.cloneNode(true);
+                    let accountOption3;
+                    if (data.accounts[0].accountNumber === account.accountNumber) {
+                        accountOption3 = document.createElement("option");
+                        accountOption3.classList.add("capitalize");
+                        accountOption3.value = account.accountNumber;
+                        accountOption3.innerHTML = account.accountType + " Account : " + account.accountNumber;
+                        accountOption3.selected = true;
+                    } else {
+                        accountOption3 = accountOption1.cloneNode(true);
+                    }
 
                     transferSelect.appendChild(accountOption1);
                     scheduledTransferSelect.appendChild(accountOption2);
+                    accountList.appendChild(accountOption3);
                     accountView.appendChild(clone);
                 });
+
+                loadTransferHistory(data.accounts[0].accountNumber);
             } else {
                 accountView.innerHTML = '<p class="font-semibold capitalize text-gray-500 py-5 text-center">No Accounts Found</p>';
+            }
+        }
+    } catch (error) {
+        console.error("Error:", error);
+    }
+};
+
+const loadTransferHistory = async (val) => {
+    try {
+        const response = await fetch("/bank-app/load-my-transfer-history", {
+            method: "POST",
+            body: JSON.stringify({
+                accNo: val,
+            }),
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+
+            if (data.success) {
+                console.log(data.transferHistory);
+            }else {
+                accountView.innerHTML = '<p class="font-semibold capitalize text-gray-500 py-5 text-center">No Transfers Found</p>';
             }
         }
     } catch (error) {
