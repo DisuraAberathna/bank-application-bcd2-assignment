@@ -10,6 +10,7 @@ import java.util.Date;
 @Table(name = "transfer_history")
 @NamedQueries({
         @NamedQuery(name = "TransferHistory.verify", query = "select th from TransferHistory th where th.id = :id and th.otp = :otp"),
+        @NamedQuery(name = "TransferHistory.getHistoryByAccount", query = "select th from TransferHistory th where th.fromAccount = :account or th.toAccount = :account order by th.id DESC"),
 })
 public class TransferHistory implements Serializable {
     @Id
@@ -21,8 +22,9 @@ public class TransferHistory implements Serializable {
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "to_account_id", nullable = false)
     private Account toAccount;
-    private String description;
     private double amount;
+    private double fromAccountBalance;
+    private double toAccountBalance;
     private String otp;
     @Enumerated(EnumType.STRING)
     private TransferStatus status = TransferStatus.PENDING;
@@ -32,10 +34,9 @@ public class TransferHistory implements Serializable {
     public TransferHistory() {
     }
 
-    public TransferHistory(Account fromAccount, Account toAccount,String description, double amount, String otp) {
+    public TransferHistory(Account fromAccount, Account toAccount, double amount, String otp) {
         this.fromAccount = fromAccount;
         this.toAccount = toAccount;
-        this.description = description;
         this.amount = amount;
         this.otp = otp;
     }
@@ -64,20 +65,28 @@ public class TransferHistory implements Serializable {
         this.toAccount = toAccount;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public double getAmount() {
         return amount;
     }
 
     public void setAmount(double amount) {
         this.amount = amount;
+    }
+
+    public double getFromAccountBalance() {
+        return fromAccountBalance;
+    }
+
+    public void setFromAccountBalance(double fromAccountBalance) {
+        this.fromAccountBalance = fromAccountBalance;
+    }
+
+    public double getToAccountBalance() {
+        return toAccountBalance;
+    }
+
+    public void setToAccountBalance(double toAccountBalance) {
+        this.toAccountBalance = toAccountBalance;
     }
 
     public String getOtp() {
