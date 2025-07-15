@@ -184,41 +184,49 @@
         </c:if>
 
         <!-- View Transaction Histories -->
-        <div class="bg-white p-5 rounded-xl shadow-md md:col-span-3">
-            <h2 class="text-xl font-semibold mb-3">Transaction Histories</h2>
-            <form class="mb-4">
-                <input type="text" placeholder="Search by Account Number..."
-                       class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none w-full md:w-1/3"/>
-            </form>
+        <div class="rounded-xl bg-white p-5 shadow-md md:col-span-3">
+            <div class="mb-4 flex items-center justify-between">
+                <div class="flex-2/4">
+                    <h2 class="text-xl font-semibold">Transaction Histories</h2>
+                </div>
+                <div class="flex flex-1/4 gap-x-3">
+                    <div class="flex-2/4">
+                        <input type="text" placeholder="Search by Account Number..." class="w-full rounded-md border-2 border-gray-300 px-3 py-1 outline-none hover:border-[#16A34A] active:border-[#16A34A]" />
+                    </div>
+                    <div class="flex-1">
+                        <button class="w-full cursor-pointer rounded-md bg-[#16A34A] py-1.5 font-medium text-white hover:bg-[#28914e]">Search</button>
+                    </div>
+                </div>
+            </div>
             <div class="overflow-x-auto">
-                <table class="w-full text-left border-collapse">
+                <table class="w-full border-collapse text-left">
                     <thead>
                     <tr class="bg-gray-100">
-                        <th class="p-2 border-b">Date</th>
-                        <th class="p-2 border-b">Account No</th>
-                        <th class="p-2 border-b">Description</th>
-                        <th class="p-2 border-b">Amount</th>
-                        <th class="p-2 border-b">Balance</th>
+                        <th class="border-b p-2">Date</th>
+                        <th class="border-b p-2">Account No</th>
+                        <th class="border-b p-2">Description</th>
+                        <th class="border-b p-2">Amount</th>
+                        <th class="border-b p-2">Balance</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
-                        <td class="p-2 border-b">2025-07-01</td>
-                        <td class="p-2 border-b">ACC1001</td>
-                        <td class="p-2 border-b">Interest Credit</td>
-                        <td class="p-2 border-b">
+                        <td class="border-b p-2">2025-07-01</td>
+                        <td class="border-b p-2">ACC1001</td>
+                        <td class="border-b p-2">Interest Credit</td>
+                        <td class="border-b p-2">
                             <span class="text-green-600">+LKR 1,200.00</span>
                         </td>
-                        <td class="p-2 border-b">LKR 100,000.00</td>
+                        <td class="border-b p-2">LKR 100,000.00</td>
                     </tr>
                     <tr>
-                        <td class="p-2 border-b">2025-06-28</td>
-                        <td class="p-2 border-b">ACC1002</td>
-                        <td class="p-2 border-b">Transfer to ACC1234</td>
-                        <td class="p-2 border-b">
+                        <td class="border-b p-2">2025-06-28</td>
+                        <td class="border-b p-2">ACC1002</td>
+                        <td class="border-b p-2">Transfer to ACC1234</td>
+                        <td class="border-b p-2">
                             <span class="text-red-600">-LKR 10,000.00</span>
                         </td>
-                        <td class="p-2 border-b">LKR 52,000.00</td>
+                        <td class="border-b p-2">LKR 52,000.00</td>
                     </tr>
                     <!-- Additional rows can be dynamically loaded -->
                     </tbody>
