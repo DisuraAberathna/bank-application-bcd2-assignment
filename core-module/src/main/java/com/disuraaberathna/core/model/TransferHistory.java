@@ -17,7 +17,7 @@ public class TransferHistory implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    @JoinColumn(name = "from_account_id", nullable = false)
+    @JoinColumn(name = "from_account_id")
     private Account fromAccount;
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "to_account_id", nullable = false)
