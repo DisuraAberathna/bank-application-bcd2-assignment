@@ -57,3 +57,45 @@ const addCustomer = async (e) => {
         document.getElementById("messageView").style.display = "block";
     }
 };
+
+const loadCustomer = async () => {
+    const nic = document.getElementById("s-nic");
+
+    document.getElementById("s-messageList").innerHTML = "";
+    document.getElementById("s-messageView").style.display = "none";
+
+    try {
+        const response = await fetch("/bank-app/load-customer", {
+            method: "POST",
+            body: JSON.stringify({
+                nic: nic.value,
+            }),
+        });
+
+        const data = await response.json();
+        if (data.success) {
+            document.getElementById("messageView").style.display = "none";
+            document.getElementById("useExistsView").style.display = "none";
+
+            openModal(customerDetailsModal);
+        } else {
+            const messageList = document.getElementById("s-messageList");
+            for (const [field, message] of Object.entries(data.errors)) {
+                const li = document.createElement("li");
+                li.textContent = message;
+                li.classList.add("max-w-sm");
+                messageList.appendChild(li);
+            }
+
+            document.getElementById("s-messageView").style.display = "block";
+        }
+    } catch (error) {
+        console.error("Error:", error);
+        const messageList = document.getElementById("s-messageList");
+        const li = document.createElement("li");
+        li.textContent = "An unexpected error occurred.";
+        li.classList.add("max-w-sm");
+        messageList.appendChild(li);
+        document.getElementById("s-messageView").style.display = "block";
+    }
+};
