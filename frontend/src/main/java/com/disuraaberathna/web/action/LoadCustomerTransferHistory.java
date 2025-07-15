@@ -20,9 +20,9 @@ import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
-@DeclareRoles({"CUSTOMER"})
-@ServletSecurity(@HttpConstraint(rolesAllowed = "CUSTOMER"))
-@WebServlet("/load-my-transfer-history")
+@DeclareRoles({"CUSTOMER", "USER", "ADMIN"})
+@ServletSecurity(@HttpConstraint(rolesAllowed = {"CUSTOMER", "USER", "ADMIN"}))
+@WebServlet("/load-transfer-history")
 public class LoadCustomerTransferHistory extends HttpServlet {
     @EJB
     private TransferService transferService;
