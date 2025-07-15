@@ -136,17 +136,18 @@ public class TransferSessionBean implements TransferService {
             em.joinTransaction();
 
             Account account = accountService.getAccountByNo(accNo);
-            TransferHistory transferHistory;
+            TransferHistory transferHistory = null;
             try {
                 transferHistory = em.createNamedQuery("TransferHistory.getHistoryByAccount", TransferHistory.class)
                         .setParameter("account", account).setMaxResults(1).getSingleResult();
             } catch (NoResultException e) {
-                return null;
+
             }
 
             transaction.commit();
             return transferHistory;
         } catch (Exception e) {
+            rollback();
             throw new RuntimeException(e);
         }
     }
