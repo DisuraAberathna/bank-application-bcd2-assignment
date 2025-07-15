@@ -16,5 +16,7 @@ public interface TransferService {
 
     List<TransferHistory> getTransferHistory(String accNo);
 
+    TransferHistory getLastTransferHistory(String accNo);
+
     void addInterest(TransferHistory transferHistory);
 }
