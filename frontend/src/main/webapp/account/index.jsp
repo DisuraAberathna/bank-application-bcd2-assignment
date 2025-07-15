@@ -295,7 +295,7 @@
         </div>
         <div class="rounded-b-xl px-6 pb-6 text-center">
             <button class="cursor-pointer rounded-md bg-[#16A34A] px-6 py-2 font-medium text-white hover:bg-[#28914e]"
-                    onclick="">
+                    onclick="successModal()">
                 Continue
             </button>
         </div>
