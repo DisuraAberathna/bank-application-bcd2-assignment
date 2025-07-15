@@ -120,3 +120,75 @@ const loadCustomer = async () => {
         document.getElementById("s-messageView").style.display = "block";
     }
 };
+
+const closeAccountModal = () => {
+    document.getElementById("s-nic").value = "";
+    closeModal("customerDetailsModal");
+};
+
+const loadTransferHistory = async () => {
+    const accNo = document.getElementById("t-accNo");
+    try {
+        const response = await fetch("/bank-app/load-transfer-history", {
+            method: "POST",
+            body: JSON.stringify({
+                accNo: accNo.value,
+            }),
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+
+            const tbody = document.getElementById("table-body");
+            const trow = document.getElementById("table-row");
+
+            if (data.success && data.transferHistory.length > 0) {
+                document.getElementById("t-messageView").style.display = "none";
+                document.getElementById("tm-accNo").innerHTML = accNo.value;
+
+                tbody.innerHTML = "";
+
+                data.transferHistory.forEach(transferHistory => {
+                    let clone = trow.cloneNode(true);
+                    clone.querySelector("#table-date").innerHTML = transferHistory.date;
+                    clone.querySelector("#table-desc").innerHTML = transferHistory.description;
+                    clone.querySelector("#table-amount").classList.remove("text-green-600", "text-red-600");
+                    clone.querySelector("#table-amount").classList.add(transferHistory.isCreditor ? "text-green-600" : "text-red-600");
+                    clone.querySelector("#table-amount").innerHTML = `${transferHistory.isCreditor ? "+" : "-"} LKR ${new Intl.NumberFormat("en-US", {
+                        minimumFractionDigits: 2,
+                    }).format(transferHistory.amount)}`;
+                    clone.querySelector("#table-balance").innerHTML = "LKR " + new Intl.NumberFormat("en-US", {
+                        minimumFractionDigits: 2,
+                    }).format(transferHistory.balance);
+
+                    tbody.appendChild(clone);
+                });
+
+                openModal("transferHistoryModal");
+            } else {
+                const messageList = document.getElementById("t-messageList");
+                for (const [field, message] of Object.entries(data.errors)) {
+                    const li = document.createElement("li");
+                    li.textContent = message;
+                    li.classList.add("max-w-sm");
+                    messageList.appendChild(li);
+                }
+                document.getElementById("t-messageView").style.display = "block";
+            }
+        }
+    } catch (error) {
+        console.error("Error:", error);
+        const messageList = document.getElementById("t-messageList");
+        const li = document.createElement("li");
+        li.textContent = "An unexpected error occurred.";
+        li.classList.add("max-w-sm");
+        messageList.appendChild(li);
+        document.getElementById("t-messageView").style.display = "block";
+    }
+};
+
+
+const closeTransferHistoryModal = () => {
+    document.getElementById("t-accNo").value = "";
+    closeModal("transferHistoryModal");
+};
