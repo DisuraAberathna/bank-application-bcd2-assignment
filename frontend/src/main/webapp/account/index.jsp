@@ -280,5 +280,27 @@
         </div>
     </div>
 </div>
+
+<div class="bg-opacity-20 fixed inset-0 z-50 flex items-center justify-center bg-black hidden" id="successModal">
+    <div class="w-full max-w-md rounded-xl bg-white shadow-lg">
+        <div class="rounded-t-xl bg-blue-700 px-6 py-5 text-lg font-semibold text-white" id="successModalTitle">
+        </div>
+        <div class="flex flex-col items-center justify-center gap-y-3 px-6 pt-8 pb-4">
+            <svg class="h-20 w-20 shrink-0" viewBox="0 0 22 22" fill="none" stroke-linecap="square">
+                <circle cx="11" cy="11" r="11" class="fill-green-400/25"></circle>
+                <circle cx="11" cy="11" r="10.5" class="stroke-green-500/95"></circle>
+                <path d="M8 11.5L10.5 14L14 8" class="stroke-green-600/95"></path>
+            </svg>
+            <p class="mb-3 text-sm text-gray-600" id="successModalDesc"></p>
+        </div>
+        <div class="rounded-b-xl px-6 pb-6 text-center">
+            <button class="cursor-pointer rounded-md bg-[#16A34A] px-6 py-2 font-medium text-white hover:bg-[#28914e]"
+                    onclick="">
+                Continue
+            </button>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>
