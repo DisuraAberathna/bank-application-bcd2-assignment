@@ -40,16 +40,15 @@ public class LoadCustomerAccounts extends HttpServlet {
         if (userPrincipal != null) {
             Customer customer = customerService.getCustomerByUsername(userPrincipal.getName());
 
-            List<Account> accounts = customer.getAccounts();
             JsonArray jsonArray = new JsonArray();
             Gson gson = new Gson();
             JsonObject respObj = new JsonObject();
 
-            for (Account account : accounts) {
-                String type = account.getAccountType() != null ? account.getAccountType().toString().toLowerCase() : "";
+            customer.getAccounts().forEach(account -> {
+                String type = account.getAccountType().toString().toLowerCase();
                 AccountDTO accountDTO = new AccountDTO(account.getAccountNumber(), type, account.getBalance());
                 jsonArray.add(gson.toJsonTree(accountDTO));
-            }
+            });
 
             respObj.add("accounts", jsonArray);
             respObj.addProperty("success", true);
