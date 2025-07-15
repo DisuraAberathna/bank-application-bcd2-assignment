@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="../public/css/main.css">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="../public/js/common.js"></script>
     <script src="../public/js/employee-dashboard.js"></script>
 </head>
 <body class="bg-gray-100 text-gray-900">
@@ -114,11 +115,22 @@
             <div class="flex items-end justify-between px-4 py-2 gap-x-3">
                 <div class="flex flex-3 flex-col gap-y-1">
                     <label for="s-nic" class="font-medium">NIC *</label>
-                    <input type="text" id="s-nic" placeholder="Customer NIC" class="w-full rounded-md border-2 border-gray-300 px-3 py-1 outline-none hover:border-[#16A34A] active:border-[#16A34A]" required />
+                    <input type="text" id="s-nic" placeholder="Customer NIC"
+                           class="w-full rounded-md border-2 border-gray-300 px-3 py-1 outline-none hover:border-[#16A34A] active:border-[#16A34A]"
+                           required/>
                 </div>
                 <div class="flex-1">
-                    <button class="w-full cursor-pointer rounded-md bg-[#16A34A] py-1.5 font-medium text-white hover:bg-[#28914e]">Search</button>
+                    <button class="w-full cursor-pointer rounded-md bg-[#16A34A] py-1.5 font-medium text-white hover:bg-[#28914e]"
+                            onclick="loadCustomer()">
+                        Search
+                    </button>
                 </div>
+            </div>
+            <div class="bg-red-100 border-2 border-red-400 text-red-700 px-4 py-3 rounded-lg relative mt-3"
+                 id="s-messageView" style="display: none;">
+                <strong class="font-bold">Please correct the following errors:</strong>
+                <ul class="list-disc ml-5 mt-2" id="s-messageList">
+                </ul>
             </div>
         </div>
 
@@ -191,10 +203,13 @@
                 </div>
                 <div class="flex flex-1/4 gap-x-3">
                     <div class="flex-2/4">
-                        <input type="text" placeholder="Search by Account Number..." class="w-full rounded-md border-2 border-gray-300 px-3 py-1 outline-none hover:border-[#16A34A] active:border-[#16A34A]" />
+                        <input type="text" placeholder="Search by Account Number..."
+                               class="w-full rounded-md border-2 border-gray-300 px-3 py-1 outline-none hover:border-[#16A34A] active:border-[#16A34A]"/>
                     </div>
                     <div class="flex-1">
-                        <button class="w-full cursor-pointer rounded-md bg-[#16A34A] py-1.5 font-medium text-white hover:bg-[#28914e]">Search</button>
+                        <button class="w-full cursor-pointer rounded-md bg-[#16A34A] py-1.5 font-medium text-white hover:bg-[#28914e]">
+                            Search
+                        </button>
                     </div>
                 </div>
             </div>
@@ -231,6 +246,67 @@
                     <!-- Additional rows can be dynamically loaded -->
                     </tbody>
                 </table>
+            </div>
+        </div>
+
+        <div class="bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-black hidden"
+             id="customerDetailsModal">
+            <div class="relative w-full max-w-2xl rounded-lg bg-white p-6 shadow-lg">
+                <button class="absolute top-4 right-4 h-8 w-8 cursor-pointer rounded-full text-xl font-bold text-gray-800 hover:bg-gray-100">
+                    &times;
+                </button>
+
+                <h2 class="mb-4 text-xl font-semibold">Customer Details & History</h2>
+
+                <div class="mb-4">
+                    <p><span class="font-semibold">Name :</span> <span id="c-name"></span></p>
+                    <p><span class="font-semibold">Email Address :</span> <span id="c-email"></span></p>
+                    <p><span class="font-semibold">NIC Number :</span> <span id="c-nic"></span></p>
+                    <p><span class="font-semibold">Mobile Number :</span> <span id="c-nic"></span></p>
+                </div>
+
+                <div class="mb-6">
+                    <p class="mb-2 font-semibold">Accounts:</p>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full border text-sm">
+                            <thead class="bg-gray-100">
+                            <tr>
+                                <th class="border px-4 py-2 text-left">Account No</th>
+                                <th class="border px-4 py-2 text-left">Type</th>
+                                <th class="border px-4 py-2 text-left">Balance</th>
+                                <th class="border px-4 py-2 text-left">Last Transaction</th>
+                            </tr>
+                            </thead>
+                            <tbody id="c-tbody">
+                            <tr id="c-trow">
+                                <td class="border px-4 py-2" id="c-accNo">ACC100001</td>
+                                <td class="border px-4 py-2" id="c-type">Savings</td>
+                                <td class="border px-4 py-2" id="c-balance">LKR 50,000</td>
+                                <td class="border px-4 py-2" id="c-lTransaction">2025-07-05</td>
+                            </tr>
+                            <tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="hidden">
+                    <h3 class="mb-2 text-lg font-semibold">Update Customer</h3>
+                    <form class="space-y-3">
+                        <input type="text" placeholder="1234"
+                               class="w-full rounded-md border-2 border-gray-300 px-3 py-1 outline-none hover:border-[#16A34A] active:border-[#16A34A]"/>
+                        <input type="text" placeholder="Akila Heshan"
+                               class="w-full rounded-md border-2 border-gray-300 px-3 py-1 outline-none hover:border-[#16A34A] active:border-[#16A34A]"/>
+                        <input type="email" placeholder="akila@email.com"
+                               class="w-full rounded-md border-2 border-gray-300 px-3 py-1 outline-none hover:border-[#16A34A] active:border-[#16A34A]"/>
+                        <input type="text" placeholder="0777123456"
+                               class="w-full rounded-md border-2 border-gray-300 px-3 py-1 outline-none hover:border-[#16A34A] active:border-[#16A34A]"/>
+                        <button type="submit"
+                                class="w-full cursor-pointer rounded-md bg-[#16A34A] py-1.5 font-medium text-white hover:bg-[#28914e]">
+                            Update Info
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     </main>
