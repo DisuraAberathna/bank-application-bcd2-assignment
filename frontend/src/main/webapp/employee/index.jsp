@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="../public/css/main.css">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="../public/js/employee-dashboard.js"></script>
 </head>
 <body class="bg-gray-100 text-gray-900">
 <div class="min-h-screen flex flex-col">
@@ -36,7 +37,7 @@
     <main class="flex-1 p-6 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
         <div class="bg-white p-5 rounded-xl shadow-md md:col-span-1">
             <h2 class="text-xl font-semibold mb-3">Add New Customer Account</h2>
-            <form class="space-y-3 flex flex-col" id="addCustomerForm">
+            <form class="space-y-3 flex flex-col" id="addCustomerForm" onsubmit="addCustomer(event)">
                 <div class="flex w-full items-center justify-between gap-x-3">
                     <div class="flex flex-1 flex-col gap-y-1">
                         <label for="firstName" class="font-medium">First Name *</label>
@@ -113,10 +114,14 @@
             <div class="flex justify-between items-end py-2 px-4">
                 <div class="flex flex-col gap-y-1 w-2/4">
                     <label for="email" class="font-medium">Email Address *</label>
-                    <input type="email" name="email" id="email" placeholder="Enter Email Address" class="rounded-md border-2 border-gray-300 px-3 w-full py-1 outline-none hover:border-[#16A34A] active:border-[#16A34A]" required />
+                    <input type="email" name="email" id="email" placeholder="Enter Email Address"
+                           class="rounded-md border-2 border-gray-300 px-3 w-full py-1 outline-none hover:border-[#16A34A] active:border-[#16A34A]"
+                           required/>
                 </div>
                 <div class="w-1/4">
-                    <button class="cursor-pointer w-full rounded-md bg-[#16A34A] py-1.5 font-medium text-white hover:bg-[#28914e]">Search</button>
+                    <button class="cursor-pointer w-full rounded-md bg-[#16A34A] py-1.5 font-medium text-white hover:bg-[#28914e]">
+                        Search
+                    </button>
                 </div>
             </div>
         </div>
@@ -227,66 +232,5 @@
         </c:if>
     </main>
 </div>
-<script>
-    document.getElementById("addCustomerForm").addEventListener("submit", async (e) => {
-        e.preventDefault();
-
-        const form = e.target;
-
-        const formData = {
-            "firstName": form.firstName.value,
-            "lastName": form.lastName.value,
-            "email": form.email.value,
-            "mobile": form.mobile.value,
-            "nic": form.nic.value,
-            "deposit": form.deposit.value,
-            "type": form.type.value,
-            "exists": form.useExists.checked,
-        };
-
-        document.getElementById("messageList").innerHTML = "";
-        document.getElementById("messageView").style.display = "none";
-
-        try {
-            const response = await fetch("${pageContext.request.contextPath}/add-customer", {
-                method: "POST",
-                body: JSON.stringify(formData),
-            });
-
-            const data = await response.json();
-
-            if (data.success) {
-                document.getElementById("messageView").style.display = "none";
-                document.getElementById("useExistsView").style.display = "none";
-
-                alert(data.message);
-                form.reset();
-            } else {
-                if (data.existsCustomer) {
-                    document.getElementById("useExistsView").style.display = "block";
-                    alert(data.warning);
-                } else {
-                    const messageList = document.getElementById("messageList");
-                    for (const [field, message] of Object.entries(data.errors)) {
-                        const li = document.createElement("li");
-                        li.textContent = message;
-                        li.classList.add("max-w-sm");
-                        messageList.appendChild(li);
-                    }
-
-                    document.getElementById("messageView").style.display = "block";
-                }
-            }
-        } catch (error) {
-            console.error("Error:", error);
-            const messageList = document.getElementById("messageList");
-            const li = document.createElement("li");
-            li.textContent = "An unexpected error occurred.";
-            li.classList.add("max-w-sm");
-            messageList.appendChild(li);
-            document.getElementById("messageView").style.display = "block";
-        }
-    });
-</script>
 </body>
 </html>
