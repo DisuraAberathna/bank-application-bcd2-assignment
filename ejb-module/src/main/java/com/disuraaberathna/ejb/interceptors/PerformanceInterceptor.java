@@ -14,9 +14,11 @@ public class PerformanceInterceptor {
     public Object measureTime(final InvocationContext ctx) throws Exception {
         long start = System.currentTimeMillis();
         Object result = ctx.proceed();
+        String className = ctx.getTarget().getClass().getSimpleName();
+        String methodName = ctx.getMethod().getName();
         long end = System.currentTimeMillis();
 
-        System.out.println("[PerformanceInterceptor] " + ctx.getMethod().getName() + " took " + (end - start) + "ms");
+        System.out.println("[PerformanceInterceptor] " + className + "." + methodName + " took " + (end - start) + "ms");
         return result;
     }
 }
