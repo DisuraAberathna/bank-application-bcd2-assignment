@@ -129,6 +129,29 @@ public class TransferSessionBean implements TransferService {
     }
 
     @Override
+    @RolesAllowed({"USER", "ADMIN", "SUPER_ADMIN"})
+    public TransferHistory getLastTransferHistory(String accNo) {
+        try {
+            transaction.begin();
+            em.joinTransaction();
+
+            Account account = accountService.getAccountByNo(accNo);
+            TransferHistory transferHistory;
+            try {
+                transferHistory = em.createNamedQuery("TransferHistory.getHistoryByAccount", TransferHistory.class)
+                        .setParameter("account", account).setMaxResults(1).getSingleResult();
+            } catch (NoResultException e) {
+                return null;
+            }
+
+            transaction.commit();
+            return transferHistory;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     @PermitAll
     public void addInterest(TransferHistory transferHistory) {
         try {
