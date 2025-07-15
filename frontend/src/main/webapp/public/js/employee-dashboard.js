@@ -72,12 +72,33 @@ const loadCustomer = async () => {
             }),
         });
 
-        const data = await response.json();
-        if (data.success) {
-            document.getElementById("messageView").style.display = "none";
-            document.getElementById("useExistsView").style.display = "none";
+        const tbody = document.getElementById("c-tbody");
+        const trow = document.getElementById("c-trow");
 
-            openModal(customerDetailsModal);
+        const data = await response.json();
+        if (data.success && data.customer && data.accounts.length > 0) {
+            document.getElementById("s-messageView").style.display = "none";
+
+            document.getElementById("c-name").innerHTML = data.customer.name;
+            document.getElementById("c-email").innerHTML = data.customer.email;
+            document.getElementById("c-nic").innerHTML = data.customer.nic;
+            document.getElementById("c-mobile").innerHTML = data.customer.mobile;
+
+            tbody.innerHTML = "";
+
+            data.accounts.forEach(account => {
+                let clone = trow.cloneNode(true);
+                clone.querySelector("#c-accNo").innerHTML = account.accountNumber;
+                clone.querySelector("#c-type").innerHTML = account.accountType;
+                clone.querySelector("#c-balance").innerHTML = "LKR " + new Intl.NumberFormat("en-US", {
+                    minimumFractionDigits: 2,
+                }).format(account.balance);
+                clone.querySelector("#c-lTransaction").innerHTML = account.lastTransactionDate;
+
+                tbody.appendChild(clone);
+            });
+
+            openModal("customerDetailsModal");
         } else {
             const messageList = document.getElementById("s-messageList");
             for (const [field, message] of Object.entries(data.errors)) {
