@@ -272,7 +272,7 @@ const verifyTransfer = async () => {
                 otpVerify = false;
                 transferId = "";
                 closeModal("confirmModal");
-                loadAccounts();
+                showSuccessModal("Transaction Successful","Your fund transfer has been successfully!");
             } else {
                 const messageList = document.getElementById("transferModalMessageList");
                 for (const [field, message] of Object.entries(data.errors)) {
@@ -461,6 +461,7 @@ const verifyScheduleTransfer = async () => {
                 scheduleOtpVerify = false;
                 scheduledTransferId = "";
                 closeModal("confirmScheduleModal");
+                showSuccessModal("Transaction Schedule Successful","You scheduled fund transfer successfully!");
             } else {
                 const messageList = document.getElementById("scheduledModalMessageList");
                 for (const [field, message] of Object.entries(data.errors)) {
@@ -522,3 +523,14 @@ const formatDate = (dateTime) => {
 
     return `${year}-${month}-${day} ${formattedHour}.${minutes} ${ampm}`;
 }
+
+const showSuccessModal = (title, desc) => {
+    document.getElementById("successModalTitle").innerHTML = title;
+    document.getElementById("successModalDesc").innerHTML = desc;
+    openModal("successModal");
+};
+
+const successModal = () => {
+    loadAccounts();
+    closeModal("successModal");
+};
