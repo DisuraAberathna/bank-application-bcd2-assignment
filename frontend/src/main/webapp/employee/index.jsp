@@ -17,7 +17,7 @@
 </head>
 <body class="bg-gray-100 text-gray-900">
 <div class="min-h-screen flex flex-col">
-    <header class="bg-indigo-600 text-white p-4 shadow-md flex justify-between items-center">
+    <header class="bg-gradient-to-r from-[#16A34A] to-[#182e20] text-white p-4 shadow-md flex justify-between items-center">
         <div class="flex-2">
             <h1 class="text-2xl font-bold">Employee Dashboard</h1>
         </div>
@@ -109,66 +109,18 @@
             </form>
         </div>
 
-        <div class="bg-white p-5 rounded-xl shadow-md md:col-span-1">
-            <h2 class="text-xl font-semibold mb-3">Add New Customer Account</h2>
-            <div class="flex justify-between items-end py-2 px-4">
-                <div class="flex flex-col gap-y-1 w-2/4">
-                    <label for="email" class="font-medium">Email Address *</label>
-                    <input type="email" name="email" id="email" placeholder="Enter Email Address"
-                           class="rounded-md border-2 border-gray-300 px-3 w-full py-1 outline-none hover:border-[#16A34A] active:border-[#16A34A]"
-                           required/>
+        <div class="rounded-xl bg-white p-5 shadow-md md:col-span-1 h-fit">
+            <h2 class="mb-3 text-xl font-semibold">Search Customer Account</h2>
+            <div class="flex items-end justify-between px-4 py-2 gap-x-3">
+                <div class="flex flex-3 flex-col gap-y-1">
+                    <label for="s-nic" class="font-medium">NIC *</label>
+                    <input type="text" id="s-nic" placeholder="Customer NIC" class="w-full rounded-md border-2 border-gray-300 px-3 py-1 outline-none hover:border-[#16A34A] active:border-[#16A34A]" required />
                 </div>
-                <div class="w-1/4">
-                    <button class="cursor-pointer w-full rounded-md bg-[#16A34A] py-1.5 font-medium text-white hover:bg-[#28914e]">
-                        Search
-                    </button>
+                <div class="flex-1">
+                    <button class="w-full cursor-pointer rounded-md bg-[#16A34A] py-1.5 font-medium text-white hover:bg-[#28914e]">Search</button>
                 </div>
             </div>
         </div>
-
-        <!-- View Transaction Histories -->
-        <div class="bg-white p-5 rounded-xl shadow-md md:col-span-3">
-            <h2 class="text-xl font-semibold mb-3">Transaction Histories</h2>
-            <form class="mb-4">
-                <input type="text" placeholder="Search by Account Number..."
-                       class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none w-full md:w-1/3"/>
-            </form>
-            <div class="overflow-x-auto">
-                <table class="w-full text-left border-collapse">
-                    <thead>
-                    <tr class="bg-gray-100">
-                        <th class="p-2 border-b">Date</th>
-                        <th class="p-2 border-b">Account No</th>
-                        <th class="p-2 border-b">Description</th>
-                        <th class="p-2 border-b">Amount</th>
-                        <th class="p-2 border-b">Balance</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td class="p-2 border-b">2025-07-01</td>
-                        <td class="p-2 border-b">ACC1001</td>
-                        <td class="p-2 border-b">Interest Credit</td>
-                        <td class="p-2 border-b">
-                            <span class="text-green-600">+LKR 1,200.00</span>
-                        </td>
-                        <td class="p-2 border-b">LKR 100,000.00</td>
-                    </tr>
-                    <tr>
-                        <td class="p-2 border-b">2025-06-28</td>
-                        <td class="p-2 border-b">ACC1002</td>
-                        <td class="p-2 border-b">Transfer to ACC1234</td>
-                        <td class="p-2 border-b">
-                            <span class="text-red-600">-LKR 10,000.00</span>
-                        </td>
-                        <td class="p-2 border-b">LKR 52,000.00</td>
-                    </tr>
-                    <!-- Additional rows can be dynamically loaded -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
 
         <c:if test="${pageContext.request.isUserInRole('ADMIN')}">
             <div class="bg-white p-5 rounded-xl shadow-md md:col-span-1">
@@ -230,6 +182,49 @@
                 </form>
             </div>
         </c:if>
+
+        <!-- View Transaction Histories -->
+        <div class="bg-white p-5 rounded-xl shadow-md md:col-span-3">
+            <h2 class="text-xl font-semibold mb-3">Transaction Histories</h2>
+            <form class="mb-4">
+                <input type="text" placeholder="Search by Account Number..."
+                       class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none w-full md:w-1/3"/>
+            </form>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                    <tr class="bg-gray-100">
+                        <th class="p-2 border-b">Date</th>
+                        <th class="p-2 border-b">Account No</th>
+                        <th class="p-2 border-b">Description</th>
+                        <th class="p-2 border-b">Amount</th>
+                        <th class="p-2 border-b">Balance</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="p-2 border-b">2025-07-01</td>
+                        <td class="p-2 border-b">ACC1001</td>
+                        <td class="p-2 border-b">Interest Credit</td>
+                        <td class="p-2 border-b">
+                            <span class="text-green-600">+LKR 1,200.00</span>
+                        </td>
+                        <td class="p-2 border-b">LKR 100,000.00</td>
+                    </tr>
+                    <tr>
+                        <td class="p-2 border-b">2025-06-28</td>
+                        <td class="p-2 border-b">ACC1002</td>
+                        <td class="p-2 border-b">Transfer to ACC1234</td>
+                        <td class="p-2 border-b">
+                            <span class="text-red-600">-LKR 10,000.00</span>
+                        </td>
+                        <td class="p-2 border-b">LKR 52,000.00</td>
+                    </tr>
+                    <!-- Additional rows can be dynamically loaded -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </main>
 </div>
 </body>
