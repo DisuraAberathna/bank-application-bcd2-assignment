@@ -252,17 +252,18 @@
         <div class="bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-black hidden"
              id="customerDetailsModal">
             <div class="relative w-full max-w-2xl rounded-lg bg-white p-6 shadow-lg">
-                <button class="absolute top-4 right-4 h-8 w-8 cursor-pointer rounded-full text-xl font-bold text-gray-800 hover:bg-gray-100">
+                <button class="absolute top-4 right-4 h-8 w-8 cursor-pointer rounded-full text-xl font-bold text-gray-800 hover:bg-gray-100"
+                        onclick="closeModal('customerDetailsModal')">
                     &times;
                 </button>
 
                 <h2 class="mb-4 text-xl font-semibold">Customer Details & History</h2>
 
                 <div class="mb-4">
-                    <p><span class="font-semibold">Name :</span> <span id="c-name"></span></p>
-                    <p><span class="font-semibold">Email Address :</span> <span id="c-email"></span></p>
-                    <p><span class="font-semibold">NIC Number :</span> <span id="c-nic"></span></p>
-                    <p><span class="font-semibold">Mobile Number :</span> <span id="c-nic"></span></p>
+                    <p class="flex item-center gap-x-2"><span class="font-semibold">Name :</span> <span id="c-name"></span></p>
+                    <p class="flex item-center gap-x-2"><span class="font-semibold">Email Address :</span> <span id="c-email"></span></p>
+                    <p class="flex item-center gap-x-2"><span class="font-semibold">NIC Number :</span> <span id="c-nic"></span></p>
+                    <p class="flex item-center gap-x-2"><span class="font-semibold">Mobile Number :</span> <span id="c-mobile"></span></p>
                 </div>
 
                 <div class="mb-6">
@@ -280,7 +281,7 @@
                             <tbody id="c-tbody">
                             <tr id="c-trow">
                                 <td class="border px-4 py-2" id="c-accNo">ACC100001</td>
-                                <td class="border px-4 py-2" id="c-type">Savings</td>
+                                <td class="border px-4 py-2 capitalize" id="c-type">Savings</td>
                                 <td class="border px-4 py-2" id="c-balance">LKR 50,000</td>
                                 <td class="border px-4 py-2" id="c-lTransaction">2025-07-05</td>
                             </tr>
