@@ -18,7 +18,7 @@ const addCustomer = async (e) => {
     document.getElementById("messageView").style.display = "none";
 
     try {
-        const response = await fetch("${pageContext.request.contextPath}/add-customer", {
+        const response = await fetch("/bank-app/add-customer", {
             method: "POST",
             body: JSON.stringify(formData),
         });
