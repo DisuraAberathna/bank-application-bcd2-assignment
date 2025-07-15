@@ -43,7 +43,7 @@ public class LoadCustomerTransferHistory extends HttpServlet {
                 transferHistoryDTO.setAmount(transferHistory.getAmount());
                 transferHistoryDTO.setDate(new SimpleDateFormat("yyyy/MM/dd hh.mm a").format(transferHistory.getCreatedAt()));
 
-                if (accNo.equals(transferHistory.getFromAccount().getAccountNumber())) {
+                if (transferHistory.getFromAccount() != null && accNo.equals(transferHistory.getFromAccount().getAccountNumber())) {
                     transferHistoryDTO.setCreditor(false);
                     transferHistoryDTO.setBalance(transferHistory.getFromAccountBalance());
                     transferHistoryDTO.setDescription("Fund Transfer to " + transferHistory.getToAccount().getAccountNumber());
