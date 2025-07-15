@@ -16,7 +16,7 @@
 </head>
 <body class="bg-gray-100 text-gray-900" onload="loadAccounts()">
 <div class="min-h-screen flex flex-col">
-    <header class="bg-blue-600 text-white p-4 shadow-md flex justify-between items-center">
+    <header class="bg-gradient-to-r from-[#16A34A] to-[#182e20] text-white p-4 shadow-md flex justify-between items-center">
         <div class="flex-2">
             <h1 class="text-2xl font-bold">Account Dashboard</h1>
         </div>
@@ -117,7 +117,7 @@
                         Reset
                     </button>
                     <button type="submit"
-                            class="bg-yellow-400 text-white font-medium py-1.5 flex-4 rounded-md hover:bg-yellow-500 cursor-pointer">
+                            class="bg-[#16A34A] text-white font-medium py-1.5 flex-4 rounded-md hover:bg-[#28914e] cursor-pointer">
                         Schedule
                     </button>
                 </div>
@@ -130,7 +130,7 @@
             </form>
         </div>
 
-        <div class="bg-white p-5 rounded-xl shadow-md md:col-span-2">
+        <div class="bg-white p-5 rounded-xl shadow-md md:col-span-3">
             <h2 class="text-xl font-semibold mb-3">Your Accounts</h2>
             <ul class="space-y-2" id="accounts">
                 <li class="p-3 border rounded-lg flex justify-between" id="account">
@@ -143,7 +143,7 @@
             </ul>
         </div>
 
-        <div class="bg-white p-5 rounded-xl shadow-md md:col-span-2">
+        <div class="bg-white p-5 rounded-xl shadow-md md:col-span-3">
             <div class="flex justify-between items-center px-3 py-2">
                 <label for="accountList" class="mb-3 text-xl font-semibold">Balance History</label>
                 <select class="rounded-md border-2 border-gray-300 px-3 py-2 w-sm capitalize outline-none hover:border-[#16A34A] active:border-[#16A34A]"
@@ -180,7 +180,7 @@
 
 <div class="fixed inset-0 bg-black bg-opacity-20 flex items-center justify-center z-50 hidden" id="confirmModal">
     <div class="bg-white rounded-xl w-full max-w-md shadow-lg">
-        <div class="bg-blue-700 text-white text-lg font-semibold px-6 py-4 rounded-t-xl">
+        <div class="bg-gradient-to-r from-[#16A34A] to-[#182e20] text-white text-lg font-semibold px-6 py-4 rounded-t-xl">
             Confirm Transaction
         </div>
         <div class="px-6 py-4 space-y-2 text-gray-800">
@@ -230,7 +230,7 @@
 <div class="fixed inset-0 bg-black bg-opacity-20 flex items-center justify-center z-50 hidden"
      id="confirmScheduleModal">
     <div class="bg-white rounded-xl w-full max-w-md shadow-lg">
-        <div class="bg-blue-700 text-white text-lg font-semibold px-6 py-4 rounded-t-xl">
+        <div class="bg-gradient-to-r from-[#16A34A] to-[#182e20] text-white text-lg font-semibold px-6 py-4 rounded-t-xl">
             Confirm Transaction
         </div>
         <div class="px-6 py-4 space-y-2 text-gray-800">
@@ -283,7 +283,7 @@
 
 <div class="bg-opacity-20 fixed inset-0 z-50 flex items-center justify-center bg-black hidden" id="successModal">
     <div class="w-full max-w-md rounded-xl bg-white shadow-lg">
-        <div class="rounded-t-xl bg-blue-700 px-6 py-5 text-lg font-semibold text-white" id="successModalTitle">
+        <div class="rounded-t-xl bg-gradient-to-r from-[#16A34A] to-[#182e20] px-6 py-5 text-lg font-semibold text-white" id="successModalTitle">
         </div>
         <div class="flex flex-col items-center justify-center gap-y-3 px-6 pt-8 pb-4">
             <svg class="h-20 w-20 shrink-0" viewBox="0 0 22 22" fill="none" stroke-linecap="square">
