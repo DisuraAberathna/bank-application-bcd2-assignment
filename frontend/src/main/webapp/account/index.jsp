@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="../public/css/main.css">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="../public/js/common.js"></script>
     <script src="../public/js/account-dashboard.js"></script>
 </head>
 <body class="bg-gray-100 text-gray-900" onload="loadAccounts()">
