@@ -85,7 +85,7 @@ public class AddCustomer extends HttpServlet {
             errors.put("mobile", "Valid 10-digit Mobile Number is required.");
         }
 
-        if (Validator.validateNic(nic)) {
+        if (!Validator.validateNic(nic)) {
             errors.put("nic", "Please enter a valid nic number.");
         }
 
@@ -126,6 +126,13 @@ public class AddCustomer extends HttpServlet {
             return;
         }
 
+        AccountType accountType = switch (type) {
+            case "savings" -> AccountType.SAVINGS;
+            case "current" -> AccountType.CURRENT;
+            case "deposit" -> AccountType.DEPOSIT;
+            default -> null;
+        };
+
         if (customer == null) {
             String verificationCode = VerificationCodeGenerator.generate();
 
@@ -138,28 +145,12 @@ public class AddCustomer extends HttpServlet {
             customerService.addCustomer(newCustomer);
         }
 
-        AccountType accountType = null;
-
-        switch (type) {
-            case "savings":
-                accountType = AccountType.SAVINGS;
-                break;
-            case "current":
-                accountType = AccountType.CURRENT;
-                break;
-            case "deposit":
-                accountType = AccountType.DEPOSIT;
-                break;
-        }
-
         accountService.addAccount(deposit, email.trim(), accountType);
 
         responseData.put("success", true);
-        if (customer != null) {
-            responseData.put("message", "New Account has been added successfully.");
-        } else {
-            responseData.put("message", "Customer and account successfully created. Verification email sent.");
-        }
+        responseData.put("message", customer != null
+                ? "New Account has been added successfully."
+                : "Customer and account successfully created. Verification email sent.");
 
         resp.getWriter().write(gson.toJson(responseData));
     }
