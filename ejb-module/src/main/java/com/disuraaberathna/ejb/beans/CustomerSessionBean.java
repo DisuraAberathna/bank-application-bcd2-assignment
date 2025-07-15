@@ -7,9 +7,7 @@ import com.disuraaberathna.core.service.CustomerService;
 import com.disuraaberathna.core.util.Encryptor;
 import jakarta.annotation.security.DenyAll;
 import jakarta.annotation.security.RolesAllowed;
-import jakarta.ejb.Stateless;
-import jakarta.ejb.TransactionManagement;
-import jakarta.ejb.TransactionManagementType;
+import jakarta.ejb.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
@@ -45,6 +43,7 @@ public class CustomerSessionBean implements CustomerService {
     }
 
     @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public Customer getCustomerByEmail(String email) {
         try {
             TypedQuery<Customer> query = em.createNamedQuery("Customer.findByEmail", Customer.class).setParameter("email", email);
