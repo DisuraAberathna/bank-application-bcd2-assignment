@@ -119,14 +119,6 @@ const loadTransferHistory = async (val) => {
     }
 };
 
-const openModal = (id) => {
-    document.getElementById(id).classList.remove('hidden');
-}
-
-const closeModal = (id) => {
-    document.getElementById(id).classList.add('hidden');
-}
-
 const sendTransfer = async (e) => {
     e.preventDefault();
 
