@@ -10,7 +10,7 @@ import java.util.Date;
 @Table(name = "transfer_history")
 @NamedQueries({
         @NamedQuery(name = "TransferHistory.verify", query = "select th from TransferHistory th where th.id = :id and th.otp = :otp"),
-        @NamedQuery(name = "TransferHistory.getHistoryByAccount", query = "select th from TransferHistory th where th.fromAccount = :account or th.toAccount = :account order by th.id DESC"),
+        @NamedQuery(name = "TransferHistory.getHistoryByAccount", query = "select th from TransferHistory th where th.fromAccount = :account or th.toAccount = :account order by th.id desc"),
 })
 public class TransferHistory implements Serializable {
     @Id
