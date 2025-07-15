@@ -32,7 +32,6 @@ import com.google.gson.Gson;
 
 @DeclareRoles({"USER", "ADMIN"})
 @ServletSecurity(@HttpConstraint(rolesAllowed = {"USER", "ADMIN"}))
-@TransactionAttribute(TransactionAttributeType.REQUIRED)
 @WebServlet("/add-customer")
 public class AddCustomer extends HttpServlet {
     @EJB
