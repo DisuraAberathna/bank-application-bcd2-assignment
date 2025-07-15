@@ -29,7 +29,7 @@ public class Register extends HttpServlet {
 
         Map<String, String> errors = new HashMap<>();
 
-        if (Validator.validateNic(nic)) {
+        if (!Validator.validateNic(nic)) {
             errors.put("nic", "Please enter a valid nic number.");
         }
 
