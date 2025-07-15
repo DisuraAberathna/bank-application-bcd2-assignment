@@ -67,7 +67,7 @@
                     </div>
                     <div class="flex flex-1 flex-col gap-y-1">
                         <label for="nic" class="font-medium">NIC Number *</label>
-                        <input type="text" name="nic" id="nic" placeholder="Enter NIC Number" maxlength="10"
+                        <input type="text" name="nic" id="nic" placeholder="Enter NIC Number" maxlength="12"
                                class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"
                                required/>
                     </div>
