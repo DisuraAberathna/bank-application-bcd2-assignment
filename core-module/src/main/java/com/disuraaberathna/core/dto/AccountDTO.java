@@ -4,6 +4,7 @@ public class AccountDTO {
     private String accountNumber;
     private String accountType;
     private Double balance;
+    private String lastTransactionDate;
 
     public AccountDTO() {
     }
@@ -36,5 +37,13 @@ public class AccountDTO {
 
     public void setBalance(Double balance) {
         this.balance = balance;
+    }
+
+    public String getLastTransactionDate() {
+        return lastTransactionDate;
+    }
+
+    public void setLastTransactionDate(String lastTransactionDate) {
+        this.lastTransactionDate = lastTransactionDate;
     }
 }
