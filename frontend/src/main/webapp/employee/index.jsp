@@ -35,7 +35,7 @@
         </div>
     </header>
 
-    <main class="flex-1 p-6 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+    <main class="p-6 grid grid-cols-1 xl:grid-cols-3 gap-6">
         <div class="bg-white p-5 rounded-xl shadow-md md:col-span-1">
             <h2 class="text-xl font-semibold mb-3">Add New Customer Account</h2>
             <form class="space-y-3 flex flex-col" id="addCustomerForm" onsubmit="addCustomer(event)">
@@ -114,7 +114,7 @@
             <h2 class="mb-3 text-xl font-semibold">Search Customer Account</h2>
             <div class="flex items-end justify-between px-4 py-2 gap-x-3">
                 <div class="flex flex-3 flex-col gap-y-1">
-                    <label for="s-nic" class="font-medium">NIC *</label>
+                    <label for="s-nic" class="font-medium">NIC Number *</label>
                     <input type="text" id="s-nic" placeholder="Customer NIC"
                            class="w-full rounded-md border-2 border-gray-300 px-3 py-1 outline-none hover:border-[#16A34A] active:border-[#16A34A]"
                            required/>
@@ -130,6 +130,30 @@
                  id="s-messageView" style="display: none;">
                 <strong class="font-bold">Please correct the following errors:</strong>
                 <ul class="list-disc ml-5 mt-2" id="s-messageList">
+                </ul>
+            </div>
+        </div>
+
+        <div class="rounded-xl bg-white p-5 shadow-md md:col-span-1 h-fit">
+            <h2 class="mb-3 text-xl font-semibold">Search Fund Transfer History</h2>
+            <div class="flex items-end justify-between px-4 py-2 gap-x-3">
+                <div class="flex flex-3 flex-col gap-y-1">
+                    <label for="t-accNo" class="font-medium">Account Number *</label>
+                    <input type="text" id="t-accNo" placeholder="Customer Account Number"
+                           class="w-full rounded-md border-2 border-gray-300 px-3 py-1 outline-none hover:border-[#16A34A] active:border-[#16A34A]"
+                           required/>
+                </div>
+                <div class="flex-1">
+                    <button class="w-full cursor-pointer rounded-md bg-[#16A34A] py-1.5 font-medium text-white hover:bg-[#28914e]"
+                            onclick="loadTransferHistory()">
+                        Search
+                    </button>
+                </div>
+            </div>
+            <div class="bg-red-100 border-2 border-red-400 text-red-700 px-4 py-3 rounded-lg relative mt-3"
+                 id="t-messageView" style="display: none;">
+                <strong class="font-bold">Please correct the following errors:</strong>
+                <ul class="list-disc ml-5 mt-2" id="t-messageList">
                 </ul>
             </div>
         </div>
@@ -195,75 +219,25 @@
             </div>
         </c:if>
 
-        <!-- View Transaction Histories -->
-        <div class="rounded-xl bg-white p-5 shadow-md md:col-span-3">
-            <div class="mb-4 flex items-center justify-between">
-                <div class="flex-2/4">
-                    <h2 class="text-xl font-semibold">Transaction Histories</h2>
-                </div>
-                <div class="flex flex-1/4 gap-x-3">
-                    <div class="flex-2/4">
-                        <input type="text" placeholder="Search by Account Number..."
-                               class="w-full rounded-md border-2 border-gray-300 px-3 py-1 outline-none hover:border-[#16A34A] active:border-[#16A34A]"/>
-                    </div>
-                    <div class="flex-1">
-                        <button class="w-full cursor-pointer rounded-md bg-[#16A34A] py-1.5 font-medium text-white hover:bg-[#28914e]">
-                            Search
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="overflow-x-auto">
-                <table class="w-full border-collapse text-left">
-                    <thead>
-                    <tr class="bg-gray-100">
-                        <th class="border-b p-2">Date</th>
-                        <th class="border-b p-2">Account No</th>
-                        <th class="border-b p-2">Description</th>
-                        <th class="border-b p-2">Amount</th>
-                        <th class="border-b p-2">Balance</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td class="border-b p-2">2025-07-01</td>
-                        <td class="border-b p-2">ACC1001</td>
-                        <td class="border-b p-2">Interest Credit</td>
-                        <td class="border-b p-2">
-                            <span class="text-green-600">+LKR 1,200.00</span>
-                        </td>
-                        <td class="border-b p-2">LKR 100,000.00</td>
-                    </tr>
-                    <tr>
-                        <td class="border-b p-2">2025-06-28</td>
-                        <td class="border-b p-2">ACC1002</td>
-                        <td class="border-b p-2">Transfer to ACC1234</td>
-                        <td class="border-b p-2">
-                            <span class="text-red-600">-LKR 10,000.00</span>
-                        </td>
-                        <td class="border-b p-2">LKR 52,000.00</td>
-                    </tr>
-                    <!-- Additional rows can be dynamically loaded -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
         <div class="bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-black hidden"
              id="customerDetailsModal">
             <div class="relative w-full max-w-2xl rounded-lg bg-white p-6 shadow-lg">
                 <button class="absolute top-4 right-4 h-8 w-8 cursor-pointer rounded-full text-xl font-bold text-gray-800 hover:bg-gray-100"
-                        onclick="closeModal('customerDetailsModal')">
+                        onclick="closeAccountModal()">
                     &times;
                 </button>
 
                 <h2 class="mb-4 text-xl font-semibold">Customer Details & History</h2>
 
                 <div class="mb-4">
-                    <p class="flex item-center gap-x-2"><span class="font-semibold">Name :</span> <span id="c-name"></span></p>
-                    <p class="flex item-center gap-x-2"><span class="font-semibold">Email Address :</span> <span id="c-email"></span></p>
-                    <p class="flex item-center gap-x-2"><span class="font-semibold">NIC Number :</span> <span id="c-nic"></span></p>
-                    <p class="flex item-center gap-x-2"><span class="font-semibold">Mobile Number :</span> <span id="c-mobile"></span></p>
+                    <p class="flex item-center gap-x-2"><span class="font-semibold">Name :</span> <span
+                            id="c-name"></span></p>
+                    <p class="flex item-center gap-x-2"><span class="font-semibold">Email Address :</span> <span
+                            id="c-email"></span></p>
+                    <p class="flex item-center gap-x-2"><span class="font-semibold">NIC Number :</span> <span
+                            id="c-nic"></span></p>
+                    <p class="flex item-center gap-x-2"><span class="font-semibold">Mobile Number :</span> <span
+                            id="c-mobile"></span></p>
                 </div>
 
                 <div class="mb-6">
@@ -307,6 +281,44 @@
                             Update Info
                         </button>
                     </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-black hidden"
+             id="transferHistoryModal">
+            <div class="relative w-full max-w-4xl rounded-lg bg-white p-6 shadow-lg">
+                <button class="absolute top-4 right-4 h-8 w-8 cursor-pointer rounded-full text-xl font-bold text-gray-800 hover:bg-gray-100" onclick="closeTransferHistoryModal()">
+                    &times;
+                </button>
+
+                <h2 class="mb-4 text-xl font-semibold">Fund Transfer History</h2>
+
+                <div class="mb-4">
+                    <p><span class="font-semibold">Account Number :</span> <span id="tm-accNo"></span></p>
+                </div>
+
+                <div class="mb-5 overflow-x-auto">
+                    <table class="min-w-full border text-sm">
+                        <thead>
+                        <tr class="bg-gray-100">
+                            <th class="border px-4 py-2 text-left">Date</th>
+                            <th class="border px-4 py-2 text-left">Description</th>
+                            <th class="border px-4 py-2 text-left">Amount</th>
+                            <th class="border px-4 py-2 text-left">Balance</th>
+                        </tr>
+                        </thead>
+                        <tbody id="table-body">
+                        <tr id="table-row">
+                            <td class="border px-4 py-2" id="table-date">2025-07-01</td>
+                            <td class="border px-4 py-2" id="table-desc">Interest Credit</td>
+                            <td class="border px-4 py-2">
+                                <span class="" id="table-amount">+LKR 1,200.00</span>
+                            </td>
+                            <td class="border px-4 py-2" id="table-balance">LKR 152,000.00</td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
