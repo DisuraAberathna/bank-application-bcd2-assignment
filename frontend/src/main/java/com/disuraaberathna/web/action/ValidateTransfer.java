@@ -38,7 +38,9 @@ public class ValidateTransfer extends HttpServlet {
 
         String fromAccountNo = json.get("fromAccount").getAsString();
         String toAccountNo = json.get("toAccount").getAsString();
-        double amount = json.get("amount").getAsDouble();
+        String amountString = json.get("amount").getAsString();
+
+        double amount = Double.parseDouble(amountString);
 
         Map<String, String> errors = new HashMap<>();
         Map<String, Object> responseData = new HashMap<>();
