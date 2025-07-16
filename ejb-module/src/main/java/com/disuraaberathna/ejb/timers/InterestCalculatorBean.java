@@ -15,7 +15,6 @@ import java.util.Date;
 
 @Startup
 @Singleton
-@PermitAll
 @Performance
 @RunAs("SYSTEM")
 public class InterestCalculatorBean {
