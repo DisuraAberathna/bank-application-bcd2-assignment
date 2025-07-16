@@ -86,7 +86,7 @@ public class ScheduleTransferSessionBean implements ScheduleTransferService {
     }
 
     @Override
-    @PermitAll
+    @RolesAllowed("SYSTEM")
     public List<ScheduledTransfer> getScheduledTransfers() {
         try {
             transaction.begin();
@@ -103,7 +103,7 @@ public class ScheduleTransferSessionBean implements ScheduleTransferService {
     }
 
     @Override
-    @PermitAll
+    @RolesAllowed("SYSTEM")
     public void delete(ScheduledTransfer scheduledTransfer) {
         try {
             transaction.begin();
