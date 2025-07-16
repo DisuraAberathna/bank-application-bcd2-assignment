@@ -1,11 +1,13 @@
 package com.disuraaberathna.ejb.timers;
 
 import com.disuraaberathna.core.annotation.Performance;
+import com.disuraaberathna.core.enums.AccountType;
 import com.disuraaberathna.core.enums.TransferStatus;
 import com.disuraaberathna.core.model.TransferHistory;
 import com.disuraaberathna.core.service.AccountService;
 import com.disuraaberathna.core.service.TransferService;
 import jakarta.annotation.security.PermitAll;
+import jakarta.annotation.security.RunAs;
 import jakarta.ejb.*;
 
 import java.util.Calendar;
@@ -15,6 +17,7 @@ import java.util.Date;
 @Singleton
 @PermitAll
 @Performance
+@RunAs("SYSTEM")
 public class InterestCalculatorBean {
     @EJB
     private AccountService accountService;
@@ -31,7 +34,7 @@ public class InterestCalculatorBean {
             cal.setTime(createdAt);
             int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
 
-            if (dayOfMonth <= 28) {
+            if (dayOfMonth <= 28 && account.getAccountType() == AccountType.SAVINGS) {
                 double balance = account.getBalance();
                 double interest = calculateInterest(balance);
 
