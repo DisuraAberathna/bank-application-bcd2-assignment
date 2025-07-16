@@ -85,7 +85,7 @@ public class TransferSessionBean implements TransferService {
     }
 
     @Override
-    @PermitAll
+    @RolesAllowed("SYSTEM")
     public void saveScheduledTransfer(ScheduledTransfer scheduledTransfer) {
         try {
             transaction.begin();
