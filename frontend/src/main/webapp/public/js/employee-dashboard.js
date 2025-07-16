@@ -166,14 +166,19 @@ const loadTransferHistory = async () => {
 
                 openModal("transferHistoryModal");
             } else {
-                const messageList = document.getElementById("t-messageList");
-                for (const [field, message] of Object.entries(data.errors)) {
-                    const li = document.createElement("li");
-                    li.textContent = message;
-                    li.classList.add("max-w-sm");
-                    messageList.appendChild(li);
+                if (data.errors) {
+                    const messageList = document.getElementById("t-messageList");
+                    for (const [field, message] of Object.entries(data.errors)) {
+                        const li = document.createElement("li");
+                        li.textContent = message;
+                        li.classList.add("max-w-sm");
+                        messageList.appendChild(li);
+                    }
+                    document.getElementById("t-messageView").style.display = "block";
+                } else {
+                    alert("The customer did not do any fund transfer.");
+                    closeTransferHistoryModal();
                 }
-                document.getElementById("t-messageView").style.display = "block";
             }
         }
     } catch (error) {
@@ -187,8 +192,58 @@ const loadTransferHistory = async () => {
     }
 };
 
-
 const closeTransferHistoryModal = () => {
     document.getElementById("t-accNo").value = "";
     closeModal("transferHistoryModal");
+};
+
+const addEmployee = async (e) => {
+    e.preventDefault();
+
+    const form = e.target;
+
+    const formData = {
+        "firstName": form.empFirstName.value,
+        "lastName": form.empLastName.value,
+        "email": form.empEmail.value,
+        "mobile": form.empMobile.value,
+        "username": form.empUserName.value,
+    };
+
+    document.getElementById("empMessageList").innerHTML = "";
+    document.getElementById("messageView").style.display = "none";
+
+    try {
+        const response = await fetch("/bank-app/add-employee", {
+            method: "POST",
+            body: JSON.stringify(formData),
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            document.getElementById("empMessageView").style.display = "none";
+
+            alert(data.message);
+            form.reset();
+        } else {
+            const messageList = document.getElementById("empMessageList");
+            for (const [field, message] of Object.entries(data.errors)) {
+                const li = document.createElement("li");
+                li.textContent = message;
+                li.classList.add("max-w-sm");
+                messageList.appendChild(li);
+            }
+
+            document.getElementById("empMessageView").style.display = "block";
+        }
+    } catch (error) {
+        console.error("Error:", error);
+        const messageList = document.getElementById("empMessageList");
+        const li = document.createElement("li");
+        li.textContent = "An unexpected error occurred.";
+        li.classList.add("max-w-sm");
+        messageList.appendChild(li);
+        document.getElementById("empMessageView").style.display = "block";
+    }
 };
