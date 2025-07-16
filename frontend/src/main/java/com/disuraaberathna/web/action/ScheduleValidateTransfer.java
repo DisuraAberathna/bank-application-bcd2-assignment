@@ -42,7 +42,9 @@ public class ScheduleValidateTransfer extends HttpServlet {
 
         String fromAccountNo = json.get("fromAccount").getAsString();
         String toAccountNo = json.get("toAccount").getAsString();
-        double amount = json.get("amount").getAsDouble();
+        String amountString = json.get("amount").getAsString();
+
+        double amount = Double.parseDouble(amountString);
 
         LocalDateTime dateTime = null;
         if (json.has("date")) {
