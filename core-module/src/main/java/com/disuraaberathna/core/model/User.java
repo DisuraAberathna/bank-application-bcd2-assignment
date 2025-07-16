@@ -11,7 +11,8 @@ import java.io.Serializable;
 @Cacheable(false)
 @NamedQueries({
         @NamedQuery(name = "User.findByUsername", query = "select u from User u where u.username = :username"),
-        @NamedQuery(name = "User.findByEmail", query = "select u from User u where u.email = :email")
+        @NamedQuery(name = "User.findByEmail", query = "select u from User u where u.email = :email"),
+        @NamedQuery(name = "User.findByMobile", query = "select u from User u where u.contact = :contact"),
 })
 public class User implements Serializable {
     @Id
