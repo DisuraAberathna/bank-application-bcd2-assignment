@@ -161,7 +161,7 @@
         <c:if test="${pageContext.request.isUserInRole('ADMIN')}">
             <div class="bg-white p-5 rounded-xl shadow-md md:col-span-1">
                 <h2 class="text-xl font-semibold mb-3">Add New Employee Account</h2>
-                <form class="space-y-3 flex flex-col" id="addEmployeeForm">
+                <form class="space-y-3 flex flex-col" onsubmit="addEmployee(event)">
                     <div class="flex w-full items-center justify-between gap-x-3">
                         <div class="flex flex-1 flex-col gap-y-1">
                             <label for="empFirstName" class="font-medium">First Name *</label>
@@ -176,13 +176,13 @@
                                    required/>
                         </div>
                     </div>
+                    <div class="flex flex-1 flex-col gap-y-1">
+                        <label for="empEmail" class="font-medium">Email Address *</label>
+                        <input type="email" name="empEmail" id="empEmail" placeholder="Enter Email Address"
+                               class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"
+                               required/>
+                    </div>
                     <div class="flex w-full items-center justify-between gap-x-3">
-                        <div class="flex flex-1 flex-col gap-y-1">
-                            <label for="empEmail" class="font-medium">Email Address *</label>
-                            <input type="email" name="empEmail" id="empEmail" placeholder="Enter Email Address"
-                                   class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"
-                                   required/>
-                        </div>
                         <div class="flex flex-1 flex-col gap-y-1">
                             <label for="empMobile" class="font-medium">Mobile Number *</label>
                             <input type="tel" name="empMobile" id="empMobile" placeholder="Enter Mobile Number"
@@ -190,17 +190,9 @@
                                    class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"
                                    required/>
                         </div>
-                    </div>
-                    <div class="flex w-full items-center justify-between gap-x-3">
                         <div class="flex flex-1 flex-col gap-y-1">
                             <label for="empUsername" class="font-medium">Username *</label>
                             <input type="text" name="empUserName" id="empUsername" placeholder="Enter Username"
-                                   class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"
-                                   required/>
-                        </div>
-                        <div class="flex flex-1 flex-col gap-y-1">
-                            <label for="empPassword" class="font-medium">Password *</label>
-                            <input type="text" name="empPassword" id="empPassword" placeholder="Enter Password"
                                    class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"
                                    required/>
                         </div>
@@ -288,7 +280,8 @@
         <div class="bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-black hidden"
              id="transferHistoryModal">
             <div class="relative w-full max-w-4xl rounded-lg bg-white p-6 shadow-lg">
-                <button class="absolute top-4 right-4 h-8 w-8 cursor-pointer rounded-full text-xl font-bold text-gray-800 hover:bg-gray-100" onclick="closeTransferHistoryModal()">
+                <button class="absolute top-4 right-4 h-8 w-8 cursor-pointer rounded-full text-xl font-bold text-gray-800 hover:bg-gray-100"
+                        onclick="closeTransferHistoryModal()">
                     &times;
                 </button>
 
