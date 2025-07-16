@@ -5,7 +5,6 @@ import com.disuraaberathna.core.mail.ScheduledTransferErrorMail;
 import com.disuraaberathna.core.provider.MailServiceProvider;
 import com.disuraaberathna.core.service.ScheduleTransferService;
 import com.disuraaberathna.core.service.TransferService;
-import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RunAs;
 import jakarta.ejb.*;
 
@@ -13,7 +12,6 @@ import java.util.Date;
 
 @Startup
 @Singleton
-@PermitAll
 @RunAs("SYSTEM")
 public class ScheduledFundTransferBean {
     @EJB
