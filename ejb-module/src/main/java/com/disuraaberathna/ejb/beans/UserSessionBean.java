@@ -5,6 +5,7 @@ import com.disuraaberathna.core.annotation.Performance;
 import com.disuraaberathna.core.model.User;
 import com.disuraaberathna.core.service.UserService;
 import com.disuraaberathna.core.util.Encryptor;
+import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.Stateless;
 import jakarta.ejb.TransactionManagement;
@@ -23,6 +24,7 @@ public class UserSessionBean implements UserService {
     private EntityManager em;
 
     @Override
+    @PermitAll
     public boolean validate(String username, String password) {
         try {
             User user = em.createNamedQuery("User.findByUsername", User.class).setParameter("username", username).getSingleResult();
@@ -33,6 +35,7 @@ public class UserSessionBean implements UserService {
     }
 
     @Override
+    @PermitAll
     public User getUserByUsername(String username) {
         try {
             TypedQuery<User> query = em.createNamedQuery("User.findByUsername", User.class).setParameter("username", username);
@@ -43,6 +46,7 @@ public class UserSessionBean implements UserService {
     }
 
     @Override
+    @RolesAllowed({"ADMIN", "SUPER_ADMIN"})
     public User getUserByEmail(String email) {
         try {
             TypedQuery<User> query = em.createNamedQuery("User.findByEmail", User.class).setParameter("email", email);
@@ -53,6 +57,18 @@ public class UserSessionBean implements UserService {
     }
 
     @Override
+    @RolesAllowed({"ADMIN", "SUPER_ADMIN"})
+    public User getUserByMobile(String mobile) {
+        try {
+            TypedQuery<User> query = em.createNamedQuery("User.findByMobile", User.class).setParameter("contact", mobile);
+            return query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    @Override
+    @RolesAllowed({"ADMIN", "SUPER_ADMIN"})
     public void addUser(User user) {
         em.persist(user);
     }
