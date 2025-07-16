@@ -49,7 +49,9 @@ public class FundTransfer extends HttpServlet {
 
         String fromAccountNo = json.get("fromAccount").getAsString();
         String toAccountNo = json.get("toAccount").getAsString();
-        double amount = json.get("amount").getAsDouble();
+        String amountString = json.get("amount").getAsString();
+
+        double amount = Double.parseDouble(amountString);
 
         Map<String, String> errors = new HashMap<>();
         Map<String, Object> responseData = new HashMap<>();
@@ -66,7 +68,7 @@ public class FundTransfer extends HttpServlet {
             errors.put("toAccountNo", "Please enter a valid account number.");
         }
 
-        if (fromAccountNo != null && fromAccountNo.equals(toAccountNo)){
+        if (fromAccountNo != null && fromAccountNo.equals(toAccountNo)) {
             errors.put("toAccountNo", "Can not transfer to the same account.");
         }
 
