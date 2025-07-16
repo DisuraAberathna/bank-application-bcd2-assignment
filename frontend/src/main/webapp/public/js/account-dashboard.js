@@ -75,7 +75,7 @@ const loadTransferHistory = async (val) => {
     const table = document.getElementById("transferHistoryTable");
 
     try {
-        const response = await fetch("/bank-app/load-my-transfer-history", {
+        const response = await fetch("/bank-app/load-transfer-history", {
             method: "POST",
             body: JSON.stringify({
                 accNo: val,
