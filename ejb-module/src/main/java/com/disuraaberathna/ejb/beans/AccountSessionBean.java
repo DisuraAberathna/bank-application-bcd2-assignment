@@ -116,7 +116,7 @@ public class AccountSessionBean implements AccountService {
     }
 
     @Override
-    @RolesAllowed({"SYSTEM", "CUSTOMER"})
+    @PermitAll
     public double credit(String accountNo, double amount) {
         try {
             transaction.begin();
@@ -135,7 +135,7 @@ public class AccountSessionBean implements AccountService {
     }
 
     @Override
-    @RolesAllowed({"SYSTEM", "CUSTOMER"})
+    @PermitAll
     public double debit(String accountNo, double amount) {
         try {
             transaction.begin();
