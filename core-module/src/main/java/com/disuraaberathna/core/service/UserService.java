@@ -13,6 +13,8 @@ public interface UserService {
 
     User getUserByEmail(String email);
 
+    User getUserByMobile(String mobile);
+
     void addUser(User user);
 
     void updateUser(User user);
