@@ -5,7 +5,6 @@ import com.disuraaberathna.core.model.Customer;
 import com.disuraaberathna.core.provider.MailServiceProvider;
 import com.disuraaberathna.core.service.CustomerService;
 import com.disuraaberathna.core.service.ScheduleTransferService;
-import com.disuraaberathna.core.service.TransferService;
 import com.disuraaberathna.core.util.Validator;
 import com.disuraaberathna.core.util.VerificationCodeGenerator;
 import com.google.gson.Gson;
