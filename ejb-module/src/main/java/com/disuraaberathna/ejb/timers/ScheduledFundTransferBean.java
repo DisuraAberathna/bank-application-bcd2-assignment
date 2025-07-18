@@ -46,7 +46,8 @@ public class ScheduledFundTransferBean {
                     ScheduledTransferErrorMail mail = new ScheduledTransferErrorMail(
                             scheduledTransfer.getToAccount().getCustomer().getEmail(),
                             scheduledTransfer.getToAccount().getAccountNumber(),
-                            scheduledTransfer.getFromAccount().getCustomer().getFirstName() + " " + scheduledTransfer.getFromAccount().getCustomer().getLastName(),
+                            scheduledTransfer.getFromAccount().getCustomer().getFirstName()
+                                    + " " + scheduledTransfer.getFromAccount().getCustomer().getLastName(),
                             scheduledTransfer.getScheduledDate().toString(),
                             reason
                     );
