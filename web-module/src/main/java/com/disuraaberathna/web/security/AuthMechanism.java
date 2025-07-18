@@ -22,7 +22,9 @@ public class AuthMechanism implements HttpAuthenticationMechanism {
     private AppIdentityStore identityStore;
 
     @Override
-    public AuthenticationStatus validateRequest(HttpServletRequest request, HttpServletResponse response, HttpMessageContext context) throws AuthenticationException {
+    public AuthenticationStatus validateRequest(HttpServletRequest request,
+                                                HttpServletResponse response,
+                                                HttpMessageContext context) throws AuthenticationException {
         AuthenticationParameters authParams = context.getAuthParameters();
 
         if (authParams.getCredential() != null) {
