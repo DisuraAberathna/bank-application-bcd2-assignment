@@ -38,20 +38,4 @@
         <exception-type>com.disuraaberathna.core.exception.CommonException</exception-type>
         <location>/error/common.jsp</location>
     </error-page>
-    <error-page>
-        <exception-type>com.disuraaberathna.core.exception.LoginFailedException</exception-type>
-        <location>/error/login-failed.jsp</location>
-    </error-page>
-    <error-page>
-        <exception-type>com.disuraaberathna.core.exception.UnauthorizedAccessException</exception-type>
-        <location>/error/unauthorized.jsp</location>
-    </error-page>
-    <error-page>
-        <exception-type>com.disuraaberathna.core.exception.InvalidParameterException</exception-type>
-        <location>/error/invalid-parameter.jsp</location>
-    </error-page>
-    <error-page>
-        <exception-type>com.disuraaberathna.core.exception.InsufficientFundsException</exception-type>
-        <location>/error/insufficient-fund.jsp</location>
-    </error-page>
 </web-app>
