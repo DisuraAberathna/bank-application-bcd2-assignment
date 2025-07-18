@@ -22,7 +22,7 @@
     <dependencies>
         <dependency>
             <groupId>com.disuraaberathna</groupId>
-            <artifactId>frontend</artifactId>
+            <artifactId>web-module</artifactId>
             <version>1.0</version>
             <type>war</type>
         </dependency>
@@ -55,9 +55,9 @@
                         </ejbModule>
                         <webModule>
                             <groupId>com.disuraaberathna</groupId>
-                            <artifactId>frontend</artifactId>
+                            <artifactId>web-module</artifactId>
                             <contextRoot>/bank-app</contextRoot>
-                            <bundleFileName>frontend.war</bundleFileName>
+                            <bundleFileName>web-module.war</bundleFileName>
                         </webModule>
                     </modules>
                 </configuration>

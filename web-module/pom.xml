@@ -9,7 +9,7 @@
         <version>1.0</version>
     </parent>
 
-    <artifactId>frontend</artifactId>
+    <artifactId>web-module</artifactId>
     <packaging>war</packaging>
     <name>bank-app-frontend</name>
 
