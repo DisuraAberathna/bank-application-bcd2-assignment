@@ -16,74 +16,78 @@
     <script src="../public/js/common.js"></script>
     <script src="../public/js/employee-dashboard.js"></script>
 </head>
-<body class="bg-gray-100 text-gray-900">
+<body class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-green-50">
 <div class="min-h-screen flex flex-col">
-    <header class="bg-gradient-to-r from-[#16A34A] to-[#182e20] text-white p-4 shadow-md flex justify-between items-center">
-        <div class="flex-2">
-            <h1 class="text-2xl font-bold">Employee Dashboard</h1>
-        </div>
-        <div class="flex items-center justify-between gap-x-8">
-            <a href="${pageContext.request.contextPath}/auth/logout"
-               class="text-white font-bold hover:text-gray-100 cursor-pointer text-xl flex item-center gap-x-2">
-                <span class="material-symbols-outlined rotate-180">logout</span>
-                <span class="hover:underline underline-offset-8">Logout</span>
-            </a>
-            <h1 class="text-xl font-bold capitalize flex item-center gap-x-2">
-                <span class="material-symbols-outlined">account_circle</span>
-                ${pageContext.request.userPrincipal.name}
-            </h1>
+    <header class="bg-white/80 backdrop-blur-md border-b border-neutral-200 shadow-sm sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-4">
+                    <div class="w-10 h-10 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center shadow-lg">
+                        <span class="material-symbols-outlined text-white text-xl">account_balance</span>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-display text-gradient">Employee Dashboard</h1>
+                        <p class="text-sm text-neutral-600">Manage customers and accounts</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-6">
+                    <div class="flex items-center space-x-3 bg-neutral-100 rounded-full px-4 py-2">
+                        <span class="material-symbols-outlined text-green-600">account_circle</span>
+                        <span class="font-medium text-neutral-800 capitalize">${pageContext.request.userPrincipal.name}</span>
+                    </div>
+                    <a href="${pageContext.request.contextPath}/auth/logout"
+                       class="btn btn-outline text-red-600 border-red-300 hover:bg-red-50 hover:border-red-400 px-4 py-2 flex">
+                        <span class="material-symbols-outlined text-sm mr-2">logout</span>
+                        Logout
+                    </a>
+                </div>
+            </div>
         </div>
     </header>
 
-    <main class="p-6 grid grid-cols-1 xl:grid-cols-3 gap-6">
-        <div class="bg-white p-5 rounded-xl shadow-md md:col-span-1">
-            <h2 class="text-xl font-semibold mb-3">Add New Customer Account</h2>
-            <form class="space-y-3 flex flex-col" id="addCustomerForm" onsubmit="addCustomer(event)">
+    <main class="p-6 grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-7xl mx-auto w-full">
+        <div class="card rounded-xl border border-slate-200 p-6 shadow-xl md:col-span-1">
+            <h2 class="mb-3 text-xl font-semibold text-neutral-800">Add New Customer Account</h2>
+            <form class="flex flex-col space-y-3" id="addCustomerForm" onsubmit="addCustomer(event)">
                 <div class="flex w-full items-center justify-between gap-x-3">
                     <div class="flex flex-1 flex-col gap-y-1">
-                        <label for="firstName" class="font-medium">First Name *</label>
+                        <label for="firstName" class="form-label">First Name *</label>
                         <input type="text" name="firstName" id="firstName" placeholder="Enter First Name"
-                               class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"
-                               required/>
+                               class="form-input rounded-lg border-2 border-stone-400 px-3 py-2" required/>
                     </div>
                     <div class="flex flex-1 flex-col gap-y-1">
-                        <label for="lastName" class="font-medium">Last Name *</label>
+                        <label for="lastName" class="form-label">Last Name *</label>
                         <input type="text" name="lastName" id="lastName" placeholder="Enter Last Name"
-                               class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"
-                               required/>
+                               class="form-input rounded-lg border-2 border-stone-400 px-3 py-2" required/>
                     </div>
                 </div>
                 <div class="flex flex-col gap-y-1">
-                    <label for="email" class="font-medium">Email Address *</label>
+                    <label for="email" class="form-label">Email Address *</label>
                     <input type="email" name="email" id="email" placeholder="Enter Email Address"
-                           class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"
-                           required/>
+                           class="form-input rounded-lg border-2 border-stone-400 px-3 py-2" required/>
                 </div>
                 <div class="flex w-full items-center justify-between gap-x-3">
                     <div class="flex flex-1 flex-col gap-y-1">
-                        <label for="mobile" class="font-medium">Mobile Number *</label>
+                        <label for="mobile" class="form-label">Mobile Number *</label>
                         <input type="tel" name="mobile" id="mobile" placeholder="Enter Mobile Number" maxlength="10"
-                               class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"
-                               required/>
+                               class="form-input rounded-lg border-2 border-stone-400 px-3 py-2" required/>
                     </div>
                     <div class="flex flex-1 flex-col gap-y-1">
-                        <label for="nic" class="font-medium">NIC Number *</label>
+                        <label for="nic" class="form-label">NIC Number *</label>
                         <input type="text" name="nic" id="nic" placeholder="Enter NIC Number" maxlength="12"
-                               class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"
-                               required/>
+                               class="form-input rounded-lg border-2 border-stone-400 px-3 py-2" required/>
                     </div>
                 </div>
                 <div class="flex w-full items-center justify-between gap-x-3">
                     <div class="flex flex-1 flex-col gap-y-1">
-                        <label for="deposit" class="font-medium">Initial Deposit (LKR) *</label>
+                        <label for="deposit" class="form-label">Initial Deposit (LKR) *</label>
                         <input type="number" name="deposit" id="deposit" placeholder="Enter Initial Deposit (LKR)"
-                               class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"
-                               required min="1000"/>
+                               class="form-input rounded-lg border-2 border-stone-400 px-3 py-2" required min="1000"/>
                     </div>
                     <div class="flex flex-1 flex-col gap-y-1">
-                        <label for="type" class="font-medium">Account Type (LKR) *</label>
-                        <select class="rounded-md px-3 py-2 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"
-                                required name="type" id="type">
+                        <label for="type" class="form-label">Account Type (LKR) *</label>
+                        <select class="form-input rounded-lg border-2 border-stone-400 px-3 py-2" required name="type"
+                                id="type">
                             <option value="">Select Account Type</option>
                             <option value="savings">Savings</option>
                             <option value="current">Current</option>
@@ -91,130 +95,127 @@
                         </select>
                     </div>
                 </div>
-                <div class="flex gap-x-2 px-3 py-1" id="useExistsView" style="display: none;">
+                <div class="flex gap-x-2 px-3 py-1 items-center" id="useExistsView" style="display: none;">
                     <input type="checkbox" id="useExists" name="useExists"
-                           class="rounded-lg border-2 border-gray-300 outline-none w-4 active:border-[#16A34A]"/>
-                    <label for="useExists" class="font-normal cursor-pointer select-none">Use Existing Customer
+                           class="w-4 h-4 rounded-xl border-2 border-gray-300 outline-none active:border-[#16A34A]"/>
+                    <label for="useExists" class="cursor-pointer font-normal select-none">Use Existing Customer
                         Account</label>
                 </div>
                 <button type="submit"
-                        class="bg-[#16A34A] text-white font-medium py-1.5 w-full rounded-md hover:bg-[#28914e] cursor-pointer">
+                        class="btn bg-gradient-to-tr from-green-500 to-green-600 flex justify-center items-center cursor-pointer w-full rounded-xl py-3 text-white">
+                    <span class="material-symbols-outlined mr-2 text-sm">person_add</span>
                     Create Account
                 </button>
-                <div class="bg-red-100 border-2 border-red-400 text-red-700 px-4 py-3 rounded-lg relative mt-3"
+                <div class="relative mt-3 rounded-lg border-2 border-red-400 bg-red-100 px-4 py-3 text-red-700"
                      id="messageView" style="display: none;">
                     <strong class="font-bold">Please correct the following errors:</strong>
-                    <ul class="list-disc ml-5 mt-2" id="messageList">
-                    </ul>
+                    <ul class="mt-2 ml-5 list-disc" id="messageList"></ul>
                 </div>
             </form>
         </div>
 
-        <div class="rounded-xl bg-white p-5 shadow-md md:col-span-1 h-fit">
-            <h2 class="mb-3 text-xl font-semibold">Search Customer Account</h2>
-            <div class="flex items-end justify-between px-4 py-2 gap-x-3">
-                <div class="flex flex-3 flex-col gap-y-1">
-                    <label for="s-nic" class="font-medium">NIC Number *</label>
-                    <input type="text" id="s-nic" placeholder="Customer NIC"
-                           class="w-full rounded-md border-2 border-gray-300 px-3 py-1 outline-none hover:border-[#16A34A] active:border-[#16A34A]"
-                           required/>
+        <div class="space-y-6">
+            <div class="card rounded-xl border border-slate-200 p-6 shadow-lg md:col-span-1">
+                <h2 class="mb-3 text-xl font-semibold text-neutral-800">Search Customer Account</h2>
+                <div class="flex items-end justify-between px-4 py-2 gap-x-3">
+                    <div class="flex flex-3 flex-col gap-y-1">
+                        <label for="s-nic" class="form-label">NIC Number *</label>
+                        <input type="text" id="s-nic" placeholder="Customer NIC"
+                               class="form-input rounded-lg border-2 border-stone-400 px-3 py-2"
+                               required/>
+                    </div>
+                    <div class="flex-1">
+                        <button class="btn bg-gradient-to-tr from-green-500 to-green-600 flex justify-center items-center cursor-pointer w-full rounded-xl py-3 text-white"
+                                onclick="loadCustomer()">
+                            Search
+                        </button>
+                    </div>
                 </div>
-                <div class="flex-1">
-                    <button class="w-full cursor-pointer rounded-md bg-[#16A34A] py-1.5 font-medium text-white hover:bg-[#28914e]"
-                            onclick="loadCustomer()">
-                        Search
-                    </button>
+                <div class="bg-red-100 border-2 border-red-400 text-red-700 px-4 py-3 rounded-lg relative mt-3"
+                     id="s-messageView" style="display: none;">
+                    <strong class="font-bold">Please correct the following errors:</strong>
+                    <ul class="list-disc ml-5 mt-2" id="s-messageList">
+                    </ul>
                 </div>
             </div>
-            <div class="bg-red-100 border-2 border-red-400 text-red-700 px-4 py-3 rounded-lg relative mt-3"
-                 id="s-messageView" style="display: none;">
-                <strong class="font-bold">Please correct the following errors:</strong>
-                <ul class="list-disc ml-5 mt-2" id="s-messageList">
-                </ul>
-            </div>
-        </div>
 
-        <div class="rounded-xl bg-white p-5 shadow-md md:col-span-1 h-fit">
-            <h2 class="mb-3 text-xl font-semibold">Search Fund Transfer History</h2>
-            <div class="flex items-end justify-between px-4 py-2 gap-x-3">
-                <div class="flex flex-3 flex-col gap-y-1">
-                    <label for="t-accNo" class="font-medium">Account Number *</label>
-                    <input type="text" id="t-accNo" placeholder="Customer Account Number"
-                           class="w-full rounded-md border-2 border-gray-300 px-3 py-1 outline-none hover:border-[#16A34A] active:border-[#16A34A]"
-                           required/>
+            <div class="card rounded-xl border border-slate-200 p-6 shadow-lg md:col-span-1">
+                <h2 class="mb-3 text-xl font-semibold text-neutral-800">Search Fund Transfer History</h2>
+                <div class="flex items-end justify-between px-4 py-2 gap-x-3">
+                    <div class="flex flex-3 flex-col gap-y-1">
+                        <label for="t-accNo" class="form-label">Account Number *</label>
+                        <input type="text" id="t-accNo" placeholder="Customer Account Number"
+                               class="form-input rounded-lg border-2 border-stone-400 px-3 py-2"
+                               required/>
+                    </div>
+                    <div class="flex-1">
+                        <button class="btn bg-gradient-to-tr from-green-500 to-green-600 flex justify-center items-center cursor-pointer w-full rounded-xl py-3 text-white"
+                                onclick="loadTransferHistory()">
+                            Search
+                        </button>
+                    </div>
                 </div>
-                <div class="flex-1">
-                    <button class="w-full cursor-pointer rounded-md bg-[#16A34A] py-1.5 font-medium text-white hover:bg-[#28914e]"
-                            onclick="loadTransferHistory()">
-                        Search
-                    </button>
+                <div class="bg-red-100 border-2 border-red-400 text-red-700 px-4 py-3 rounded-lg relative mt-3"
+                     id="t-messageView" style="display: none;">
+                    <strong class="font-bold">Please correct the following errors:</strong>
+                    <ul class="list-disc ml-5 mt-2" id="t-messageList">
+                    </ul>
                 </div>
-            </div>
-            <div class="bg-red-100 border-2 border-red-400 text-red-700 px-4 py-3 rounded-lg relative mt-3"
-                 id="t-messageView" style="display: none;">
-                <strong class="font-bold">Please correct the following errors:</strong>
-                <ul class="list-disc ml-5 mt-2" id="t-messageList">
-                </ul>
             </div>
         </div>
 
         <c:if test="${pageContext.request.isUserInRole('ADMIN')}">
-            <div class="bg-white p-5 rounded-xl shadow-md md:col-span-1">
-                <h2 class="text-xl font-semibold mb-3">Add New Employee Account</h2>
-                <form class="space-y-3 flex flex-col" onsubmit="addEmployee(event)">
+            <div class="card rounded-xl border border-slate-200 p-6 shadow-lg md:col-span-1">
+                <h2 class="mb-3 text-xl font-semibold text-neutral-800">Add New Employee Account</h2>
+                <form class="flex flex-col space-y-3" onsubmit="addEmployee(event)">
                     <div class="flex w-full items-center justify-between gap-x-3">
                         <div class="flex flex-1 flex-col gap-y-1">
-                            <label for="empFirstName" class="font-medium">First Name *</label>
+                            <label for="empFirstName" class="form-label">First Name *</label>
                             <input type="text" name="empFirstName" id="empFirstName" placeholder="Enter First Name"
-                                   class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"
-                                   required/>
+                                   class="form-input rounded-lg border-2 border-stone-400 px-3 py-2" required/>
                         </div>
                         <div class="flex flex-1 flex-col gap-y-1">
-                            <label for="empLastName" class="font-medium">Last Name *</label>
+                            <label for="empLastName" class="form-label">Last Name *</label>
                             <input type="text" name="empLastName" id="empLastName" placeholder="Enter Last Name"
-                                   class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"
-                                   required/>
+                                   class="form-input rounded-lg border-2 border-stone-400 px-3 py-2" required/>
                         </div>
                     </div>
                     <div class="flex flex-1 flex-col gap-y-1">
-                        <label for="empEmail" class="font-medium">Email Address *</label>
+                        <label for="empEmail" class="form-label">Email Address *</label>
                         <input type="email" name="empEmail" id="empEmail" placeholder="Enter Email Address"
-                               class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"
-                               required/>
+                               class="form-input rounded-lg border-2 border-stone-400 px-3 py-2" required/>
                     </div>
                     <div class="flex w-full items-center justify-between gap-x-3">
                         <div class="flex flex-1 flex-col gap-y-1">
-                            <label for="empMobile" class="font-medium">Mobile Number *</label>
+                            <label for="empMobile" class="form-label">Mobile Number *</label>
                             <input type="tel" name="empMobile" id="empMobile" placeholder="Enter Mobile Number"
-                                   maxlength="10"
-                                   class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"
+                                   maxlength="10" class="form-input rounded-lg border-2 border-stone-400 px-3 py-2"
                                    required/>
                         </div>
                         <div class="flex flex-1 flex-col gap-y-1">
-                            <label for="empUsername" class="font-medium">Username *</label>
+                            <label for="empUsername" class="form-label">Username *</label>
                             <input type="text" name="empUserName" id="empUsername" placeholder="Enter Username"
-                                   class="rounded-md px-3 py-1 border-2 border-gray-300 hover:border-[#16A34A] active:border-[#16A34A] outline-none"
-                                   required/>
+                                   class="form-input rounded-lg border-2 border-stone-400 px-3 py-2" required/>
                         </div>
                     </div>
                     <button type="submit"
-                            class="bg-[#16A34A] text-white font-medium py-1.5 w-full rounded-md hover:bg-[#28914e] cursor-pointer">
+                            class="btn flex w-full cursor-pointer items-center justify-center rounded-xl bg-gradient-to-tr from-green-500 to-green-600 py-3 text-white">
+                        <span class="material-symbols-outlined mr-2 text-sm">person_add</span>
                         Add Employee
                     </button>
-                    <div class="bg-red-100 border-2 border-red-400 text-red-700 px-4 py-3 rounded-lg relative mt-3"
+                    <div class="relative mt-3 rounded-lg border-2 border-red-400 bg-red-100 px-4 py-3 text-red-700"
                          id="empMessageView" style="display: none;">
                         <strong class="font-bold">Please correct the following errors:</strong>
-                        <ul class="list-disc ml-5 mt-2" id="empMessageList">
-                        </ul>
+                        <ul class="mt-2 ml-5 list-disc" id="empMessageList"></ul>
                     </div>
                 </form>
             </div>
         </c:if>
 
-        <div class="bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-black hidden"
+        <div class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center hidden"
              id="customerDetailsModal">
-            <div class="relative w-full max-w-2xl rounded-lg bg-white p-6 shadow-lg">
-                <button class="absolute top-4 right-4 h-8 w-8 cursor-pointer rounded-full text-xl font-bold text-gray-800 hover:bg-gray-100"
+            <div class="relative w-full max-w-2xl rounded-2xl bg-white p-6 shadow-2xl animate-scale-in">
+                <button class="absolute top-4 right-4 h-8 w-8 cursor-pointer rounded-full text-xl font-bold text-gray-800 hover:bg-neutral-100"
                         onclick="closeAccountModal()">
                     &times;
                 </button>
@@ -236,7 +237,7 @@
                     <p class="mb-2 font-semibold">Accounts:</p>
                     <div class="overflow-x-auto">
                         <table class="min-w-full border text-sm">
-                            <thead class="bg-gray-100">
+                            <thead class="bg-neutral-50">
                             <tr>
                                 <th class="border px-4 py-2 text-left">Account No</th>
                                 <th class="border px-4 py-2 text-left">Type</th>
@@ -277,10 +278,10 @@
             </div>
         </div>
 
-        <div class="bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-black hidden"
+        <div class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center hidden"
              id="transferHistoryModal">
-            <div class="relative w-full max-w-4xl rounded-lg bg-white p-6 shadow-lg">
-                <button class="absolute top-4 right-4 h-8 w-8 cursor-pointer rounded-full text-xl font-bold text-gray-800 hover:bg-gray-100"
+            <div class="relative w-full max-w-4xl rounded-2xl bg-white p-6 shadow-2xl animate-scale-in">
+                <button class="absolute top-4 right-4 h-8 w-8 cursor-pointer rounded-full text-xl font-bold text-gray-800 hover:bg-neutral-100"
                         onclick="closeTransferHistoryModal()">
                     &times;
                 </button>
@@ -294,7 +295,7 @@
                 <div class="mb-5 overflow-x-auto">
                     <table class="min-w-full border text-sm">
                         <thead>
-                        <tr class="bg-gray-100">
+                        <tr class="bg-neutral-50">
                             <th class="border px-4 py-2 text-left">Date</th>
                             <th class="border px-4 py-2 text-left">Description</th>
                             <th class="border px-4 py-2 text-left">Amount</th>
