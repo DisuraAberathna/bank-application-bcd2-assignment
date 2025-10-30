@@ -92,6 +92,17 @@ This project uses JavaMail to send:
 - Performance and audit interceptors (`@Performance`, `@Audit`)
 - Centralized exception handling
 
+## 📷 Project Screenshots
+
+![Project Screenshot](./screenshots/Screenshot-1.png)
+![Project Screenshot](./screenshots/Screenshot-2.png)
+![Project Screenshot](./screenshots/Screenshot-3.png)
+![Project Screenshot](./screenshots/Screenshot-4.png)
+![Project Screenshot](./screenshots/Screenshot-5.png)
+![Project Screenshot](./screenshots/Screenshot-6.png)
+![Project Screenshot](./screenshots/Screenshot-7.png)
+![Project Screenshot](./screenshots/Screenshot-8.png)
+
 ---
 
 © 2025 Disura Aberathna – For academic and demonstration purposes.
