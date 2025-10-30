@@ -93,7 +93,7 @@ const loadCustomer = async () => {
                 clone.querySelector("#c-balance").innerHTML = "LKR " + new Intl.NumberFormat("en-US", {
                     minimumFractionDigits: 2,
                 }).format(account.balance);
-                clone.querySelector("#c-lTransaction").innerHTML = account.lastTransactionDate;
+                clone.querySelector("#c-lTransaction").innerHTML = account.lastTransactionDate ? account.lastTransactionDate : "-";
 
                 tbody.appendChild(clone);
             });
