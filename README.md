@@ -1,4 +1,4 @@
-# Bank Application
+# National Bank
 
 This is a modular banking system project that demonstrates enterprise Java concepts using **Enterprise JavaBeans (EJB)**, **Timer Services**, **JMS**, and other Java EE features.
 
@@ -30,7 +30,7 @@ The Bank Application provides a secure, role-based environment where customers a
 ## 📦 Project Structure
 
 ```
-bank-application-bcd2/
+national-bank/
 │
 ├── core-module/          # Core business logic: DTOs, models, enums, mail service
 │   └── src/main/java/com/disuraaberathna/core/
@@ -60,7 +60,7 @@ bank-application-bcd2/
 
 - Clone the repository:
    ```bash
-   git clone https://github.com/DisuraAberathna/bank-application-bcd2-assignment.git
+   git clone https://github.com/DisuraAberathna/national-bank.git
    ```
 
 - Build the project:
